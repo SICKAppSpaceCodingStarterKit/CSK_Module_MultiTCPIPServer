@@ -1,4 +1,4 @@
-# CSK_Module_[MODULENAME]
+# CSK_Module_MultiTCPIPServer
 ## INFO: Draft version. Not further developed / tested so far! Check for available GitHub forks of this repository to see latest updates.
 
 Module / Application to provide [...] functionality.
@@ -30,4 +30,4 @@ Please check the [documentation](https://github.com/SICKAppSpaceCodingStarterKit
 
 ## Topics
 
-Coding Starter Kit, CSK, Module, SICK-AppSpace, [key_words]
+Coding Starter Kit, CSK, Module, SICK-AppSpace, TCPIP
