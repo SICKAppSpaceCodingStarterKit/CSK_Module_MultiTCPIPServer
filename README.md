@@ -9,9 +9,9 @@ The app includes an intuitive GUI to setup communication with IOLink device.
 
 ### Generic settings
 
-1. Select ethernet interface and port that the server will listen to
-2. Set framings for received and transmitted data
-3. Set advanced settings of the server
+1. Select ethernet interface and port that the server will listen to. Server must be restarted to apply the new settings
+2. Set framings for received and transmitted data. Server must be restarted to apply the new settings
+3. Set advanced settings of the server. Server must be restarted to apply the new settings
 4. Event and function for data forwarding from/to all connected clients are shown here
 5. Table with connected clients
 6. Check the latest received payload and IP address it was received from

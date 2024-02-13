@@ -865,6 +865,8 @@ Each instance is handled in a separate thread. Useful Instance functions:<br>
 - "setTxStart" - to set start framing of transmitted data as hex value in case framing type is "Custom"<br>
 - "setTxStop" - to set ending framing of transmitted data as hex value in case framing type is "Custom"<br>
 <br>
+NOTE! Server must be restarted with setListenState(false) - setListenState(true) to apply the new settings<br>
+<br>
 <strong>3. Read messages</strong><br>
 Read message is the data that is expected from clients. It is possible to set an IP filter to receive this data only from specific clients.<br>
 - "createReadMessage" - to create a new message<br>
@@ -6600,7 +6602,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div id="footer">
 <div id="footer-text">
 Version 0.1.0<br>
-Last updated 2024-02-13 15:22:07 +0100
+Last updated 2024-02-13 15:59:49 +0100
 </div>
 </div>
 <script type="text/javascript">
