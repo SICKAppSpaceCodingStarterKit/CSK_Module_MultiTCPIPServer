@@ -14,7 +14,7 @@ local funcs = {}
 
 -- Timer to update UI via events after page was loaded
 local tmrMultiTCPIPServer = Timer.create()
-tmrMultiTCPIPServer:setExpirationTime(300)
+tmrMultiTCPIPServer:setExpirationTime(400)
 tmrMultiTCPIPServer:setPeriodic(false)
 
 local multiTCPIPServer_Model -- Reference to model handle
@@ -258,8 +258,6 @@ end
 
 --- Function to send all relevant values to UI on resume
 local function handleOnExpiredTmrMultiTCPIPServer()
-  -- Script.notifyEvent("MultiTCPIPServer_OnNewEvent", false)
-
   updateUserLevel()
 
   Script.notifyEvent('MultiTCPIPServer_OnNewSelectedInstance', selectedInstance)
@@ -339,13 +337,13 @@ Script.serveFunction("CSK_MultiTCPIPServer.pageCalled", pageCalled)
 
 local function setSelectedTab(newSelectedTab)
   selectedTab = newSelectedTab
+  handleOnExpiredTmrMultiTCPIPServer()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setSelectedTab', setSelectedTab)
 
-
-
-
-
+--**************************************************************************
+--********************* Set server settings functions **********************
+--**************************************************************************
 
 local function setACKTimeout(newACKTimeout)
   if newACKTimeout < 0 then
@@ -402,9 +400,29 @@ local function setRxBuffer(newRxBuffer)
     return
   end
   multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[1] = newRxBuffer
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'framingBufferSize', multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize)
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'framingBufferSize', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize))
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setRxBuffer", setRxBuffer)
+
+local function setTransmitionBuffer(newTransmitionBuffer)
+  if newTransmitionBuffer < 0 then
+    handleOnExpiredTmrMultiTCPIPServer()
+    return
+  end
+  multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize = newTransmitionBuffer
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'transmitBufferSize', newTransmitionBuffer)
+end
+Script.serveFunction("CSK_MultiTCPIPServer.setTransmitionBuffer", setTransmitionBuffer)
+
+local function setTransmitionTimeout(newTransmitionTimeout)
+  if newTransmitionTimeout < 0 then
+    handleOnExpiredTmrMultiTCPIPServer()
+    return
+  end
+  multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout = newTransmitionTimeout
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'transmitTimeout', newTransmitionTimeout)
+end
+Script.serveFunction("CSK_MultiTCPIPServer.setTransmitionTimeout", setTransmitionTimeout)
 
 local function setRxFraming(newRxFraming)
   multiTCPIPServer_Instances[selectedInstance].parameters.RxFrameMode = newRxFraming
@@ -434,35 +452,13 @@ local function setRxStop(newRxStop)
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setRxStop", setRxStop)
 
-
-local function setTransmitionBuffer(newTransmitionBuffer)
-  if newTransmitionBuffer < 0 then
-    handleOnExpiredTmrMultiTCPIPServer()
-    return
-  end
-  multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize = newTransmitionBuffer
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'transmitBufferSize', newTransmitionBuffer)
-end
-Script.serveFunction("CSK_MultiTCPIPServer.setTransmitionBuffer", setTransmitionBuffer)
-
-local function setTransmitionTimeout(newTransmitionTimeout)
-  if newTransmitionTimeout < 0 then
-    handleOnExpiredTmrMultiTCPIPServer()
-    return
-  end
-  multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout = newTransmitionTimeout
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'transmitTimeout', newTransmitionTimeout)
-end
-Script.serveFunction("CSK_MultiTCPIPServer.setTransmitionTimeout", setTransmitionTimeout)
-
-
 local function setTxBuffer(newTxBuffer)
   if newTxBuffer < 0 then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
   multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[2] = newTxBuffer
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'framingBufferSize', multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize)
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'framingBufferSize', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize))
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setTxBuffer", setTxBuffer)
 
@@ -494,7 +490,9 @@ local function setTxStop(newTxStop)
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setTxStop", setTxStop)
 
-
+--**************************************************************************
+--********************* Show received or write data ************************
+--**************************************************************************
 
 local function refreshLatestGenericReceivedData()
   local _, ipAddress, data = Script.callFunction("CSK_MultiTCPIPServer.getLatestGenericReceivedData" .. tostring(selectedInstance))
@@ -521,19 +519,9 @@ local function sendTestData()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.sendTestData', sendTestData)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+--**************************************************************************
+--************************* Read messages scope ****************************
+--**************************************************************************
 
 local function setSelectedReadMessage(readMessageName)
   if not multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[readMessageName] then
@@ -615,7 +603,6 @@ local function setIPAddressToAddToReadMessage(ipAddress)
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToReadMessage', setIPAddressToAddToReadMessage)
 
-
 local function deleteReadMessageFilterIPAddress(jsonRowToDelete)
   local rowContent = json.decode(jsonRowToDelete)
   for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs) do
@@ -629,8 +616,6 @@ local function deleteReadMessageFilterIPAddress(jsonRowToDelete)
 end
 Script.serveFunction('CSK_MultiTCPIPServer.deleteReadMessageFilterIPAddress', deleteReadMessageFilterIPAddress)
 
-
-
 local function refreshLatestReadMessageReceivedData()
   local _, ipAddress, data = Script.callFunction("CSK_MultiTCPIPServer.getLatestReadMessageData" .. tostring(selectedInstance), selectedReadMessage)
   Script.notifyEvent("MultiTCPIPServer_OnNewReadMessageLatestReceivedIPAddress", ipAddress)
@@ -638,27 +623,9 @@ local function refreshLatestReadMessageReceivedData()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.refreshLatestReadMessageReceivedData', refreshLatestReadMessageReceivedData)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--**************************************************************************
+--************************* Write messages scope ***************************
+--**************************************************************************
 
 ---@param writeMessageName string Name of the write message.
 local function setSelectedWriteMessage(writeMessageName)
@@ -724,7 +691,6 @@ local function setUseWriteMessageIPFilter(newState)
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setUseWriteMessageIPFilter', setUseWriteMessageIPFilter)
 
-
 local function setIPAddressToAddToWriteMessage(ipAddress)
   if not helperFuncs.checkIP(ipAddress) then
     handleOnExpiredTmrMultiTCPIPServer()
@@ -742,7 +708,6 @@ local function setIPAddressToAddToWriteMessage(ipAddress)
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToWriteMessage', setIPAddressToAddToWriteMessage)
 
-
 local function deleteWriteMessageFilterIPAddress(jsonRowToDelete)
   local rowContent = json.decode(jsonRowToDelete)
   for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs) do
@@ -755,7 +720,6 @@ local function deleteWriteMessageFilterIPAddress(jsonRowToDelete)
   handleOnExpiredTmrMultiTCPIPServer()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.deleteWriteMessageFilterIPAddress', deleteWriteMessageFilterIPAddress)
-
 
 local function setTestWriteMessageDataToSend(newTestDataToSend)
   testWriteMessageSendData = newTestDataToSend
@@ -775,39 +739,9 @@ local function refreshLatestWriteMessageSentData()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.refreshLatestWriteMessageSentData', refreshLatestWriteMessageSentData)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--**************************************************************************
+--******************** Connected clients table scope ***********************
+--**************************************************************************
 
 ---@param selectedRow string Selected row from the connected clients table in JSON format
 local function selectConnectedClient(selectedRow)
@@ -821,16 +755,9 @@ local function selectConnectedClient(selectedRow)
 end
 Script.serveFunction('CSK_MultiTCPIPServer.selectConnectedClient', selectConnectedClient)
 
-
-
-
-
-
-
-
-
-
-
+--**************************************************************************
+--******************** Generic CSK functions scope *************************
+--**************************************************************************
 
 local function setSelectedInstance(instance)
   selectedInstance = instance
@@ -879,19 +806,21 @@ Script.serveFunction("CSK_MultiTCPIPServer.setRegisterEvent", setRegisterEvent)
 --- Function to share process relevant configuration with processing threads
 local function updateProcessingParameters()
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'activeInUI', true)
-
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'registeredEvent', multiTCPIPServer_Instances[selectedInstance].parameters.registeredEvent)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'interface', multiTCPIPServer_Instances[selectedInstance].parameters.interface)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'port', multiTCPIPServer_Instances[selectedInstance].parameters.port)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'framing', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.framing))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'framingBufferSize', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'maxConnections', multiTCPIPServer_Instances[selectedInstance].parameters.maxConnections)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitAckTimeout', multiTCPIPServer_Instances[selectedInstance].parameters.transmitAckTimeout)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitBufferSize', multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitTimeout', multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'onRecevedDataEventName', multiTCPIPServer_Instances[selectedInstance].parameters.onRecevedDataEventName)
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'sendDataFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
 
-  --Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'value', multiTCPIPServer_Instances[selectedInstance].parameters.value)
-
-  -- optionally for internal objects...
-  --[[
-  -- Send config to instances
-  local params = helperFuncs.convertTable2Container(multiTCPIPServer_Instances[selectedInstance].parameters.internalObject)
-  Container.add(data, 'internalObject', params, 'OBJECT')
-  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'FullSetup', data)
-  ]]
-
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'listenState', multiTCPIPServer_Instances[selectedInstance].parameters.listenState)
 end
 
 -- *****************************************************************

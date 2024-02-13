@@ -6,16 +6,59 @@
         </crown>
         <crown name="CSK_MultiTCPIPServer">
             <trait>released</trait>
-            <desc>Please fill in information regarding: What is the idea of this module and its features? +
-How to use this module in general.... like: +
-{empty} + 
-Typically the features of this module are used like this (check also main script of this module): +
-{empty} + 
-**1) Setup** +
-ToDo +
-{empty} + 
-**2) Something else....** +
-</desc>
+            <desc>This CSK module provides an easy access to TCP/IP Server functionality. +
+The main externally useful features are following: +
+{empty} +
+**1. Generic CSK functionality** +
+Each instance is handled in a separate thread. Useful Instance functions: +
+- "addInstance" - to create a new instance +
+- "setSelectedInstance" - to select instance you are working on +
+{empty} +
+**2. Server settings** +
+- "setInterface" - to select ethernet interface +
+- "setPort" - to select port to listen to +
+- "setListenState" - to activate/deactivate server +
+- "setACKTimeout" - to set acknowledgement timeout +
+- "setMaxConnections" - to set limit of connected clients +
+- "setTransmitionTimeout" - to set timeout of data transmition +
+- "setTransmitionBuffer" - to set size of the socket send buffer. +
+- "setRxBuffer" - to set the size of the internal framing parser buffer for received data +
+- "setTxBuffer" - to set the size of the internal framing parser buffer for transmitted data +
+- "setRxFraming" - to set the framing type of received data, can be "Custom", "Empty" and "STX-ETX" +
+- "setRxStart" - to set start framing of received data as hex value in case framing type is "Custom" +
+- "setRxStop" - to set ending framing of received data as hex value in case framing type is "Custom" +
+- "setTxFraming" - to set the framing type of transmitted data, can be "Custom", "Empty" and "STX-ETX" +
+- "setTxStart" - to set start framing of transmitted data as hex value in case framing type is "Custom" +
+- "setTxStop" - to set ending framing of transmitted data as hex value in case framing type is "Custom" +
+{empty} +
+**3. Read messages** +
+Read message is the data that is expected from clients. It is possible to set an IP filter to receive this data only from specific clients. +
+- "createReadMessage" - to create a new message +
+- "setSelectedReadMessage" - to select the message +
+- "setReadMessageName" - to rename the message +
+- "deleteReadMessage" - to delete the message +
+- "setUseReadMessageIPFilter" - to enable/disable the IP filter +
+- "setIPAddressToAddToReadMessage" - to add new IP address to the filter +
+{empty} +
+**4. Write messages** +
+Write message is the data that will be sent to clients. It is possible to set an IP filter to send this data only to specific clients. +
+- "createWriteMessage" - to create a new message +
+- "setSelectedWriteMessage" - to select the message +
+- "setWriteMessageName" - to rename the message +
+- "deleteWriteMessage" - to delete the message +
+- "setUseWriteMessageIPFilter" - to enable/disable the IP filter +
+- "setIPAddressToAddToWriteMessage" - to add new IP address to the filter +
+{empty} +
+**5. Events and functions to be used for data forwarding** +
+- "CSK_MultiTCPIPServer.OnReceivedData[NUM]" - event to receive any incoming data to [NUM] instance +
+- "CSK_MultiTCPIPServer.sendData[NUM]" - function to send data to all clients connected to [NUM] instance +
+- "CSK_MultiTCPIPServer.OnReceivedData[NUM][MessageName]" - event to receive incoming data of read message with name [MessageName] of instance [NUM] +
+- "CSK_MultiTCPIPServer.sendData[NUM][MessageName]" - function to send data as write message with name [MessageName] of instance [NUM] +
+{empty} +
+- "CSK_MultiTCPIPServer.getLatestGenericReceivedData[NUM]" - function to get the latest payload received from any client of instance [NUM] +
+- "CSK_MultiTCPIPServer.getLatestGenericSentData[NUM]" - function to get the latest payload sent to any client of instance [NUM] +
+- "CSK_MultiTCPIPServer.getLatestReadMessageData[NUM]" - function to get the latest payload received as specific read message of instance [NUM] +
+- "CSK_MultiTCPIPServer.getLatestWriteMessageData[NUM]" - function to get the latest payload sent as specific write message of instance [NUM] +</desc>
             <enum name="FramingType" trait="released">
                 <desc>Framing type of TCPIP server for Rx or Tx data.</desc>
                 <item desc="Start framing is STX, end framing is ETX." name="STX_ETX">STX-ETX</item>
@@ -366,7 +409,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setACKTimeout">
                     <desc>Sets from UI the maximum time interval, in milliseconds, that a transmitted packet may stay unacknowledged before the connection is terminated.</desc>
-                    <param desc="Timeout for packet ACKs, in milliseconds." multiplicity="1" name="newACKTimeout" type="string"/>
+                    <param desc="Timeout for packet ACKs, in milliseconds." multiplicity="1" name="newACKTimeout" type="int"/>
                 </function>
                 <function name="setTransmitionBuffer">
                     <desc>Sets the size of the socket send buffer. Server must be restarted to apply the settings.</desc>

@@ -50,7 +50,7 @@ processingParams.activeInUI = scriptParams:get('activeInUI')
 processingParams.interface = scriptParams:get('interface')
 processingParams.port = scriptParams:get('port')
 processingParams.framing = json.decode(scriptParams:get('framing'))
-processingParams.framingBufferSize = scriptParams:get('framingBufferSize')
+processingParams.framingBufferSize = json.decode(scriptParams:get('framingBufferSize'))
 processingParams.maxConnections = scriptParams:get('maxConnections')
 processingParams.transmitAckTimeout = scriptParams:get('transmitAckTimeout')
 processingParams.transmitBufferSize = scriptParams:get('transmitBufferSize')
@@ -367,6 +367,8 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
       else
         stopServer()
       end
+    elseif parameter == 'framingBufferSize' then
+      processingParams.framingBufferSize = json.decode(value)
     elseif parameter == 'framing' then
       processingParams.framing =  json.decode(value)
     elseif parameter == 'readMessages' then

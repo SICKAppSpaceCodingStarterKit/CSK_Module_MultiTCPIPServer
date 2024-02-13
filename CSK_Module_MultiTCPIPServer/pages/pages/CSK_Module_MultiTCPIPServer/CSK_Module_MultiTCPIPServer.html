@@ -155,98 +155,105 @@
 							title="Advanced settings of the server, reboot the server to apply">
 							<layout-column id="ColumnLayout12" style="align-items: stretch">
 								<layout-row id="RowLayout13">
-									<davinci-text-field id="MaximumConnections" type="number"
+									<davinci-number-input id="MaximumConnections" step="1"
 										label="Maximum connections"
-										title="Max number of parallel active connections">
+										title="Max number of parallel active connections"
+										style="flex-grow: 1; width: 170px">
 										<crown-binding event="change"
 											name="CSK_MultiTCPIPServer/setMaxConnections"
-											path="param/args/newMaxConnections" auto-commit>
+											path="param/args/newMaxConnections" auto-commit
+											converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewMaxConnections" update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											converter="num2str">
 										</crown-edpws-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
-									<davinci-text-field id="TransmitionTimeout" type="number"
+									</davinci-number-input>
+									<davinci-number-input id="TransmitionTimeout" step="1"
 										label="Transmition timeout, ms"
-										title="sets the timeout for transmits, in milliseconds">
+										title="sets the timeout for transmits, in milliseconds"
+										style="flex-grow: 1; width: 170px">
 										<crown-binding event="change"
 											name="CSK_MultiTCPIPServer/setTransmitionTimeout"
-											path="param/args/newTransmitionTimeout" auto-commit>
+											path="param/args/newTransmitionTimeout" auto-commit
+											converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewTransmitTimeout" update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											converter="num2str">
 										</crown-edpws-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
-									<davinci-text-field id="TransmitionACKtimeout" type="number"
+									</davinci-number-input>
+									<davinci-number-input id="TransmitionACKtimeout" step="1"
 										label="ACK timeout, ms"
-										title="Timeout for acknowledgement, in milliseconds">
+										title="Timeout for acknowledgement, in milliseconds"
+										style="flex-grow: 1; width: 170px">
 										<crown-binding event="change"
 											name="CSK_MultiTCPIPServer/setACKTimeout"
-											path="param/args/newACKTimeout" auto-commit>
+											path="param/args/newACKTimeout" auto-commit converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewACKTimeout" update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											converter="num2str">
 										</crown-edpws-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
+									</davinci-number-input>
 								</layout-row>
 								<layout-row id="RowLayout14">
-									<davinci-text-field id="TransmitionBufferSize" type="number"
+									<davinci-number-input id="TransmitionBufferSize" step="1"
 										label="Transmition Buffer Size, bytes"
-										title="Sets the size of the socket’s send buffer, in bytes">
+										title="Sets the size of the socket’s send buffer, in bytes"
+										style="width: 170px">
 										<crown-binding event="change"
 											name="CSK_MultiTCPIPServer/setTransmitionBuffer"
-											path="param/args/newTransmitionBuffer" auto-commit>
+											path="param/args/newTransmitionBuffer" auto-commit
+											converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewTransmitBuffer" update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											converter="num2str">
 										</crown-edpws-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
-									<davinci-text-field id="RxFramingBufferSize" type="number"
+									</davinci-number-input>
+									<davinci-number-input id="RxFramingBufferSize" step="1"
 										label="Rx Framing Buffer Size"
-										title="Framing buffer size for receiving, has no effect if no framing">
+										title="Framing buffer size for receiving, has no effect if no framing"
+										style="width: 170px">
 										<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxBuffer"
-											path="param/args/newRxBuffer" auto-commit>
+											path="param/args/newRxBuffer" auto-commit converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewRxFramingBufferSize"
-											update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											update-on-resume converter="num2str">
 										</crown-edpws-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
-									<davinci-text-field id="TxFramingBufferSize" type="number"
+									</davinci-number-input>
+									<davinci-number-input id="TxFramingBufferSize" step="1"
 										label="Tx Framing Buffer Size"
-										title="Framing buffer size for transmitting, has no effect if no framing">
+										title="Framing buffer size for transmitting, has no effect if no framing"
+										style="width: 170px">
 										<crown-edpws-binding property="value"
 											name="CSK_MultiTCPIPServer/OnNewTxFramingBufferSize"
-											update-on-resume
-											converter="function(value) {return Math.trunc(value);}">
+											update-on-resume converter="num2str">
 										</crown-edpws-binding>
 										<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxBuffer"
-											path="param/args/newTxBuffer" auto-commit>
+											path="param/args/newTxBuffer" auto-commit converter="str2num">
 										</crown-binding>
 										<crown-edpws-binding property="disabled"
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
-									</davinci-text-field>
+									</davinci-number-input>
 								</layout-row>
 							</layout-column>
 						</davinci-collapse>
