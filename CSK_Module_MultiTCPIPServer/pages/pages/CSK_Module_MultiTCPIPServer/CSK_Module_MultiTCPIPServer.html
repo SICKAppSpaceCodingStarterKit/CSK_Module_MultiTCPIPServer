@@ -2,9 +2,10 @@
 	<layout-column id="ColumnLayout23"
 		style="flex-grow: 0; width: 1100px">
 		<layout-row id="RowLayout22" style="align-items: center">
-			<davinci-value-display id="ValueDisplay3" value="Activate Server">
+			<davinci-value-display id="VD_ListenStateString"
+				value="Activate Server">
 			</davinci-value-display>
-			<davinci-toggle-switch id="Listen" title="Activate the server">
+			<davinci-toggle-switch id="TS_Listen" title="Activate the server">
 				<crown-binding event="change"
 					name="CSK_MultiTCPIPServer/setListenState"
 					path="param/args/newState" auto-commit>
@@ -15,16 +16,16 @@
 			</davinci-toggle-switch>
 		</layout-row>
 		<layout-row id="RowLayout15" style="align-items: center">
-			<davinci-value-display id="ValueDisplay1" label="Server IP Address:"
-				style="flex-grow: 1">
+			<davinci-value-display id="VD_IPAddressString"
+				label="Server IP Address:" style="flex-grow: 1">
 			</davinci-value-display>
-			<davinci-value-display id="IPAddressValue"
+			<davinci-value-display id="VD_IPAddressValue"
 				title="Current IP address of the server" style="flex-grow: 1">
 				<crown-edpws-binding property="value"
 					name="CSK_MultiTCPIPServer/OnNewServerIP" update-on-resume>
 				</crown-edpws-binding>
 			</davinci-value-display>
-			<davinci-drop-down id="Interface" label="Interface"
+			<davinci-drop-down id="DD_EthernetInterface" label="Interface"
 				title="Physical ethernet interface port used by the server">
 				<crown-edpws-binding property="value"
 					name="CSK_MultiTCPIPServer/OnNewInterface" update-on-resume
@@ -42,8 +43,8 @@
 					name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 				</crown-edpws-binding>
 			</davinci-drop-down>
-			<davinci-number-input id="tcpipServerPort" class="marginTop" step="1"
-				label="Port" max="+Infinity" min="-9007199254740991">
+			<davinci-number-input id="NI_TcpipServerPort" class="marginTop"
+				step="1" label="Port" max="+Infinity" min="-9007199254740991">
 				<crown-on property="disabled"
 					crown-event="CSK_MultiTCPIPServer/OnNewListenState">
 				</crown-on>
@@ -62,7 +63,7 @@
 				<layout-row id="RowLayout24">
 					<layout-column id="ColumnLayout1" style="width: 800px">
 						<layout-row id="RowLayout20">
-							<davinci-drop-down id="RxFraming" label="RxFraming"
+							<davinci-drop-down id="DD_RxFraming" label="RxFraming"
 								title="Framing of incoming messages" style="align-self: center">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxFraming"
 									path="param/args/newRxFraming" auto-commit
@@ -80,7 +81,7 @@
 									name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 								</crown-edpws-binding>
 							</davinci-drop-down>
-							<davinci-text-field id="RxStart" type="text" label="RxStart"
+							<davinci-text-field id="TF_RxStart" type="text" label="RxStart"
 								title="Framing start">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxStart"
 									path="param/args/newRxStart" auto-commit>
@@ -92,7 +93,7 @@
 									name="CSK_MultiTCPIPServer/OnRxFramingDisabled" update-on-resume>
 								</crown-edpws-binding>
 							</davinci-text-field>
-							<davinci-text-field id="RxStop" type="text" label="RxStop"
+							<davinci-text-field id="TF_RxStop" type="text" label="RxStop"
 								title="Framing stop">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxStop"
 									path="param/args/newRxStop" auto-commit>
@@ -106,7 +107,7 @@
 							</davinci-text-field>
 						</layout-row>
 						<layout-row id="RowLayout17">
-							<davinci-drop-down id="TxFraming" label="TxFraming"
+							<davinci-drop-down id="DD_TxFraming" label="TxFraming"
 								title="Framing of outgoing messages" style="align-self: center">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxFraming"
 									path="param/args/newTxFraming" auto-commit
@@ -124,7 +125,7 @@
 									name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 								</crown-edpws-binding>
 							</davinci-drop-down>
-							<davinci-text-field id="TxStart" type="text" label="TxStart"
+							<davinci-text-field id="TF_TxStart" type="text" label="TxStart"
 								title="Framing start">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxStart"
 									path="param/args/newTxStart" auto-commit>
@@ -136,7 +137,7 @@
 									name="CSK_MultiTCPIPServer/OnTxFramingDisabled" update-on-resume>
 								</crown-edpws-binding>
 							</davinci-text-field>
-							<davinci-text-field id="TxStop" type="text" label="TxStop"
+							<davinci-text-field id="TF_TxStop" type="text" label="TxStop"
 								title="Framing stop">
 								<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxStop"
 									path="param/args/newTxStop" auto-commit>
@@ -155,7 +156,7 @@
 							title="Advanced settings of the server, reboot the server to apply">
 							<layout-column id="ColumnLayout12" style="align-items: stretch">
 								<layout-row id="RowLayout13">
-									<davinci-number-input id="MaximumConnections" step="1"
+									<davinci-number-input id="NI_MaximumConnections" step="1"
 										label="Maximum connections"
 										title="Max number of parallel active connections"
 										style="flex-grow: 1; width: 170px">
@@ -172,7 +173,7 @@
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
 									</davinci-number-input>
-									<davinci-number-input id="TransmitionTimeout" step="1"
+									<davinci-number-input id="NI_TransmitionTimeout" step="1"
 										label="Transmition timeout, ms"
 										title="sets the timeout for transmits, in milliseconds"
 										style="flex-grow: 1; width: 170px">
@@ -189,7 +190,7 @@
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
 									</davinci-number-input>
-									<davinci-number-input id="TransmitionACKtimeout" step="1"
+									<davinci-number-input id="NI_TransmitionACKtimeout" step="1"
 										label="ACK timeout, ms"
 										title="Timeout for acknowledgement, in milliseconds"
 										style="flex-grow: 1; width: 170px">
@@ -207,7 +208,7 @@
 									</davinci-number-input>
 								</layout-row>
 								<layout-row id="RowLayout14">
-									<davinci-number-input id="TransmitionBufferSize" step="1"
+									<davinci-number-input id="NI_TransmitionBufferSize" step="1"
 										label="Transmition Buffer Size, bytes"
 										title="Sets the size of the socket’s send buffer, in bytes"
 										style="width: 170px">
@@ -224,7 +225,7 @@
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
 									</davinci-number-input>
-									<davinci-number-input id="RxFramingBufferSize" step="1"
+									<davinci-number-input id="NI_RxFramingBufferSize" step="1"
 										label="Rx Framing Buffer Size"
 										title="Framing buffer size for receiving, has no effect if no framing"
 										style="width: 170px">
@@ -239,7 +240,7 @@
 											name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
 										</crown-edpws-binding>
 									</davinci-number-input>
-									<davinci-number-input id="TxFramingBufferSize" step="1"
+									<davinci-number-input id="NI_TxFramingBufferSize" step="1"
 										label="Tx Framing Buffer Size"
 										title="Framing buffer size for transmitting, has no effect if no framing"
 										style="width: 170px">
