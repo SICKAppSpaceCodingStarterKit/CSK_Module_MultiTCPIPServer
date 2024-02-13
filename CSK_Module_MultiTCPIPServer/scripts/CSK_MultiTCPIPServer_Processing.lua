@@ -21,27 +21,27 @@ Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueToForward".. multiTCPIPServerI
 -- Event to forward update of e.g. parameter update to keep data in sync between threads
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueUpdate" .. multiTCPIPServerInstanceNumberString, "MultiTCPIPServer_OnNewValueUpdate" .. multiTCPIPServerInstanceNumberString, 'int, string, auto, int:?')
 
-local handleTCPIPServer
-local connectedClientsIPs = {}
-local conHandles = {}
-local receiveDataQueue = Script.Queue.create()
-local sendDataQueue = Script.Queue.create()
-local readMessagesEventsAny = {}
-local readMessagesEventsFiltered = {}
-local latestReceivedData = {
+local handleTCPIPServer -- TCPIP server handle
+local connectedClientsIPs = {} -- array of the IP addresses of the connected clients
+local conHandles = {} -- table with connection handles and info of the connected clients
+local receiveDataQueue = Script.Queue.create() -- queue to track the calls when the data is received
+local sendDataQueue = Script.Queue.create() -- queue to track the calls when the data is sent
+local readMessagesEventsAny = {} -- list of events to be notified when data is received from any clients
+local readMessagesEventsFiltered = {} -- list of events to be notified when data is received from clients in the fileter of read messages
+local latestReceivedData = { -- table with info about the latest received data and IP address of the client it was received from
   data = '',
   ipAddress = ''
 }
-local ipToReadMessageNameMap = {
+local ipToReadMessageNameMap = { -- table containing map of filtered IP addresses to message names for event notification convenience 
   notFiltered = {}
 }
-local latestReadMessagesData = {}
+local latestReadMessagesData = {} -- table with latest received data from all read messages
 
-local latestSentData = {
+local latestSentData = { -- table with info about the latest sent data and success
   data = '',
   success = false
 }
-local latestWriteMessagesData = {}
+local latestWriteMessagesData = {} -- table with latest sent data for all write messages
 
 local processingParams = {}
 processingParams.listenState = scriptParams:get('listenState')
@@ -179,7 +179,6 @@ local function getLatestReadMessageData(messageName)
   end
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getLatestReadMessageData" .. multiTCPIPServerInstanceNumberString, getLatestReadMessageData, 'string:1:', 'string:1:,string:1:')
-
 
 -- Function called to set the messages expected from any or some specific clients and register the respected events.
 local function setReadMessages()
@@ -337,7 +336,6 @@ local function stopServer()
   Script.releaseObject(handleTCPIPServer)
   handleTCPIPServer = nil
 end
-
 
 local function handleOnNewProcessing(object)
   _G.logger:info(nameOfModule .. ": Check object on instance No." .. multiTCPIPServerInstanceNumberString)

@@ -9,7 +9,8 @@
 --************************ Start Global Scope ******************************
 --**************************************************************************
 local nameOfModule = 'CSK_MultiTCPIPServer'
-
+local helperFuncs = require('Communication/MultiTCPIPServer/helper/funcs')
+local json = require('Communication/MultiTCPIPServer/helper/Json')
 local funcs = {}
 
 -- Timer to update UI via events after page was loaded
@@ -20,13 +21,11 @@ tmrMultiTCPIPServer:setPeriodic(false)
 local multiTCPIPServer_Model -- Reference to model handle
 local multiTCPIPServer_Instances -- Reference to instances handle
 local selectedInstance = 1 -- Which instance is currently selected
-local helperFuncs = require('Communication/MultiTCPIPServer/helper/funcs')
-local json = require('Communication/MultiTCPIPServer/helper/Json')
-local selectedTab = 0
-local selectedReadMessage = ''
-local selectedWriteMessage = ''
-local testSendData = ''
-local testWriteMessageSendData = ''
+local selectedTab = 0 -- selected tab ID in UI
+local selectedReadMessage = '' -- name of the selected read message
+local selectedWriteMessage = '' -- name of the selected write message
+local testSendData = '' -- generic test data string to send
+local testWriteMessageSendData = '' -- test data string to send as selected write message
 
 -- ************************ UI Events Start ********************************
 -- Only to prevent WARNING messages, but these are only examples/placeholders for dynamically created events/functions
@@ -84,17 +83,14 @@ Script.serveEvent("CSK_MultiTCPIPServer.OnNewTxStart", "MultiTCPIPServer_OnNewTx
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewTxStop", "MultiTCPIPServer_OnNewTxStop")
 Script.serveEvent("CSK_MultiTCPIPServer.OnRxFramingDisabled", "MultiTCPIPServer_OnRxFramingDisabled")
 Script.serveEvent("CSK_MultiTCPIPServer.OnTxFramingDisabled", "MultiTCPIPServer_OnTxFramingDisabled")
-
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericReceivedDataEventName', 'MultiTCPIPServer_OnNewGenericReceivedDataEventName')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericSendDataFunctionName', 'MultiTCPIPServer_OnNewGenericSendDataFunctionName')
-
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericLatestReceivedIPAddress', 'MultiTCPIPServer_OnNewGenericLatestReceivedIPAddress')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericLatestReceivedData', 'MultiTCPIPServer_OnNewGenericLatestReceivedData')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericLatestSentData', 'MultiTCPIPServer_OnNewGenericLatestSentData')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericLatestSentDataSuccess', 'MultiTCPIPServer_OnNewGenericLatestSentDataSuccess')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewTestDataSendingSuccess', 'MultiTCPIPServer_OnNewTestDataSendingSuccess')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewTestDataToSend', 'MultiTCPIPServer_OnNewTestDataToSend')
-
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewListReadMessages', 'MultiTCPIPServer_OnNewListReadMessages')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageEventName', 'MultiTCPIPServer_OnNewReadMessageEventName')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageFilterTableContent', 'MultiTCPIPServer_OnNewReadMessageFilterTableContent')
@@ -103,7 +99,6 @@ Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedReadMessage', 'MultiTCPIPSe
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewUseReadMessageIPFilterState', 'MultiTCPIPServer_OnNewUseReadMessageIPFilterState')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageLatestReceivedData', 'MultiTCPIPServer_OnNewReadMessageLatestReceivedData')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageLatestReceivedIPAddress', 'MultiTCPIPServer_OnNewReadMessageLatestReceivedIPAddress')
-
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewListWriteMessages', 'MultiTCPIPServer_OnNewListWriteMessages')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewWriteMessageFunctionName', 'MultiTCPIPServer_OnNewWriteMessageFunctionName')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewWriteMessageFilterTableContent', 'MultiTCPIPServer_OnNewWriteMessageFilterTableContent')
@@ -132,6 +127,8 @@ local function createInterfaceList()
   return json.encode(interfaceList)
 end
 
+---Function to get IP address of the selected interface.
+---@return string ipAddress IP address of the interface.
 local function getInterfaceIP()
   if multiTCPIPServer_Instances[1].currentDevice == 'SICK AppEngine' or multiTCPIPServer_Instances[1].currentDevice == 'Webdisplay' then return '' end
   local _, ipAddress = Ethernet.Interface.getAddressConfig(multiTCPIPServer_Instances[selectedInstance].parameters.interface)
@@ -139,6 +136,8 @@ local function getInterfaceIP()
 end
 Script.serveFunction('CSK_MultiTCPIPServer.getInterfaceIP', getInterfaceIP)
 
+---Function to get list of keys of the lua table as a JSON string.
+---@return string keyList List of keys of the lua table as a JSON string.
 local function getTableKeyList(someTable)
   local keyList = {}
   for key, _ in pairs(someTable) do
@@ -148,6 +147,10 @@ local function getTableKeyList(someTable)
   return json.encode(keyList)
 end
 
+---Function to get create a dynamic table content out of the strings list.
+---@param dynamicTableColumnName string Column name of the dynamic table
+---@param list string+ List of the strings to show as rows of the table
+---@return string tableContent Table content as a JSON string.
 local function makeDynamicTableOutOfList(dynamicTableColumnName, list)
   local tableContent = {}
   for _, value in ipairs(list) do

@@ -31,6 +31,8 @@ Each instance is handled in a separate thread. Useful Instance functions: +
 - "setTxStart" - to set start framing of transmitted data as hex value in case framing type is "Custom" +
 - "setTxStop" - to set ending framing of transmitted data as hex value in case framing type is "Custom" +
 {empty} +
+NOTE! Server must be restarted with setListenState(false) - setListenState(true) to apply the new settings +
+{empty} +
 **3. Read messages** +
 Read message is the data that is expected from clients. It is possible to set an IP filter to receive this data only from specific clients. +
 - "createReadMessage" - to create a new message +
