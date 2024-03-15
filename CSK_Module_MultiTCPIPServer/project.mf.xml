@@ -3,6 +3,7 @@
     <application name="CSK_Module_MultiTCPIPServer">
         <crown name="CSK_Module_MultiTCPIPServer">
             <desc>This is an automatically generated CROWN (description not necessary).</desc>
+            <serves/>
         </crown>
         <crown name="CSK_MultiTCPIPServer">
             <trait>released</trait>
@@ -10,7 +11,7 @@
 The main externally useful features are following: +
 {empty} +
 **1. Generic CSK functionality** +
-Each instance is handled in a separate thread. Useful Instance functions: +
+Each instance is handled in a separate thread. Useful instance functions: +
 - "addInstance" - to create a new instance +
 - "setSelectedInstance" - to select instance you are working on +
 {empty} +
@@ -31,31 +32,40 @@ Each instance is handled in a separate thread. Useful Instance functions: +
 - "setTxStart" - to set start framing of transmitted data as hex value in case framing type is "Custom" +
 - "setTxStop" - to set ending framing of transmitted data as hex value in case framing type is "Custom" +
 {empty} +
-NOTE! Server must be restarted with setListenState(false) - setListenState(true) to apply the new settings +
+NOTE! Server must be restarted with "setListenState(false)" - "setListenState(true)" to apply the new settings +
 {empty} +
-**3. Read messages** +
-Read message is the data that is expected from clients. It is possible to set an IP filter to receive this data only from specific clients. +
-- "createReadMessage" - to create a new message +
-- "setSelectedReadMessage" - to select the message +
-- "setReadMessageName" - to rename the message +
-- "deleteReadMessage" - to delete the message +
+**3. Receive data** +
+It is possible to receive  data via dynamically created "CSK_MultiTCPIPServer.OnReceivedDataNUM" events or "readMessages" (see chapter 5). +
+{empty} +
+**4. Data transmission** +
+It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.sendDataNUM" functions or "writeMessages" (see chapter 6). +
+{empty} +
+**5. Read messages** +
+Read messages can be used to filter for data of specific data sources. It is possible to set an IP filter for each created read message. +
+- "createReadMessage" - to create a new read message +
+- "setSelectedReadMessage" - to select the read message +
+- "setReadMessageName" - to rename the read message +
+- "deleteReadMessage" - to delete the read message +
 - "setUseReadMessageIPFilter" - to enable/disable the IP filter +
 - "setIPAddressToAddToReadMessage" - to add new IP address to the filter +
+Incoming data will be provided via event "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[READMESSAGENAME]" ("NUM" and "READMESSAGENAME" will be replaced by instance number and name of read message). +
 {empty} +
-**4. Write messages** +
+**6. Write messages** +
 Write message is the data that will be sent to clients. It is possible to set an IP filter to send this data only to specific clients. +
-- "createWriteMessage" - to create a new message +
-- "setSelectedWriteMessage" - to select the message +
-- "setWriteMessageName" - to rename the message +
-- "deleteWriteMessage" - to delete the message +
+Read messages can be used to filter for data of specific data sources. It is possible to set an IP filter for each created read message. +
+- "createWriteMessage" - to create a new write message +
+- "setSelectedWriteMessage" - to select a write message +
+- "setWriteMessageName" - to rename the write message +
+- "deleteWriteMessage" - to delete the write message +
 - "setUseWriteMessageIPFilter" - to enable/disable the IP filter +
 - "setIPAddressToAddToWriteMessage" - to add new IP address to the filter +
+A created write message can be used via "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[WRITEMESSAGENAME]" (NUM and WRITEMESSAGENAME will be replaced by instance number and name of write message). +
 {empty} +
-**5. Events and functions to be used for data forwarding** +
+**7. Events and functions to be used for data forwarding** +
 - "CSK_MultiTCPIPServer.OnReceivedData[NUM]" - event to receive any incoming data to [NUM] instance +
 - "CSK_MultiTCPIPServer.sendData[NUM]" - function to send data to all clients connected to [NUM] instance +
-- "CSK_MultiTCPIPServer.OnReceivedData[NUM][MessageName]" - event to receive incoming data of read message with name [MessageName] of instance [NUM] +
-- "CSK_MultiTCPIPServer.sendData[NUM][MessageName]" - function to send data as write message with name [MessageName] of instance [NUM] +
+- "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[MessageName]" - event to receive incoming data of read message with name [MessageName] of instance [NUM] +
+- "CSK_MultiTCPIPServer.sendData[NUM]_[MessageName]" - function to send data as write message with name [MessageName] of instance [NUM] +
 {empty} +
 - "CSK_MultiTCPIPServer.getLatestGenericReceivedData[NUM]" - function to get the latest payload received from any client of instance [NUM] +
 - "CSK_MultiTCPIPServer.getLatestGenericSentData[NUM]" - function to get the latest payload sent to any client of instance [NUM] +
@@ -94,12 +104,6 @@ Write message is the data that will be sent to clients. It is possible to set an
                 <event name="OnDataLoadedOnReboot">
                     <desc>Event to call if module tried to load parameters and should be ready.</desc>
                 </event>
-                <event name="OnNewResultNUM">
-                    <desc>Example of dynamically created event to provide result of instance. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
-                    <param desc="Result." multiplicity="1" name="result" type="bool"/>
-                </event>
                 <event name="OnNewParameterName">
                     <desc>Notify name of persistent data parameter.</desc>
                     <param desc="Parameter name." multiplicity="1" name="name" type="string"/>
@@ -133,10 +137,6 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
 NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <param desc="Eventname to use to forward value." multiplicity="1" name="eventname" type="string"/>
                     <param desc="Value to forward." multiplicity="1" name="value" type="auto"/>
-                </event>
-                <event name="OnNewResult">
-                    <desc>Generic event to notify results. E.g. to forward results from single instances.</desc>
-                    <param desc="Result." multiplicity="1" name="result" type="bool"/>
                 </event>
                 <event name="OnNewPort">
                     <desc>Event to provide port number.</desc>
@@ -275,55 +275,10 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Event to provide the name of function to be called to send any data to all clients.</desc>
                     <param desc="Function name." multiplicity="1" name="functionName" type="string"/>
                 </event>
-                <event name="OnNewGenericLatestReceivedData">
-                    <trait>released</trait>
-                    <desc>Event to notify the latest (after refreshLatestGenericReceivedData was called) data received by the server from any client.</desc>
-                    <param desc="Latest data received by the server." multiplicity="1" name="latestData" type="string"/>
-                </event>
-                <event name="OnNewGenericLatestSentData">
-                    <trait>released</trait>
-                    <desc>Event to provide the latest (after refreshLatestGenericSentData was called) data sent by the server to any client.</desc>
-                    <param desc="Latest data sent by the server." multiplicity="1" name="latestData" type="string"/>
-                </event>
-                <event name="OnNewGenericLatestSentDataSuccess">
-                    <trait>released</trait>
-                    <desc>Event to provide latest success (after refreshLatestGenericSentData was called) of sending data to any client.</desc>
-                    <param desc="Success of sending data." multiplicity="1" name="success" type="bool"/>
-                </event>
                 <event name="OnNewTestDataToSend">
                     <trait>released</trait>
                     <desc>Event to provide the data to be sent for testing purposes.</desc>
                     <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
-                </event>
-                <event name="OnNewGenericLatestReceivedIPAddress">
-                    <trait>released</trait>
-                    <desc>Event to provide the IP address of the client from which the latest data (after refreshLatestGenericReceivedData was called) was received.</desc>
-                    <param desc="IP Address." multiplicity="1" name="ipAddress" type="string"/>
-                </event>
-                <event name="OnNewTestDataSendingSuccess">
-                    <trait>released</trait>
-                    <desc>Event to provide the success of the sending test data to all clients.</desc>
-                    <param desc="Success of sending." multiplicity="1" name="success" type="bool"/>
-                </event>
-                <event name="OnNewReadMessageLatestReceivedData">
-                    <trait>released</trait>
-                    <desc>Event to provide the latest (after refreshLatestReadMessageReceivedData was called) data received by the server from filtered IP Address of the read message.</desc>
-                    <param desc="Latest data received by the server." multiplicity="1" name="latestData" type="string"/>
-                </event>
-                <event name="OnNewReadMessageLatestReceivedIPAddress">
-                    <trait>released</trait>
-                    <desc>Event to provide the IP address of the client from which the latest data (after refreshLatestReadMessageReceivedData was called) was received as the selected read message.</desc>
-                    <param desc="IP Address." multiplicity="1" name="ipAddress" type="string"/>
-                </event>
-                <event name="OnNewWriteMessageLatestSentData">
-                    <trait>released</trait>
-                    <desc>Event to provide the latest (after refreshLatestWriteMessageSentData was called) data sent by the server to any client as the selected write message.</desc>
-                    <param desc="Latest data sent by the server." multiplicity="1" name="latestData" type="string"/>
-                </event>
-                <event name="OnNewWriteMessageLatestSentDataSuccess">
-                    <trait>released</trait>
-                    <desc>Event to provide the latest success (after refreshLatestWriteMessageSentData was called) of sending data to any client as the selected write message.</desc>
-                    <param desc="Success of sending data." multiplicity="1" name="success" type="bool"/>
                 </event>
                 <event name="OnNewListWriteMessages">
                     <trait>released</trait>
@@ -355,15 +310,38 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Event to provide the data to be sent for testing purposes as the selected write message.</desc>
                     <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
                 </event>
-                <event name="OnNewTestWriteMessageDataSendingSuccess">
-                    <trait>released</trait>
-                    <desc>Event to provide the success of the sending test data as the selected write message.</desc>
-                    <param desc="Success of sending." multiplicity="1" name="success" type="bool"/>
-                </event>
                 <event name="OnNewWriteMessageSelectedStatus">
                     <trait>released</trait>
                     <desc>Event to provide the status if any write message is selected.</desc>
                     <param desc="True if selected." multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewLog">
+                    <desc>Notfiy latest log.</desc>
+                    <param desc="Log entries." multiplicity="1" name="log" type="string"/>
+                </event>
+                <event name="OnNewStatusAddIPViaList">
+                    <desc>Notify status if IP for filter should be added via list selection in UI.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnReceivedDataNUM">
+                    <desc>Example of dynamically created event to provide received data of instance. +
+NUM will be replaced by the number of instance (e.g. "OnReceivedData1"). +
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
+                    <param desc="Received data." multiplicity="1" name="data" type="string"/>
+                    <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
+                    <param desc="Queue size." multiplicity="1" name="queueSize" type="int"/>
+                    <param desc="Needed time." multiplicity="1" name="time" type="int"/>
+                    <param desc="Optional error message." multiplicity="?" name="errorMsg" type="string"/>
+                </event>
+                <event name="OnReceivedDataNUM_READMESSAGENAME">
+                    <desc>Example of dynamically created event to provide received data of readMessage of instance. +
+'NUM' and 'READMESSAGENAME' will be replaced by the number of instance and name of readMessage (e.g. "OnReceivedData1_message1"). +
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
+                    <param desc="Received data." multiplicity="1" name="data" type="string"/>
+                    <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
+                    <param desc="Queue size." multiplicity="1" name="queueSize" type="int"/>
+                    <param desc="Needed time." multiplicity="1" name="time" type="int"/>
+                    <param desc="Optional error message." multiplicity="?" name="errorMsg" type="string"/>
                 </event>
                 <function name="setListenState">
                     <desc>Function to turn server on or off.</desc>
@@ -375,7 +353,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setInterface">
                     <desc>Sets device's interface from UI, server must be rebooted to apply the settings</desc>
-                    <param desc="New interface to listen to" multiplicity="1" name="newInterface" type="string"/>
+                    <param desc="New interface to listen to." multiplicity="1" name="newInterface" type="string"/>
                 </function>
                 <function name="setRxFraming">
                     <desc>Set Rx Framing type, server must be restarted to apply the settings.</desc>
@@ -383,7 +361,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setTxFraming">
                     <desc>Set Tx framing type, server must be restarted to apply the settings.</desc>
-                    <param desc="Framing  of transmitted data to be used by server" multiplicity="1" name="newTxFraming" type="enum"/>
+                    <param desc="Framing  of transmitted data to be used by server." multiplicity="1" name="newTxFraming" type="enum"/>
                 </function>
                 <function name="setRxStart">
                     <desc>Set RxStart frame from UI, server must be restarted to apply the settings.</desc>
@@ -394,7 +372,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <param desc="Hex symbol of a stop frame of recived data to be used by server." multiplicity="1" name="newRxStop" type="string"/>
                 </function>
                 <function name="setTxStart">
-                    <desc>Set TxStart frame, server must be restarted to apply the settings</desc>
+                    <desc>Set TxStart frame, server must be restarted to apply the settings.</desc>
                     <param desc="Hex symbol of a start frame of transmitted data to be used by server." multiplicity="1" name="newTxStart" type="string"/>
                 </function>
                 <function name="setTxStop">
@@ -406,7 +384,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <param desc="Maximum number of connected clients for server." multiplicity="1" name="newMaxConnections" type="int"/>
                 </function>
                 <function name="setTransmitionTimeout">
-                    <desc>Set data transmition timeout, server must be restarted to apply the settings</desc>
+                    <desc>Set data transmition timeout, server must be restarted to apply the settings.</desc>
                     <param desc="Timeout for transmits, in milliseconds." multiplicity="1" name="newTransmitionTimeout" type="int"/>
                 </function>
                 <function name="setACKTimeout">
@@ -419,7 +397,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setRxBuffer">
                     <desc>Sets the Rx size of the internal framing parser buffer from UI. Server must be restarted to apply the settings.</desc>
-                    <param desc="Framing buffer size for receiving data" multiplicity="1" name="newRxBuffer" type="int"/>
+                    <param desc="Framing buffer size for receiving data." multiplicity="1" name="newRxBuffer" type="int"/>
                 </function>
                 <function name="setTxBuffer">
                     <desc>Sets the Tx size of the internal framing parser buffer. Server must be restarted to apply the settings.</desc>
@@ -430,8 +408,8 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <param desc="Selected row from the connected clients table in JSON format." multiplicity="1" name="selectedRow" type="string"/>
                 </function>
                 <function name="getInterfaceIP">
-                    <desc>Get the IP address of the selected Server.</desc>
-                    <return desc="" multiplicity="1" name="selectedInterfaceIp" type="string"/>
+                    <desc>Get the IP address of the selected server.</desc>
+                    <return desc="IP" multiplicity="1" name="selectedInterfaceIp" type="string"/>
                 </function>
                 <function name="setParameterName">
                     <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
@@ -445,7 +423,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setLoadOnReboot">
                     <desc>Configure if this module should load its saved parameters at app/ device boot up.</desc>
-                    <param desc="Set status" multiplicity="1" name="status" type="bool"/>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </function>
                 <function name="pageCalled">
                     <desc>Function to register "OnResume" of the module UI (only as helper function).</desc>
@@ -458,11 +436,6 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 <function name="getInstancesAmount">
                     <desc>Get the amount of created instances of this module.</desc>
                     <return desc="Amount of created instances." multiplicity="1" name="amount" type="int"/>
-                </function>
-                <function name="setRegisterEvent">
-                    <desc>Configure event that this module should listen to. If this one is notified, it will be linked to internal processing function. +
-(Will be set to currently active instance, see "setSelectedObject")</desc>
-                    <param desc="(external) Event name to listen to." multiplicity="1" name="event" type="string"/>
                 </function>
                 <function name="addInstance">
                     <desc>Function to add an additional instance.</desc>
@@ -478,7 +451,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                 <function name="setReadMessageName">
                     <trait>released</trait>
                     <desc>Set a new name of the selected read message.</desc>
-                    <param desc="New name of the message" multiplicity="1" name="newName" type="string"/>
+                    <param desc="New name of the message." multiplicity="1" name="newName" type="string"/>
                 </function>
                 <function name="setSelectedReadMessage">
                     <trait>released</trait>
@@ -509,14 +482,6 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                     <desc>Set selcetd settings tab in UI.</desc>
                     <param desc="Tab ID." multiplicity="1" name="newSelectedTab" type="int"/>
                 </function>
-                <function name="refreshLatestGenericReceivedData">
-                    <trait>released</trait>
-                    <desc>Function to refresh the latest received data to be shown in UI.</desc>
-                </function>
-                <function name="refreshLatestGenericSentData">
-                    <trait>released</trait>
-                    <desc>Function to refresh the latest sent data to be shown in UI.</desc>
-                </function>
                 <function name="setTestDataToSend">
                     <trait>released</trait>
                     <desc>Set data to be sent to clients for testing purposes.</desc>
@@ -532,14 +497,6 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 NUM will be replaced by the number of instance (e.g. "getLatestGenericReceivedData1"). +</desc>
                     <return desc="IP address of the client." multiplicity="1" name="ipAddress" type="string"/>
                     <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
-                </function>
-                <function name="refreshLatestReadMessageReceivedData">
-                    <trait>released</trait>
-                    <desc>Function to refresh the latest received data of the raed message to be shown in UI.</desc>
-                </function>
-                <function name="refreshLatestWriteMessageSentData">
-                    <trait>released</trait>
-                    <desc>Function to refresh the latest sent data to be shown in UI.</desc>
                 </function>
                 <function name="setWriteMessageName">
                     <trait>released</trait>
@@ -585,7 +542,7 @@ NUM will be replaced by the number of instance (e.g. "getLatestGenericReceivedDa
                 </function>
                 <function name="getConnectedClientsIPsNUM">
                     <trait>released</trait>
-                    <desc>Function to get list of IP addresses of the connected clients.. +
+                    <desc>Function to get list of IP addresses of the connected clients. +
 NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1"). +</desc>
                     <return desc="Array with IP addresses of the connected clients." multiplicity="*" name="connectedClientsIPs" type="string"/>
                 </function>
@@ -611,6 +568,31 @@ NUM will be replaced by the number of instance (e.g. "getLatestWriteMessageData1
                     <param desc="Name of the message." multiplicity="1" name="messageName" type="string"/>
                     <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
                     <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
+                </function>
+                <function name="setAddIPViaList">
+                    <desc>Function to activate to select IP via UI list for filter.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="sendDataNUM">
+                    <desc>Example of dynamically served function to send data on instance to clients. +
+NUM will be replaced by the number of instance (e.g. "sendData1"). +
+INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
+Needs then to be called via "Script.callFunction".</desc>
+                    <param desc="Data to send." multiplicity="1" name="data" type="string"/>
+                    <param desc="Optional list of IP addresses of the clients to send the data to. " multiplicity="*" name="ipList" type="string"/>
+                    <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
+                    <return desc="Details if sending failed." multiplicity="?" name="details" type="string"/>
+                </function>
+                <function name="sendDataNUM_WRITEMESSAGENAME">
+                    <desc>Example of dynamically served function to send data on instance via writeMessage. +
+'NUM' and 'WRITEMESSAGENAME' will be replaced by the number of instance and name of writeMessage (e.g. "sendData1_message1"). +
+INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
+Needs then to be called via "Script.callFunction".</desc>
+                    <param desc="Data to write." multiplicity="1" name="data" type="auto"/>
+                    <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
+                    <return desc="Details if sending failed." multiplicity="1" name="queueSize" type="string"/>
+                    <return desc="Needed time." multiplicity="1" name="neededTime" type="int"/>
+                    <return desc="Optional error message." multiplicity="?" name="error" type="string"/>
                 </function>
             </serves>
         </crown>

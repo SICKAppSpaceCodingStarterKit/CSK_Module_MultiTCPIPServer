@@ -13,9 +13,6 @@ local scriptParams = Script.getStartArgument() -- Get parameters from model
 local multiTCPIPServerInstanceNumber = scriptParams:get('multiTCPIPServerInstanceNumber') -- number of this instance
 local multiTCPIPServerInstanceNumberString = tostring(multiTCPIPServerInstanceNumber) -- number of this instance as string
 
-
--- Event to notify result of processing
-Script.serveEvent("CSK_MultiTCPIPServer.OnNewResult" .. multiTCPIPServerInstanceNumberString, "MultiTCPIPServer_OnNewResult" .. multiTCPIPServerInstanceNumberString, 'bool') -- Edit this accordingly
 -- Event to forward content from this thread to Controller to show e.g. on UI
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueToForward".. multiTCPIPServerInstanceNumberString, "MultiTCPIPServer_OnNewValueToForward" .. multiTCPIPServerInstanceNumberString, 'string, auto')
 -- Event to forward update of e.g. parameter update to keep data in sync between threads
@@ -43,9 +40,10 @@ local latestSentData = { -- table with info about the latest sent data and succe
 }
 local latestWriteMessagesData = {} -- table with latest sent data for all write messages
 
+local log = {} -- Log of TCP/IP communication
+
 local processingParams = {}
 processingParams.listenState = scriptParams:get('listenState')
-processingParams.registeredEvent = scriptParams:get('registeredEvent')
 processingParams.activeInUI = scriptParams:get('activeInUI')
 processingParams.interface = scriptParams:get('interface')
 processingParams.port = scriptParams:get('port')
@@ -57,11 +55,23 @@ processingParams.transmitBufferSize = scriptParams:get('transmitBufferSize')
 processingParams.transmitTimeout = scriptParams:get('transmitTimeout')
 processingParams.readMessages = json.decode(scriptParams:get('readMessages'))
 processingParams.writeMessages = json.decode(scriptParams:get('writeMessages'))
-processingParams.onRecevedDataEventName = scriptParams:get('onRecevedDataEventName')
-Script.serveEvent(processingParams.onRecevedDataEventName, processingParams.onRecevedDataEventName, 'string:1:,string:1:,int:1:,int:1:,string:?:')
+processingParams.onReceivedDataEventName = scriptParams:get('onReceivedDataEventName')
 processingParams.sendDataFunctionName = scriptParams:get('sendDataFunctionName')
 
--- Function to forward dynamic table content with connected clients and their quantity to UI.
+Script.serveEvent(processingParams.onReceivedDataEventName, processingParams.onReceivedDataEventName, 'string:1:,string:1:,int:1:,int:1:,string:?:')
+
+--- Function to notify latest log messages, e.g. to show on UI
+local function sendLog()
+  local tempLog = ''
+  for i=1, #log do
+    tempLog = tempLog .. tostring(log[i]) .. '\n'
+  end
+  if processingParams.activeInUI then
+    Script.notifyEvent("MultiTCPIPServer_OnNewValueToForward" .. multiTCPIPServerInstanceNumberString, 'MultiTCPIPServer_OnNewLog', tostring(tempLog))
+  end
+end
+
+--- Function to forward dynamic table content with connected clients and their quantity to UI.
 local function showClientsTable()
   local clientsTable = {}
   if #connectedClientsIPs == 0 then
@@ -83,8 +93,6 @@ local function showClientsTable()
   Script.notifyEvent("MultiTCPIPServer_OnNewValueToForward" .. multiTCPIPServerInstanceNumberString, "MultiTCPIPServer_OnNewConnectedClientsNumber", #connectedClientsIPs)
 end
 
--- Function to get list of IP addresses of the connected clients.
----@return table? connectedClientsIPs Array with IP addresses of the connected clients.
 local function getConnectedClientsIPs()
   connectedClientsIPs = {}
   for clientIPAddress, _ in pairs(conHandles) do
@@ -97,7 +105,7 @@ local function getConnectedClientsIPs()
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getConnectedClientsIPs" .. multiTCPIPServerInstanceNumberString, getConnectedClientsIPs, "","string:*:")
 
--- Function called when a new client is connected.
+--- Function called when a new client is connected.
 ---@param newConHandle TCPIPServer.Connection New connection handle.
 local function handleOnConnectionAccepted(newConHandle)
   local conHandleIP, _ = TCPIPServer.Connection.getPeerAddress(newConHandle)
@@ -105,7 +113,7 @@ local function handleOnConnectionAccepted(newConHandle)
   getConnectedClientsIPs()
 end
 
--- Function called when client is disconnected.
+--- Function called when client is disconnected.
 ---@param oldConHandle TCPIPServer.Connection Disconnected connection handle.
 local function handleOnConnectionClosed(oldConHandle)
   local conHandleIP, _ = TCPIPServer.Connection.getPeerAddress(oldConHandle)
@@ -120,8 +128,17 @@ end
 ---@param conHandle TCPIPServer.Connection Connection handle of a client that sent the data.
 ---@param data string Received data
 local function handleOnReceiveData(conHandle, data)
+
   local timestamp1 = DateTime.getTimestamp()
   local ipAddress = TCPIPServer.Connection.getPeerAddress(conHandle)
+  _G.logger:fine(nameOfModule .. ": Received data from " .. tostring(ipAddress) .. "= " .. data)
+
+  table.insert(log, 1, DateTime.getTime() .. ' - RECV from ' .. tostring(ipAddress) .. ' = ' .. tostring(data))
+  if #log == 100 then
+    table.remove(log, 100)
+  end
+  sendLog()
+
   latestReceivedData = {
     data = data,
     ipAddress = ipAddress
@@ -155,22 +172,15 @@ local function handleOnReceiveData(conHandle, data)
       Script.notifyEvent(eventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
     end
   end
-  Script.notifyEvent(processingParams.onRecevedDataEventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
+  Script.notifyEvent(processingParams.onReceivedDataEventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
 end
 receiveDataQueue:setFunction({handleOnReceiveData})
 
----Get information about the latest received data.
----@return string ipAddress IP address of the client.
----@return string data Latest received data.
 local function getLatestGenericReceivedData()
   return latestReceivedData.ipAddress, latestReceivedData.data
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getLatestGenericReceivedData" .. multiTCPIPServerInstanceNumberString, getLatestGenericReceivedData, '', 'string:1:,string:1:')
 
----Get information about the latest received data of the specified message.
----@param messageName string Name of the message.
----@return string ipAddress IP address of the client.
----@return string data Latest received data.
 local function getLatestReadMessageData(messageName)
   if latestReadMessagesData[messageName] then
     return latestReadMessagesData[messageName].ipAddress, latestReadMessagesData[messageName].data
@@ -210,11 +220,6 @@ local function setReadMessages()
   end
 end
 
--- Function to send the data to clients.
----@param dataToSend string Data to be sent.
----@param clientsIPs table? List of IP addresses of the clients to send the data to. 
----@return bool success Success of sending the data.
----@return string? details Details if sending failed.
 local function sendData(dataToSend, clientsIPs)
   if not clientsIPs or #clientsIPs == 0 then
     clientsIPs = connectedClientsIPs
@@ -224,15 +229,30 @@ local function sendData(dataToSend, clientsIPs)
     if conHandles[ipAddress] then
       local numberOfBytesTransmitted = TCPIPServer.Connection.transmit(conHandles[ipAddress], dataToSend)
       totalNumberOfBytesTransmitted = totalNumberOfBytesTransmitted + numberOfBytesTransmitted
+
+      _G.logger:fine(nameOfModule .. ': Try to send to ' .. tostring(ipAddress) .. ' = ' .. tostring(dataToSend))
+      table.insert(log, 1, DateTime.getTime() .. ' - Try to send to ' .. tostring(ipAddress) .. ' = ' .. tostring(dataToSend))
+      if #log == 100 then
+        table.remove(log, 100)
+      end
+      sendLog()
     end
   end
   if totalNumberOfBytesTransmitted == 0 then
-    _G.logger:warning(nameOfModule.. ' sending failed instance: ' .. multiTCPIPServerInstanceNumberString .. '; No clients to send data to')
+    _G.logger:warning(nameOfModule.. ': Sending failed instance: ' .. multiTCPIPServerInstanceNumberString .. '; No clients to send data to')
+
+    table.insert(log, 1, DateTime.getTime() .. ' - Sending failed instance: ' .. multiTCPIPServerInstanceNumberString)
+    if #log == 100 then
+      table.remove(log, 100)
+    end
+    sendLog()
+
     latestSentData = {
       success = false,
       data = dataToSend
     }
     return false, 'No clients to send data to'
+
   end
   latestSentData = {
     success = true,
@@ -246,9 +266,11 @@ Script.serveFunction(processingParams.sendDataFunctionName, sendData, "string:1:
 local function setWriteMessages()
   latestWriteMessagesData = {}
   local queueFunctions = {}
-  print(json.encode(processingParams.writeMessages))
   for messageName, messageInfo in pairs(processingParams.writeMessages) do
     local function sendMessage(dataToWrite)
+      if dataToWrite == nil then
+        dataToWrite = ''
+      end
       local timestamp1 = DateTime.getTimestamp()
       local success, errorMessage
       if processingParams.writeMessages[messageName].ipFilterInfo and processingParams.writeMessages[messageName].ipFilterInfo.used == true then
@@ -268,7 +290,7 @@ local function setWriteMessages()
       local timestamp2 = DateTime.getTimestamp()
       return success, queueSize, timestamp2-timestamp1, errorMessage
     end
---    local functionName = "CSK_MultiTCPIPServer.sendData" .. multiTCPIPServerInstanceNumberString .. messageName
+
     if not Script.isServedAsFunction(messageInfo.functionName) then
       Script.serveFunction(messageInfo.functionName, sendMessage, 'auto:1:', 'bool:1:,int:1:,int:1:,string:?:')
     end
@@ -277,18 +299,11 @@ local function setWriteMessages()
   sendDataQueue:setFunction(queueFunctions)
 end
 
----Get information about the latest sent data.
----@return bool ipAddress IP address of the client.
----@return string data Latest received data.
 local function getLatestGenericSentData()
   return latestSentData.success, latestSentData.data
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getLatestGenericSentData" .. multiTCPIPServerInstanceNumberString, getLatestGenericSentData, '', 'bool:1:,string:1:')
 
----Get information about the latest sent data of the specified message.
----@param messageName string Name of the message.
----@return bool success Success of sending the data.
----@return string data Latest received data.
 local function getLatestWriteMessageData(messageName)
   if latestWriteMessagesData[messageName] then
     return latestWriteMessagesData[messageName].success, latestWriteMessagesData[messageName].data
@@ -298,8 +313,7 @@ local function getLatestWriteMessageData(messageName)
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getLatestWriteMessageData" .. multiTCPIPServerInstanceNumberString, getLatestWriteMessageData, 'string:1:', 'bool:1:,string:1:')
 
-
--- Function to start the TCP-IP server
+--- Function to start the TCP-IP server
 local function startServer()
   handleTCPIPServer = TCPIPServer.create()
   handleTCPIPServer:setPort(processingParams.port)
@@ -313,7 +327,7 @@ local function startServer()
     processingParams.framingBufferSize[1],
     processingParams.framingBufferSize[2]
   )
-  if Engine.getTypeName() ~= 'SICK AppEngine' and Engine.getTypeName() ~= 'Webdisplay' then
+  if Engine.getTypeName() ~= 'SICK AppEngine' and Engine.getTypeName() ~= 'Webdisplay' then --TODO check this
     handleTCPIPServer:setInterface(processingParams.interface)
   end
   handleTCPIPServer:setMaxConnections(processingParams.maxConnections)
@@ -323,10 +337,11 @@ local function startServer()
   handleTCPIPServer:register("OnConnectionAccepted", handleOnConnectionAccepted)
   handleTCPIPServer:register("OnConnectionClosed", handleOnConnectionClosed)
   handleTCPIPServer:register("OnReceive", handleOnReceiveData)
-  handleTCPIPServer:listen()
+  local listenSuc = handleTCPIPServer:listen()
+  _G.logger:fine(nameOfModule .. ": Success to start listening: " .. tostring(listenSuc))
 end
 
--- Function to stop the TCP-IP server
+--- Function to stop the TCP-IP server
 local function stopServer()
   handleTCPIPServer:deregister("OnConnectionAccepted", handleOnConnectionAccepted)
   handleTCPIPServer:deregister("OnConnectionClosed", handleOnConnectionClosed)
@@ -335,13 +350,8 @@ local function stopServer()
   getConnectedClientsIPs()
   Script.releaseObject(handleTCPIPServer)
   handleTCPIPServer = nil
+  _G.logger:fine(nameOfModule .. ": Stopped server.")
 end
-
-local function handleOnNewProcessing(object)
-  _G.logger:info(nameOfModule .. ": Check object on instance No." .. multiTCPIPServerInstanceNumberString)
-  Script.releaseObject(object)
-end
-Script.serveFunction("CSK_MultiTCPIPServer.processInstance"..multiTCPIPServerInstanceNumberString, handleOnNewProcessing, 'object:?:Alias', 'bool:?') -- Edit this according to this function
 
 --- Function to handle updates of processing parameters from Controller
 ---@param multiTCPIPServerNo int Number of instance to update
@@ -350,15 +360,9 @@ Script.serveFunction("CSK_MultiTCPIPServer.processInstance"..multiTCPIPServerIns
 ---@param internalObjectNo int? Number of object
 local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, value, internalObjectNo)
   if multiTCPIPServerNo == multiTCPIPServerInstanceNumber then -- set parameter only in selected script
-    _G.logger:info(nameOfModule .. ": Update parameter '" .. parameter .. "' of multiTCPIPServerInstanceNo." .. tostring(multiTCPIPServerNo) .. " to value = " .. tostring(value))
-    if parameter == 'registeredEvent' then
-      _G.logger:info(nameOfModule .. ": Register instance " .. multiTCPIPServerInstanceNumberString .. " on event " .. value)
-      if processingParams.registeredEvent ~= '' then
-        Script.deregister(processingParams.registeredEvent, handleOnNewProcessing)
-      end
-      processingParams.registeredEvent = value
-      Script.register(value, handleOnNewProcessing)
-    elseif parameter == 'listenState' then
+    _G.logger:fine(nameOfModule .. ": Update parameter '" .. parameter .. "' of multiTCPIPServerInstanceNo." .. tostring(multiTCPIPServerNo) .. " to value = " .. tostring(value))
+
+    if parameter == 'listenState' then
       processingParams.listenState = value
       if value == true then
         startServer()

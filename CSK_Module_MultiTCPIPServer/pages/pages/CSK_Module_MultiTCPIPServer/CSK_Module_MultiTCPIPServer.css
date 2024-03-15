@@ -4,8 +4,11 @@
   border-color: grey;
   margin: 6px;
 }
-.marginTop {
+
+.myCustomMarginTop_CSK_Module_MultiTCPIPServer {
   margin-top: 1.5rem
 }
-.myCustomCssClass_CSK_Module_MultiTCPIPServer {
+
+.myCustomMinHeight200px_CSK_Module_MultiTCPIPServer {
+  min-height: 200px;
 }

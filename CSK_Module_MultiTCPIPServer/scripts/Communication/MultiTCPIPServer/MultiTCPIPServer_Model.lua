@@ -50,7 +50,6 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
   self.parameters.listenState = false
-  self.parameters.registeredEvent = '' -- If thread internal function should react on external event, define it here, e.g. 'CSK_OtherModule.OnNewInput'
   self.parameters.processingFile = 'CSK_MultiTCPIPServer_Processing' -- which file to use for processing (will be started in own thread)
   self.currentDevice = Engine.getTypeName() -- device type running the app
   if self.currentDevice == 'Webdisplay' then
@@ -61,7 +60,7 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
     local interfaceList = Ethernet.Interface.getInterfaces()
     self.parameters.interface = interfaceList[1]
   end
-  self.parameters.port = 20 -- port number to listen to
+  self.parameters.port = 1234 -- port number to listen to
   self.parameters.RxFrameMode = 'Empty' -- type of framing for received data
   self.parameters.TxFrameMode = 'Empty' -- type of framing for transmitted data
   self.RxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for received data
@@ -74,14 +73,13 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.parameters.transmitTimeout = 15000 -- timeout for transmits, in milliseconds
   self.parameters.readMessages = {} -- info about configured read messages
   self.parameters.writeMessages = {} -- info about configured write messages
-  self.parameters.onRecevedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
+  self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
   self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString -- function name to call to send data to all clients
 
   -- Parameters to give to the processing script
   self.multiTCPIPServerProcessingParams = Container.create()
   self.multiTCPIPServerProcessingParams:add('multiTCPIPServerInstanceNumber', multiTCPIPServerInstanceNo, "INT")
   self.multiTCPIPServerProcessingParams:add('activeInUI', self.activeInUI, "BOOL")
-  self.multiTCPIPServerProcessingParams:add('registeredEvent', self.parameters.registeredEvent, "STRING")
   self.multiTCPIPServerProcessingParams:add('listenState', self.parameters.listenState, "BOOL")
   self.multiTCPIPServerProcessingParams:add('interface', self.parameters.interface, "STRING")
   self.multiTCPIPServerProcessingParams:add('port', self.parameters.port, "INT")
@@ -93,32 +91,14 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.multiTCPIPServerProcessingParams:add('transmitTimeout', self.parameters.transmitTimeout, "INT")
   self.multiTCPIPServerProcessingParams:add('readMessages', json.encode(self.parameters.readMessages), "STRING")
   self.multiTCPIPServerProcessingParams:add('writeMessages', json.encode(self.parameters.writeMessages), "STRING")
-  self.multiTCPIPServerProcessingParams:add('onRecevedDataEventName', self.parameters.onRecevedDataEventName, "STRING")
+  self.multiTCPIPServerProcessingParams:add('onReceivedDataEventName', self.parameters.onReceivedDataEventName, "STRING")
   self.multiTCPIPServerProcessingParams:add('sendDataFunctionName', self.parameters.sendDataFunctionName, "STRING")
-
-  --self.multiTCPIPServerProcessingParams:add('showImage', self.parameters.showImage, "BOOL")
-  --self.multiTCPIPServerProcessingParams:add('viewerId', 'multiTCPIPServerViewer' .. self.multiTCPIPServerInstanceNoString, "STRING")
-
-  --self.multiTCPIPServerProcessingParams:add('internalObjects', internalObjectContainer, "OBJECT") -- optionally
-  --self.multiTCPIPServerProcessingParams:add('selectedObject', self.parameters.selectedObject, "INT")
 
   -- Handle processing
   Script.startScript(self.parameters.processingFile, self.multiTCPIPServerProcessingParams)
 
   return self
 end
-
---[[
---- Some internal code docu for local used function to do something
-function multiTCPIPServer:doSomething()
-  self.object:doSomething()
-end
-
---- Some internal code docu for local used function to do something else
-function multiTCPIPServer:doSomethingElse()
-  self:doSomething() --> access internal function
-end
-]]
 
 return multiTCPIPServer
 

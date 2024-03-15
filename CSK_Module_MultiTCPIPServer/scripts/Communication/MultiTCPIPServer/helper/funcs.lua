@@ -17,6 +17,10 @@ funcs.json = require('Communication/MultiTCPIPServer/helper/Json')
 --**********************Start Function Scope *******************************
 --**************************************************************************
 
+--- Function to create a deep copy of a table
+---@param origTable auto[] Content to copy
+---@param seen auto[] TODO
+---@return auto[] res Clone of table
 local function copy(origTable, seen)
   if type(origTable) ~= 'table' then return origTable end
   if seen and seen[origTable] then return seen[origTable] end
@@ -28,6 +32,9 @@ local function copy(origTable, seen)
 end
 funcs.copy = copy
 
+--- TODO
+---@param someTable TODO
+---@return TODO size TODO
 local function getTableSize(someTable)
   if not someTable then
     return 0
@@ -40,6 +47,7 @@ local function getTableSize(someTable)
 end
 funcs.getTableSize = getTableSize
 
+--TODO
 local function convertHex2String(hex)
   local readableString = ''
   if #hex > 0 then
@@ -56,6 +64,7 @@ local function convertHex2String(hex)
 end
 funcs.convertHex2String = convertHex2String
 
+--TODO
 local function convertString2Hex(readableString)
   local hex = ''
   if #readableString > 0 and string.sub(readableString,1,1) == [[\]] then
@@ -75,7 +84,7 @@ local function convertString2Hex(readableString)
 end
 funcs.convertString2Hex = convertString2Hex
 
-
+--TODO
 local function checkIP(ip)
   if not ip then return false end
   local a,b,c,d=ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
