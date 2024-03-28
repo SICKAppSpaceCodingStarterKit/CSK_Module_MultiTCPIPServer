@@ -7,70 +7,37 @@
         </crown>
         <crown name="CSK_MultiTCPIPServer">
             <trait>released</trait>
-            <desc>This CSK module provides an easy access to TCP/IP Server functionality. +
+            <desc>This CSK module provides an easy access to TCP/IP Server functionality and provides a UI for all relevant features. +
 The main externally useful features are following: +
 {empty} +
-**1. Generic CSK functionality** +
-Each instance is handled in a separate thread. Useful instance functions: +
-- "addInstance" - to create a new instance +
-- "setSelectedInstance" - to select instance you are working on +
+Typically the features of this module are used like this (check also main script of this module): +
 {empty} +
-**2. Server settings** +
-- "setInterface" - to select ethernet interface +
-- "setPort" - to select port to listen to +
-- "setListenState" - to activate/deactivate server +
-- "setACKTimeout" - to set acknowledgement timeout +
-- "setMaxConnections" - to set limit of connected clients +
-- "setTransmitionTimeout" - to set timeout of data transmition +
-- "setTransmitionBuffer" - to set size of the socket send buffer. +
-- "setRxBuffer" - to set the size of the internal framing parser buffer for received data +
-- "setTxBuffer" - to set the size of the internal framing parser buffer for transmitted data +
-- "setRxFraming" - to set the framing type of received data, can be "Custom", "Empty" and "STX-ETX" +
-- "setRxStart" - to set start framing of received data as hex value in case framing type is "Custom" +
-- "setRxStop" - to set ending framing of received data as hex value in case framing type is "Custom" +
-- "setTxFraming" - to set the framing type of transmitted data, can be "Custom", "Empty" and "STX-ETX" +
-- "setTxStart" - to set start framing of transmitted data as hex value in case framing type is "Custom" +
-- "setTxStop" - to set ending framing of transmitted data as hex value in case framing type is "Custom" +
+**1. Setup the TCP/IP server configuration** +
+- Select the server via 'setSelectedInstance'. If needed, add a new instance via 'addInstance'. +
+- Setup the interface, port, framing, etc. via its related 'set...' function. +
+- Start / stop to wait for clients via 'setListenState'. +
 {empty} +
-NOTE! Server must be restarted with "setListenState(false)" - "setListenState(true)" to apply the new settings +
+NOTE! Server must be restarted with "setListenState(false)" - "setListenState(true)" to apply new settings. +
 {empty} +
 **3. Receive data** +
-It is possible to receive  data via dynamically created "CSK_MultiTCPIPServer.OnReceivedDataNUM" events or "readMessages" (see chapter 5). +
+It is possible to receive data via dynamically created "CSK_MultiTCPIPServer.OnReceivedDataNUM" events or "client whitelists" (see chapter 5). +
 {empty} +
 **4. Data transmission** +
-It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.sendDataNUM" functions or "writeMessages" (see chapter 6). +
+It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.sendDataNUM" functions or "client broadcasts" (see chapter 6). +
 {empty} +
-**5. Read messages** +
-Read messages can be used to filter for data of specific data sources. It is possible to set an IP filter for each created read message. +
-- "createReadMessage" - to create a new read message +
-- "setSelectedReadMessage" - to select the read message +
-- "setReadMessageName" - to rename the read message +
-- "deleteReadMessage" - to delete the read message +
-- "setUseReadMessageIPFilter" - to enable/disable the IP filter +
-- "setIPAddressToAddToReadMessage" - to add new IP address to the filter +
-Incoming data will be provided via event "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[READMESSAGENAME]" ("NUM" and "READMESSAGENAME" will be replaced by instance number and name of read message). +
+**5. Client whitelists** +
+Whitelists can be used to filter for data of specific data sources. It is possible to set an IP filter for each created whitelist. +
+- Create a new whitelist via 'createClientWhitelist' +
+- Selecte the whitelist via 'setSelectedClientWhitelist' and rename it with 'setClientWhitelistName'. +
+- Now you can add IP addresses to this whitelist via 'setIPAddressToAddToClientWhitelist'. +
+Incoming data will be provided via event 'CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME' ('NUM' and 'WHITELISTNAME' will be replaced by instance number and name of whitelist). +
 {empty} +
-**6. Write messages** +
-Write message is the data that will be sent to clients. It is possible to set an IP filter to send this data only to specific clients. +
-Read messages can be used to filter for data of specific data sources. It is possible to set an IP filter for each created read message. +
-- "createWriteMessage" - to create a new write message +
-- "setSelectedWriteMessage" - to select a write message +
-- "setWriteMessageName" - to rename the write message +
-- "deleteWriteMessage" - to delete the write message +
-- "setUseWriteMessageIPFilter" - to enable/disable the IP filter +
-- "setIPAddressToAddToWriteMessage" - to add new IP address to the filter +
-A created write message can be used via "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[WRITEMESSAGENAME]" (NUM and WRITEMESSAGENAME will be replaced by instance number and name of write message). +
-{empty} +
-**7. Events and functions to be used for data forwarding** +
-- "CSK_MultiTCPIPServer.OnReceivedData[NUM]" - event to receive any incoming data to [NUM] instance +
-- "CSK_MultiTCPIPServer.sendData[NUM]" - function to send data to all clients connected to [NUM] instance +
-- "CSK_MultiTCPIPServer.OnReceivedData[NUM]_[MessageName]" - event to receive incoming data of read message with name [MessageName] of instance [NUM] +
-- "CSK_MultiTCPIPServer.sendData[NUM]_[MessageName]" - function to send data as write message with name [MessageName] of instance [NUM] +
-{empty} +
-- "CSK_MultiTCPIPServer.getLatestGenericReceivedData[NUM]" - function to get the latest payload received from any client of instance [NUM] +
-- "CSK_MultiTCPIPServer.getLatestGenericSentData[NUM]" - function to get the latest payload sent to any client of instance [NUM] +
-- "CSK_MultiTCPIPServer.getLatestReadMessageData[NUM]" - function to get the latest payload received as specific read message of instance [NUM] +
-- "CSK_MultiTCPIPServer.getLatestWriteMessageData[NUM]" - function to get the latest payload sent as specific write message of instance [NUM] +</desc>
+**6. Client broadcasts** +
+Broadcasts can be used to send data only to specific clients. It is possible to set individual IP filter for each created broadcast. +
+- Create a new broadcast via 'createClientBroadcast' +
+- Selecte the broadcast via 'setSelectedClientBroadcast' and rename it with 'setClientBroadcastName'. +
+- Now you can add IP addresses to this broadcast via 'setIPAddressToAddToClientBroadcast'. +
+A created broadcast can be used by calling the dynamically created 'CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME' functions ('NUM' and 'BROADCASTNAME' will be replaced by instance number and name of the broadcast). +</desc>
             <enum name="FramingType" trait="released">
                 <desc>Framing type of TCPIP server for Rx or Tx data.</desc>
                 <item desc="Start framing is STX, end framing is ETX." name="STX_ETX">STX-ETX</item>
@@ -126,7 +93,7 @@ A created write message can be used via "CSK_MultiTCPIPServer.OnReceivedData[NUM
                 </event>
                 <event name="OnNewValueUpdateNUM">
                     <desc>Example of dynamically created event to sync paramters between instance threads and Controller part of module. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToUpdate1"). +</desc>
                     <param desc="Instance new value is coming from." multiplicity="1" name="instance" type="int"/>
                     <param desc="Name of the paramter to update/sync." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value to update." multiplicity="1" name="value" type="auto"/>
@@ -134,7 +101,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </event>
                 <event name="OnNewValueToForwardNUM">
                     <desc>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1"). +</desc>
                     <param desc="Eventname to use to forward value." multiplicity="1" name="eventname" type="string"/>
                     <param desc="Value to forward." multiplicity="1" name="value" type="auto"/>
                 </event>
@@ -230,29 +197,24 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Event to provide the server IP address.</desc>
                     <param desc="Server IP address." multiplicity="1" name="newIPAddress" type="string"/>
                 </event>
-                <event name="OnNewSelectedReadMessage">
+                <event name="OnNewSelectedClientWhitelist">
                     <trait>released</trait>
-                    <desc>Event to provide the name of the selected read message.</desc>
-                    <param desc="Name of the selected read message." multiplicity="1" name="readMessageName" type="string"/>
+                    <desc>Event to provide the name of the selected client whitelist.</desc>
+                    <param desc="Name of the selected client whitelist." multiplicity="1" name="clientWhitelistName" type="string"/>
                 </event>
-                <event name="OnNewListReadMessages">
+                <event name="OnNewListClientWhitelist">
                     <trait>released</trait>
-                    <desc>Event to provide the list of all created read messages.</desc>
-                    <param desc="List of read messages in JSON format." multiplicity="1" name="jsonReadMessagesList" type="string"/>
+                    <desc>Event to provide the list of all created client whitelists.</desc>
+                    <param desc="List of client whitelists in JSON format." multiplicity="1" name="jsonClientWhitelistsList" type="string"/>
                 </event>
-                <event name="OnNewUseReadMessageIPFilterState">
+                <event name="OnNewClientWhitelistEventName">
                     <trait>released</trait>
-                    <desc>Event to provide status if message is expected from any client or filter is used.</desc>
-                    <param desc="State." multiplicity="1" name="state" type="bool"/>
-                </event>
-                <event name="OnNewReadMessageEventName">
-                    <trait>released</trait>
-                    <desc>Event to provide the event name of the selected read message.</desc>
+                    <desc>Event to provide the event name of the selected client whitelist.</desc>
                     <param desc="Event name." multiplicity="1" name="eventName" type="string"/>
                 </event>
-                <event name="OnNewReadMessageFilterTableContent">
+                <event name="OnNewClientWhitelistTableContent">
                     <trait>released</trait>
-                    <desc>Event to provide IP filter table of the selected read message. </desc>
+                    <desc>Event to provide IP filter table of the selected client whitelist. </desc>
                     <param desc="Table content in JSON format." multiplicity="1" name="jsonTableContent" type="string"/>
                 </event>
                 <event name="OnNewSelectedTab">
@@ -260,9 +222,9 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Event to provide the current selected tab ID.</desc>
                     <param desc="Tab ID." multiplicity="1" name="newSelectedTab" type="int"/>
                 </event>
-                <event name="OnNewReadMessageSelectedStatus">
+                <event name="OnNewStatusClientWhitelistSelected">
                     <trait>released</trait>
-                    <desc>Event to provide status if any read message is selected.</desc>
+                    <desc>Event to provide status if any client whitelist is selected.</desc>
                     <param desc="True if selected." multiplicity="1" name="status" type="bool"/>
                 </event>
                 <event name="OnNewGenericReceivedDataEventName">
@@ -280,39 +242,34 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Event to provide the data to be sent for testing purposes.</desc>
                     <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
                 </event>
-                <event name="OnNewListWriteMessages">
+                <event name="OnNewListClientBroadcast">
                     <trait>released</trait>
-                    <desc>Event to provide the list of all created write messages.</desc>
-                    <param desc="List of write messages in JSON format." multiplicity="1" name="jsonWriteMessagesList" type="string"/>
+                    <desc>Event to provide the list of all created client broadcasts.</desc>
+                    <param desc="List of client broadcasts in JSON format." multiplicity="1" name="jsonBroadcastList" type="string"/>
                 </event>
-                <event name="OnNewSelectedWriteMessage">
+                <event name="OnNewSelectedClientBroadcast">
                     <trait>released</trait>
-                    <desc>Event to provide the name of the selected read message.</desc>
-                    <param desc="Name of the selected write message." multiplicity="1" name="writeMessageName" type="string"/>
+                    <desc>Event to provide the name of the selected client broadcast.</desc>
+                    <param desc="Name of the selected client broadcast." multiplicity="1" name="clientBroadcastName" type="string"/>
                 </event>
-                <event name="OnNewWriteMessageFunctionName">
+                <event name="OnNewClientBroadcastFunctionName">
                     <trait>released</trait>
-                    <desc>Event to provide the function name of the selected write message.</desc>
+                    <desc>Event to provide the function name of the selected client broadcast.</desc>
                     <param desc="Event name." multiplicity="1" name="eventName" type="string"/>
                 </event>
-                <event name="OnNewUseWriteMessageIPFilterState">
+                <event name="OnNewClientBroadcastTableContent">
                     <trait>released</trait>
-                    <desc>Event to provide status message will be sent to each connected client or to filtered ones.</desc>
-                    <param desc="State." multiplicity="1" name="state" type="bool"/>
-                </event>
-                <event name="OnNewWriteMessageFilterTableContent">
-                    <trait>released</trait>
-                    <desc>Event to provide IP filter table of the selected write message. </desc>
+                    <desc>Event to provide IP filter table of the selected client broadcast. </desc>
                     <param desc="Table content in JSON format." multiplicity="1" name="jsonTableContent" type="string"/>
                 </event>
-                <event name="OnNewTestWriteMessageDataToSend">
+                <event name="OnNewClientBroadcastTestDataToSend">
                     <trait>released</trait>
-                    <desc>Event to provide the data to be sent for testing purposes as the selected write message.</desc>
+                    <desc>Event to provide the data to be sent for testing purposes as the selected client broadcast.</desc>
                     <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
                 </event>
-                <event name="OnNewWriteMessageSelectedStatus">
+                <event name="OnNewStatusClientBroadcastSelected">
                     <trait>released</trait>
-                    <desc>Event to provide the status if any write message is selected.</desc>
+                    <desc>Event to provide the status if any client broadcast is selected.</desc>
                     <param desc="True if selected." multiplicity="1" name="status" type="bool"/>
                 </event>
                 <event name="OnNewLog">
@@ -333,9 +290,9 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <param desc="Needed time." multiplicity="1" name="time" type="int"/>
                     <param desc="Optional error message." multiplicity="?" name="errorMsg" type="string"/>
                 </event>
-                <event name="OnReceivedDataNUM_READMESSAGENAME">
-                    <desc>Example of dynamically created event to provide received data of readMessage of instance. +
-'NUM' and 'READMESSAGENAME' will be replaced by the number of instance and name of readMessage (e.g. "OnReceivedData1_message1"). +
+                <event name="OnReceivedDataNUM_WHITELISTNAME">
+                    <desc>Example of dynamically created event to provide received data of client whitelist of instance. +
+'NUM' and 'WHITELISTNAME' will be replaced by the number of instance and name of client whitelist (e.g. "OnReceivedData1_whitelist1"). +
 INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
                     <param desc="Received data." multiplicity="1" name="data" type="string"/>
                     <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
@@ -404,7 +361,7 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <param desc="Framing buffer size for transmitting." multiplicity="1" name="newTxBuffer" type="int"/>
                 </function>
                 <function name="selectConnectedClient">
-                    <desc>Select row in the connected clients dynamic table. Used to copy the IP Address of the selected client into read/write message filter list.</desc>
+                    <desc>Select row in the connected clients dynamic table. Used to copy the IP Address of the selected client into client whitelist / broadcast filter list.</desc>
                     <param desc="Selected row from the connected clients table in JSON format." multiplicity="1" name="selectedRow" type="string"/>
                 </function>
                 <function name="getInterfaceIP">
@@ -444,38 +401,33 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <desc>Function to reset instances to one single instance. +
 IMPORTANT: As instances start their own threads, the module needs to be restarted if new instances are needed... (see AppEngine docu for "Script.startScript").</desc>
                 </function>
-                <function name="createReadMessage">
+                <function name="createClientWhitelist">
                     <trait>released</trait>
-                    <desc>Create a new read message with default name.</desc>
+                    <desc>Create a new client whitelist with default name.</desc>
                 </function>
-                <function name="setReadMessageName">
+                <function name="setClientWhitelistName">
                     <trait>released</trait>
-                    <desc>Set a new name of the selected read message.</desc>
-                    <param desc="New name of the message." multiplicity="1" name="newName" type="string"/>
+                    <desc>Set a new name of the selected client whitelist.</desc>
+                    <param desc="New name of the whitelist." multiplicity="1" name="newName" type="string"/>
                 </function>
-                <function name="setSelectedReadMessage">
+                <function name="setSelectedClientWhitelist">
                     <trait>released</trait>
-                    <desc>Select read message to edit.</desc>
-                    <param desc="Name of the read message." multiplicity="1" name="readMessageName" type="string"/>
+                    <desc>Select client whitelist to edit.</desc>
+                    <param desc="Name of the client whitelist." multiplicity="1" name="clientWhitelistName" type="string"/>
                 </function>
-                <function name="deleteReadMessage">
+                <function name="deleteClientWhitelist">
                     <trait>released</trait>
-                    <desc>Delete the selected read message.</desc>
+                    <desc>Delete the selected client whitelist.</desc>
                 </function>
-                <function name="setIPAddressToAddToReadMessage">
+                <function name="setIPAddressToAddToClientWhitelist">
                     <trait>released</trait>
-                    <desc>Set IP address to be added to list of clients from which Server will wait for a message.</desc>
+                    <desc>Set IP address to be added to list of clients from which server will wait for a message.</desc>
                     <param desc="IP address." multiplicity="1" name="ipAddress" type="string"/>
                 </function>
-                <function name="deleteReadMessageFilterIPAddress">
+                <function name="deleteClientWhitelistIPAddress">
                     <trait>released</trait>
-                    <desc>Delete the selected IP address from the list of the selected read message.</desc>
+                    <desc>Delete the selected IP address from the list of the selected client whitelist.</desc>
                     <param desc="JSON content of the selected row of the dynamic with IP Address to delete." multiplicity="1" name="jsonRowToDelete" type="string"/>
-                </function>
-                <function name="setUseReadMessageIPFilter">
-                    <trait>released</trait>
-                    <desc>Set to to turn on/off filter of IP addresses of clients sending the selected message.</desc>
-                    <param desc="Set to false if the message is expected from any connected client." multiplicity="1" name="newState" type="bool"/>
                 </function>
                 <function name="setSelectedTab">
                     <trait>released</trait>
@@ -491,53 +443,41 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                     <trait>released</trait>
                     <desc>Function to send the pre-defined test data (see setTestDataToSend).</desc>
                 </function>
-                <function name="getLatestGenericReceivedDataNUM">
+                <function name="setClientBroadcastName">
                     <trait>released</trait>
-                    <desc>Get information about the latest received data. +
-NUM will be replaced by the number of instance (e.g. "getLatestGenericReceivedData1"). +</desc>
-                    <return desc="IP address of the client." multiplicity="1" name="ipAddress" type="string"/>
-                    <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
-                </function>
-                <function name="setWriteMessageName">
-                    <trait>released</trait>
-                    <desc>Set a new name of the selected write message.</desc>
+                    <desc>Set a new name of the selected client broadcast.</desc>
                     <param desc="New name of the message." multiplicity="1" name="newName" type="string"/>
                 </function>
-                <function name="setSelectedWriteMessage">
+                <function name="setSelectedClientBroadcast">
                     <trait>released</trait>
-                    <desc>Select write message to edit.</desc>
-                    <param desc="Name of the write message." multiplicity="1" name="writeMessageName" type="string"/>
+                    <desc>Select client broadcast to edit.</desc>
+                    <param desc="Name of the client broadcast." multiplicity="1" name="clientBroadcastName" type="string"/>
                 </function>
-                <function name="createWriteMessage">
+                <function name="createClientBroadcast">
                     <trait>released</trait>
-                    <desc>Create a new write message with default name.</desc>
+                    <desc>Create a new client broadcast with default name.</desc>
                 </function>
-                <function name="deleteWriteMessage">
+                <function name="deleteClientBroadcast">
                     <trait>released</trait>
-                    <desc>Delete the selected write message.</desc>
+                    <desc>Delete the selected client broadcast.</desc>
                 </function>
-                <function name="setUseWriteMessageIPFilter">
-                    <trait>released</trait>
-                    <desc>Set to to turn on/off filter of IP addresses clients to which the message will be sent.</desc>
-                    <param desc="Set to false if message will be sent to all connected clients." multiplicity="1" name="newState" type="bool"/>
-                </function>
-                <function name="setIPAddressToAddToWriteMessage">
+                <function name="setIPAddressToAddToClientBroadcast">
                     <trait>released</trait>
                     <desc>Set IP address to be added to list of clients to which the server send the message.</desc>
                     <param desc="IP address." multiplicity="1" name="ipAddress" type="string"/>
                 </function>
-                <function name="deleteWriteMessageFilterIPAddress">
+                <function name="deleteClientBroadcastFilterIPAddress">
                     <trait>released</trait>
-                    <desc>Delete the selected IP address from the list of the selected read message.</desc>
+                    <desc>Delete the selected IP address from the list of the selected client broadcast.</desc>
                     <param desc="JSON content of the selected row of the dynamic with IP Address to delete." multiplicity="1" name="jsonRowToDelete" type="string"/>
                 </function>
-                <function name="sendTestWriteMessageData">
+                <function name="sendClientBroadcastTestData">
                     <trait>released</trait>
-                    <desc>Function to send the pre-defined test data (see setTestWriteMessageDataToSend) as the selected write message.</desc>
+                    <desc>Function to send the pre-defined test data (see 'setClientBroadcastTestDataToSend') as the selected client broadcast.</desc>
                 </function>
-                <function name="setTestWriteMessageDataToSend">
+                <function name="setClientBroadcastTestDataToSend">
                     <trait>released</trait>
-                    <desc>Set data to be sent to clients filtered in the selected write message for testing purposes.</desc>
+                    <desc>Set data to be sent to clients filtered in the selected broadcast for testing purposes.</desc>
                     <param desc="Data to be sent." multiplicity="1" name="newTestDataToSend" type="string"/>
                 </function>
                 <function name="getConnectedClientsIPsNUM">
@@ -545,29 +485,6 @@ NUM will be replaced by the number of instance (e.g. "getLatestGenericReceivedDa
                     <desc>Function to get list of IP addresses of the connected clients. +
 NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1"). +</desc>
                     <return desc="Array with IP addresses of the connected clients." multiplicity="*" name="connectedClientsIPs" type="string"/>
-                </function>
-                <function name="getLatestReadMessageDataNUM">
-                    <trait>released</trait>
-                    <desc>Get information about the latest received data of the specified message. +
-NUM will be replaced by the number of instance (e.g. "getLatestReadMessageData1"). +</desc>
-                    <param desc="Name of the message." multiplicity="1" name="messageName" type="string"/>
-                    <return desc="IP address of the client." multiplicity="1" name="ipAddress" type="string"/>
-                    <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
-                </function>
-                <function name="getLatestGenericSentDataNUM">
-                    <trait>released</trait>
-                    <desc>Get information about the latest sent data. +
-NUM will be replaced by the number of instance (e.g. "getLatestGenericSentData1"). +</desc>
-                    <return desc="IP address of the client." multiplicity="1" name="ipAddress" type="string"/>
-                    <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
-                </function>
-                <function name="getLatestWriteMessageDataNUM">
-                    <trait>released</trait>
-                    <desc>Get information about the latest sent data of the specified message. +
-NUM will be replaced by the number of instance (e.g. "getLatestWriteMessageData1"). +</desc>
-                    <param desc="Name of the message." multiplicity="1" name="messageName" type="string"/>
-                    <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
-                    <return desc="Latest received data." multiplicity="1" name="data" type="string"/>
                 </function>
                 <function name="setAddIPViaList">
                     <desc>Function to activate to select IP via UI list for filter.</desc>
@@ -583,9 +500,9 @@ Needs then to be called via "Script.callFunction".</desc>
                     <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
                     <return desc="Details if sending failed." multiplicity="?" name="details" type="string"/>
                 </function>
-                <function name="sendDataNUM_WRITEMESSAGENAME">
-                    <desc>Example of dynamically served function to send data on instance via writeMessage. +
-'NUM' and 'WRITEMESSAGENAME' will be replaced by the number of instance and name of writeMessage (e.g. "sendData1_message1"). +
+                <function name="sendDataNUM_BROADCASTNAME">
+                    <desc>Example of dynamically served function to send data on instance via client broadcast. +
+'NUM' and 'BROADCASTNAME' will be replaced by the numeric identifier of the instance and name of client broadcast(e.g. "sendData1_broadcast1"). +
 INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
 Needs then to be called via "Script.callFunction".</desc>
                     <param desc="Data to write." multiplicity="1" name="data" type="auto"/>

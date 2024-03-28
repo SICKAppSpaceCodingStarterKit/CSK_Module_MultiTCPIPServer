@@ -71,8 +71,8 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.parameters.transmitAckTimeout = 15000 -- data transmittion acknowledgement timeout in millliseconds
   self.parameters.transmitBufferSize = 0 --  size of the socket’s send buffer
   self.parameters.transmitTimeout = 15000 -- timeout for transmits, in milliseconds
-  self.parameters.readMessages = {} -- info about configured read messages
-  self.parameters.writeMessages = {} -- info about configured write messages
+  self.parameters.clientWhitelists = {} -- info about configured client whitelists
+  self.parameters.clientBroadcasts = {} -- info about configured client broadcasts
   self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
   self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString -- function name to call to send data to all clients
 
@@ -89,8 +89,8 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.multiTCPIPServerProcessingParams:add('transmitAckTimeout', self.parameters.transmitAckTimeout, "INT")
   self.multiTCPIPServerProcessingParams:add('transmitBufferSize', self.parameters.transmitBufferSize, "INT")
   self.multiTCPIPServerProcessingParams:add('transmitTimeout', self.parameters.transmitTimeout, "INT")
-  self.multiTCPIPServerProcessingParams:add('readMessages', json.encode(self.parameters.readMessages), "STRING")
-  self.multiTCPIPServerProcessingParams:add('writeMessages', json.encode(self.parameters.writeMessages), "STRING")
+  self.multiTCPIPServerProcessingParams:add('clientWhitelists', json.encode(self.parameters.clientWhitelists), "STRING")
+  self.multiTCPIPServerProcessingParams:add('clientBroadcasts', json.encode(self.parameters.clientBroadcasts), "STRING")
   self.multiTCPIPServerProcessingParams:add('onReceivedDataEventName', self.parameters.onReceivedDataEventName, "STRING")
   self.multiTCPIPServerProcessingParams:add('sendDataFunctionName', self.parameters.sendDataFunctionName, "STRING")
 

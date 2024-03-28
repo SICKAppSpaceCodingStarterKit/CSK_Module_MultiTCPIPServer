@@ -22,10 +22,10 @@ local multiTCPIPServer_Model -- Reference to model handle
 local multiTCPIPServer_Instances -- Reference to instances handle
 local selectedInstance = 1 -- Which instance is currently selected
 local selectedTab = 0 -- selected tab ID in UI
-local selectedReadMessage = '' -- name of the selected read message
-local selectedWriteMessage = '' -- name of the selected write message
+local selectedClientWhitelist = '' -- name of the selected client whitelist
+local selectedClientBroadcast = '' -- name of the selected client broadcast
 local testSendData = '' -- generic test data string to send
-local testWriteMessageSendData = '' -- test data string to send as selected write message
+local testSendDataClientBroadcast = '' -- test data string to send as selected write message
 local addIPViaList = false
 
 -- ************************ UI Events Start ********************************
@@ -34,12 +34,12 @@ local addIPViaList = false
 local function emptyFunction()
 end
 Script.serveFunction("CSK_MultiTCPIPServer.sendDataNUM", emptyFunction)
-Script.serveFunction("CSK_MultiTCPIPServer.sendDataNUM_WRITEMESSAGENAME", emptyFunction)
+Script.serveFunction("CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME", emptyFunction)
 
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueToForwardNUM", "MultiTCPIPServer_OnNewValueToForwardNUM")
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueUpdateNUM", "MultiTCPIPServer_OnNewValueUpdateNUM")
 Script.serveEvent('CSK_MultiTCPIPServer.OnReceivedDataNUM', 'MultiTCPIPServer_OnReceivedDataNUM')
-Script.serveEvent('CSK_MultiTCPIPServer.OnReceivedDataNUM_READMESSAGENAME', 'MultiTCPIPServer_OnReceivedDataNUM_READMESSAGENAME')
+Script.serveEvent('CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME', 'MultiTCPIPServer_OnReceivedDataNUM_WHITELISTNAME')
 
 ----------------------------------------------------------------
 
@@ -91,21 +91,19 @@ Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericReceivedDataEventName', 'Mul
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewGenericSendDataFunctionName', 'MultiTCPIPServer_OnNewGenericSendDataFunctionName')
 
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewTestDataToSend', 'MultiTCPIPServer_OnNewTestDataToSend')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewListReadMessages', 'MultiTCPIPServer_OnNewListReadMessages')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageEventName', 'MultiTCPIPServer_OnNewReadMessageEventName')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageFilterTableContent', 'MultiTCPIPServer_OnNewReadMessageFilterTableContent')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewReadMessageSelectedStatus', 'MultiTCPIPServer_OnNewReadMessageSelectedStatus')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedReadMessage', 'MultiTCPIPServer_OnNewSelectedReadMessage')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewUseReadMessageIPFilterState', 'MultiTCPIPServer_OnNewUseReadMessageIPFilterState')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewListClientWhitelist', 'MultiTCPIPServer_OnNewListClientWhitelist')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientWhitelistEventName', 'MultiTCPIPServer_OnNewClientWhitelistEventName')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientWhitelistTableContent', 'MultiTCPIPServer_OnNewClientWhitelistTableContent')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusClientWhitelistSelected', 'MultiTCPIPServer_OnNewStatusClientWhitelistSelected')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedClientWhitelist', 'MultiTCPIPServer_OnNewSelectedClientWhitelist')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusAddIPViaList', 'MultiTCPIPServer_OnNewStatusAddIPViaList')
 
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewListWriteMessages', 'MultiTCPIPServer_OnNewListWriteMessages')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewWriteMessageFunctionName', 'MultiTCPIPServer_OnNewWriteMessageFunctionName')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewWriteMessageFilterTableContent', 'MultiTCPIPServer_OnNewWriteMessageFilterTableContent')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewWriteMessageSelectedStatus', 'MultiTCPIPServer_OnNewWriteMessageSelectedStatus')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedWriteMessage', 'MultiTCPIPServer_OnNewSelectedWriteMessage')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewUseWriteMessageIPFilterState', 'MultiTCPIPServer_OnNewUseWriteMessageIPFilterState')
-Script.serveEvent('CSK_MultiTCPIPServer.OnNewTestWriteMessageDataToSend', 'MultiTCPIPServer_OnNewTestWriteMessageDataToSend')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewListClientBroadcast', 'MultiTCPIPServer_OnNewListClientBroadcast')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientBroadcastFunctionName', 'MultiTCPIPServer_OnNewClientBroadcastFunctionName')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientBroadcastTableContent', 'MultiTCPIPServer_OnNewClientBroadcastTableContent')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusClientBroadcastSelected', 'MultiTCPIPServer_OnNewStatusClientBroadcastSelected')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedClientBroadcast', 'MultiTCPIPServer_OnNewSelectedClientBroadcast')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientBroadcastTestDataToSend', 'MultiTCPIPServer_OnNewClientBroadcastTestDataToSend')
 
 -- ************************ UI Events End **********************************
 
@@ -131,7 +129,7 @@ end
 Script.serveFunction('CSK_MultiTCPIPServer.getInterfaceIP', getInterfaceIP)
 
 ---Function to get list of keys of the lua table as a JSON string.
---TODO someTable
+---@param someTable auto[] Table with content
 ---@return string keyList List of keys of the lua table as a JSON string.
 local function getTableKeyList(someTable)
   local keyList = {}
@@ -300,27 +298,21 @@ local function handleOnExpiredTmrMultiTCPIPServer()
   Script.notifyEvent("MultiTCPIPServer_OnNewGenericReceivedDataEventName", multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
   Script.notifyEvent("MultiTCPIPServer_OnNewGenericSendDataFunctionName", multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
 
-  Script.notifyEvent('MultiTCPIPServer_OnNewListReadMessages', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
-  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedReadMessage', selectedReadMessage)
-  Script.notifyEvent('MultiTCPIPServer_OnNewReadMessageSelectedStatus', selectedReadMessage ~= '')
+  Script.notifyEvent('MultiTCPIPServer_OnNewListClientWhitelist', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
+  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientWhitelist', selectedClientWhitelist)
+  Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientWhitelistSelected', selectedClientWhitelist ~= '')
 
-  if selectedReadMessage ~= '' then
-    Script.notifyEvent('MultiTCPIPServer_OnNewReadMessageEventName', multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].eventName)
-    Script.notifyEvent('MultiTCPIPServer_OnNewUseReadMessageIPFilterState', multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.used)
-    if multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.used then
-      Script.notifyEvent('MultiTCPIPServer_OnNewReadMessageFilterTableContent', makeDynamicTableOutOfList('DTC_ReadMessageFilterIP', multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs))
-    end
+  if selectedClientWhitelist ~= '' then
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistEventName', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].eventName)
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistTableContent', makeDynamicTableOutOfList('DTC_ClientWhitelistIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs))
   end
 
-  Script.notifyEvent('MultiTCPIPServer_OnNewListWriteMessages', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
-  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedWriteMessage', selectedWriteMessage)
-  Script.notifyEvent('MultiTCPIPServer_OnNewWriteMessageSelectedStatus', selectedWriteMessage ~= '')
-  if selectedWriteMessage ~= '' then
-    Script.notifyEvent('MultiTCPIPServer_OnNewWriteMessageFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].functionName)
-    Script.notifyEvent('MultiTCPIPServer_OnNewUseWriteMessageIPFilterState', multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.used)
-    if multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.used then
-      Script.notifyEvent('MultiTCPIPServer_OnNewWriteMessageFilterTableContent', makeDynamicTableOutOfList('DTC_WriteMessageFilterIP', multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs))
-    end
+  Script.notifyEvent('MultiTCPIPServer_OnNewListClientBroadcast', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
+  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientBroadcast', selectedClientBroadcast)
+  Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientBroadcastSelected', selectedClientBroadcast ~= '')
+  if selectedClientBroadcast ~= '' then
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].functionName)
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastTableContent', makeDynamicTableOutOfList('DTC_ClientBroadcastIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].ipFilterInfo.filteredIPs))
   end
 
   Script.callFunction("CSK_MultiTCPIPServer.getConnectedClientsIPs" .. tostring(selectedInstance))
@@ -507,209 +499,191 @@ Script.serveFunction('CSK_MultiTCPIPServer.sendTestData', sendTestData)
 --************************* Read messages scope ****************************
 --**************************************************************************
 
-local function setSelectedReadMessage(readMessageName)
-  if not multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[readMessageName] then
+local function setSelectedClientWhitelist(clientWhitelistName)
+  if not multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[clientWhitelistName] then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  selectedReadMessage = readMessageName
+  selectedClientWhitelist = clientWhitelistName
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setSelectedReadMessage', setSelectedReadMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.setSelectedClientWhitelist', setSelectedClientWhitelist)
 
-local function createReadMessage()
+local function createClientWhitelist()
   local index = 0
-  local messageName = "readMessage"
-  while multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[messageName] do
+  local messageName = "clientWhitelist"
+  while multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[messageName] do
     index = index + 1
-    messageName = "readMessage" .. tostring(index)
+    messageName = "clientWhitelist" .. tostring(index)
   end
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[messageName] = {
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[messageName] = {
     eventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. tostring(selectedInstance) .. '_' .. messageName,
     ipFilterInfo = {
-      used = false,
       filteredIPs = {}
     }
   }
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
-  selectedReadMessage = messageName
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
+  selectedClientWhitelist = messageName
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.createReadMessage', createReadMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.createClientWhitelist', createClientWhitelist)
 
-local function deleteReadMessage()
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage] = nil
-  selectedReadMessage = ''
-  if not multiTCPIPServer_Instances[selectedInstance].parameters.readMessages then
-    multiTCPIPServer_Instances[selectedInstance].parameters.readMessages = {}
+local function deleteClientWhitelist()
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist] = nil
+  selectedClientWhitelist = ''
+  if not multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists then
+    multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists = {}
   end
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.deleteReadMessage', deleteReadMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.deleteClientWhitelist', deleteClientWhitelist)
 
-local function setReadMessageName(newName)
-  if multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[newName] then
+local function setClientWhitelistName(newName)
+  if multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[newName] then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[newName] = helperFuncs.copy(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage])
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[newName].eventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. tostring(selectedInstance) .. '_' .. newName
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage] = nil
-  selectedReadMessage = newName
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[newName] = helperFuncs.copy(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist])
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[newName].eventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. tostring(selectedInstance) .. '_' .. newName
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist] = nil
+  selectedClientWhitelist = newName
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setReadMessageName', setReadMessageName)
+Script.serveFunction('CSK_MultiTCPIPServer.setClientWhitelistName', setClientWhitelistName)
 
-local function setUseReadMessageIPFilter(newState)
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs = {}
-  multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.used = newState
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
-  handleOnExpiredTmrMultiTCPIPServer()
-end
-Script.serveFunction('CSK_MultiTCPIPServer.setUseReadMessageIPFilter', setUseReadMessageIPFilter)
-
-local function setIPAddressToAddToReadMessage(ipAddress)
+local function setIPAddressToAddToClientWhitelist(ipAddress)
   if not helperFuncs.checkIP(ipAddress) then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  for _, addedIP in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs) do
+  for _, addedIP in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs) do
     if addedIP == ipAddress then
       handleOnExpiredTmrMultiTCPIPServer()
       return
     end
   end
-  table.insert(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs, ipAddress)
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
+  table.insert(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs, ipAddress)
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToReadMessage', setIPAddressToAddToReadMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist', setIPAddressToAddToClientWhitelist)
 
-local function deleteReadMessageFilterIPAddress(jsonRowToDelete)
+local function deleteClientWhitelistIPAddress(jsonRowToDelete)
   local rowContent = json.decode(jsonRowToDelete)
-  for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs) do
-    if ipAddress == rowContent['DTC_ReadMessageFilterIP'] then
-      table.remove(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.filteredIPs, index)
+  for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs) do
+    if ipAddress == rowContent['DTC_ClientWhitelistIP'] then
+      table.remove(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs, index)
       break
     end
   end
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.deleteReadMessageFilterIPAddress', deleteReadMessageFilterIPAddress)
+Script.serveFunction('CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress', deleteClientWhitelistIPAddress)
 
 --**************************************************************************
---************************* Write messages scope ***************************
+--************************* Client broadcast scope *************************
 --**************************************************************************
 
-local function setSelectedWriteMessage(writeMessageName)
-  if not multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[writeMessageName] then
+local function setSelectedClientBroadcast(clientBroadcastName)
+  if not multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[clientBroadcastName] then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  selectedWriteMessage = writeMessageName
+  selectedClientBroadcast = clientBroadcastName
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setSelectedWriteMessage', setSelectedWriteMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.setSelectedClientBroadcast', setSelectedClientBroadcast)
 
-local function createWriteMessage()
+local function createClientBroadcast()
   local index = 0
-  local messageName = "writeMessage"
-  while multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[messageName] do
+  local messageName = "clientBroadcast"
+  while multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[messageName] do
     index = index + 1
-    messageName = "writeMessage" .. tostring(index)
+    messageName = "clientBroadcast" .. tostring(index)
   end
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[messageName] = {
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[messageName] = {
     functionName = 'CSK_MultiTCPIPServer.sendData' .. tostring(selectedInstance) .. '_' .. messageName,
     ipFilterInfo = {
-      used = false,
       filteredIPs = {}
     }
   }
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
-  selectedWriteMessage = messageName
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
+  selectedClientBroadcast = messageName
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.createWriteMessage', createWriteMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.createClientBroadcast', createClientBroadcast)
 
-local function deleteWriteMessage()
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage] = nil
-  selectedWriteMessage = ''
-  if not multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages then
-    multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages = {}
+local function deleteClientBroadcast()
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast] = nil
+  selectedClientBroadcast = ''
+  if not multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts then
+    multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts = {}
   end
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.deleteWriteMessage', deleteWriteMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.deleteClientBroadcast', deleteClientBroadcast)
 
-local function setWriteMessageName(newName)
-  if multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[newName] then
+local function setClientBroadcastName(newName)
+  if multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[newName] then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[newName] = helperFuncs.copy(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage])
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[newName].functionName = 'CSK_MultiTCPIPServer.sendData' .. tostring(selectedInstance) .. '_' .. newName
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage] = nil
-  selectedWriteMessage = newName
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[newName] = helperFuncs.copy(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast])
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[newName].functionName = 'CSK_MultiTCPIPServer.sendData' .. tostring(selectedInstance) .. '_' .. newName
+  multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast] = nil
+  selectedClientBroadcast = newName
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setWriteMessageName', setWriteMessageName)
+Script.serveFunction('CSK_MultiTCPIPServer.setClientBroadcastName', setClientBroadcastName)
 
-local function setUseWriteMessageIPFilter(newState)
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs = {}
-  multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.used = newState
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
-  handleOnExpiredTmrMultiTCPIPServer()
-end
-Script.serveFunction('CSK_MultiTCPIPServer.setUseWriteMessageIPFilter', setUseWriteMessageIPFilter)
-
-local function setIPAddressToAddToWriteMessage(ipAddress)
+local function setIPAddressToAddToClientBroadcast(ipAddress)
   if not helperFuncs.checkIP(ipAddress) then
     handleOnExpiredTmrMultiTCPIPServer()
     return
   end
-  for _, addedIP in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs) do
+  for _, addedIP in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].ipFilterInfo.filteredIPs) do
     if addedIP == ipAddress then
       handleOnExpiredTmrMultiTCPIPServer()
       return
     end
   end
-  table.insert(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs, ipAddress)
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  table.insert(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].ipFilterInfo.filteredIPs, ipAddress)
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToWriteMessage', setIPAddressToAddToWriteMessage)
+Script.serveFunction('CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast', setIPAddressToAddToClientBroadcast)
 
-local function deleteWriteMessageFilterIPAddress(jsonRowToDelete)
+local function deleteClientBroadcastFilterIPAddress(jsonRowToDelete)
   local rowContent = json.decode(jsonRowToDelete)
-  for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs) do
-    if ipAddress == rowContent['DTC_WriteMessageFilterIP'] then
-      table.remove(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.filteredIPs, index)
+  for index, ipAddress in ipairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].ipFilterInfo.filteredIPs) do
+    if ipAddress == rowContent['DTC_ClientBroadcastIP'] then
+      table.remove(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].ipFilterInfo.filteredIPs, index)
       break
     end
   end
-  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  Script.notifyEvent("MultiTCPIPServer_OnNewProcessingParameter", selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
   handleOnExpiredTmrMultiTCPIPServer()
 end
-Script.serveFunction('CSK_MultiTCPIPServer.deleteWriteMessageFilterIPAddress', deleteWriteMessageFilterIPAddress)
+Script.serveFunction('CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress', deleteClientBroadcastFilterIPAddress)
 
-local function setTestWriteMessageDataToSend(newTestDataToSend)
-  testWriteMessageSendData = newTestDataToSend
+local function setClientBroadcastTestDataToSend(newTestDataToSend)
+  testSendDataClientBroadcast = newTestDataToSend
 end
-Script.serveFunction('CSK_MultiTCPIPServer.setTestWriteMessageDataToSend', setTestWriteMessageDataToSend)
+Script.serveFunction('CSK_MultiTCPIPServer.setClientBroadcastTestDataToSend', setClientBroadcastTestDataToSend)
 
-local function sendTestWriteMessageData()
-  if multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].functionName then
-    local _, success = Script.callFunction(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].functionName, testWriteMessageSendData)
+local function sendClientBroadcastTestData()
+  if multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].functionName then
+    local _, success = Script.callFunction(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts[selectedClientBroadcast].functionName, testSendDataClientBroadcast)
   else
-    _G.logger:fine(nameOfModule .. ": No writeMessage selected.")
+    _G.logger:fine(nameOfModule .. ": No clientBroadcast selected.")
   end
 end
-Script.serveFunction('CSK_MultiTCPIPServer.sendTestWriteMessageData', sendTestWriteMessageData)
+Script.serveFunction('CSK_MultiTCPIPServer.sendClientBroadcastTestData', sendClientBroadcastTestData)
 
 --**************************************************************************
 --******************** Connected clients table scope ***********************
@@ -718,12 +692,12 @@ Script.serveFunction('CSK_MultiTCPIPServer.sendTestWriteMessageData', sendTestWr
 local function selectConnectedClient(selectedRow)
   if addIPViaList == true then
     addIPViaList = false
-    if selectedTab == 0 and selectedReadMessage ~= '' and multiTCPIPServer_Instances[selectedInstance].parameters.readMessages[selectedReadMessage].ipFilterInfo.used == true then
+    if selectedTab == 0 and selectedClientWhitelist ~= '' then
       local rowContent = json.decode(selectedRow)
-      setIPAddressToAddToReadMessage(rowContent.DTC_ConnectedClientIPAddress)
-    elseif selectedTab == 1 and selectedWriteMessage ~= '' and multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages[selectedWriteMessage].ipFilterInfo.used == true then
+      setIPAddressToAddToClientWhitelist(rowContent.DTC_ConnectedClientIPAddress)
+    elseif selectedTab == 1 and selectedClientBroadcast ~= '' then
       local rowContent = json.decode(selectedRow)
-      setIPAddressToAddToWriteMessage(rowContent.DTC_ConnectedClientIPAddress)
+      setIPAddressToAddToClientBroadcast(rowContent.DTC_ConnectedClientIPAddress)
     end
   end
 end
@@ -740,8 +714,8 @@ Script.serveFunction('CSK_MultiTCPIPServer.setAddIPViaList', setAddIPViaList)
 
 local function setSelectedInstance(instance)
   selectedInstance = instance
-  selectedWriteMessage = ''
-  selectedReadMessage = ''
+  selectedClientBroadcast = ''
+  selectedClientWhitelist = ''
   _G.logger:fine(nameOfModule .. ": New selected instance = " .. tostring(selectedInstance))
   multiTCPIPServer_Instances[selectedInstance].activeInUI = true
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'activeInUI', true)
@@ -760,6 +734,8 @@ local function addInstance()
   table.insert(multiTCPIPServer_Instances, multiTCPIPServer_Model.create(#multiTCPIPServer_Instances+1))
   Script.deregister("CSK_MultiTCPIPServer.OnNewValueToForward" .. tostring(#multiTCPIPServer_Instances) , handleOnNewValueToForward)
   Script.register("CSK_MultiTCPIPServer.OnNewValueToForward" .. tostring(#multiTCPIPServer_Instances) , handleOnNewValueToForward)
+  Script.deregister("CSK_MultiTCPIPServer.OnNewValueUpdate" .. tostring(#multiTCPIPServer_Instances) , handleOnNewValueUpdate)
+  Script.register("CSK_MultiTCPIPServer.OnNewValueUpdate" .. tostring(#multiTCPIPServer_Instances) , handleOnNewValueUpdate)
   setSelectedInstance(#multiTCPIPServer_Instances)
   handleOnExpiredTmrMultiTCPIPServer()
 end
@@ -790,8 +766,8 @@ local function updateProcessingParameters()
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitAckTimeout', multiTCPIPServer_Instances[selectedInstance].parameters.transmitAckTimeout)
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitBufferSize', multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize)
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'transmitTimeout', multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout)
-  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'readMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.readMessages))
-  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'writeMessages', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.writeMessages))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clientWhitelists', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
+  Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts))
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'onReceivedDataEventName', multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'sendDataFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
 

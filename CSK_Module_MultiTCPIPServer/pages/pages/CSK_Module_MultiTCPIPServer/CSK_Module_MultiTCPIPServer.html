@@ -491,296 +491,256 @@
 										</curie-table>
 										<davinci-tabs id="Tabs_SubSetup"
 											class="myCustomFrame_CSK_Module_MultiTCPIPServer" type="classic">
-											<davinci-tab id="Tab_ReadMessages" label="ReadMessages">
+											<davinci-tab id="Tab_ClientWhitelist" label="ClientWhitelist">
 												<layout-row id="RowLayout30">
-												<layout-column id="ColumnLayout10" style="align-items: stretch">
-												<layout-row id="RowLayout10">
-												<layout-column id="ColumnLayout17" style="align-items: stretch">
-												<davinci-drop-down id="DD_ReadMessages" label="Select read message">
-												<crown-on property="data"
-													crown-event="CSK_MultiTCPIPServer/OnNewListReadMessages"
-													converter="convertToList">
-												</crown-on>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setSelectedReadMessage"
-													protocol="crownMSGPACK" crown-path="readMessageName">
-												</crown-set>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewSelectedReadMessage">
-												</crown-on>
-												</davinci-drop-down>
-												</layout-column>
-												<layout-column id="ColumnLayout18" style="align-items: stretch">
-												<davinci-button id="B_CreateReadMessage" type="primary"
-													icon-position="append">
-												<span>Create read message</span>
-												<crown-set event="submit"
-													crown-function="CSK_MultiTCPIPServer/createReadMessage"
-													protocol="crownMSGPACK">
-												</crown-set>
-												</davinci-button>
-												</layout-column>
-												</layout-row>
-												<stacked-view id="SV_IsReadMessageSelected" value="false">
-												<stacked-pane id="SP_ReadMessageISSelected" value="true">
-												<layout-column id="ColumnLayout11" style="align-items: stretch">
-												<layout-row id="RowLayout12">
-												<layout-column id="ColumnLayout19" style="align-items: stretch">
-												<davinci-text-field id="TF_ReadMessageName" type="text"
-													label="Rename read message">
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewSelectedReadMessage">
-												</crown-on>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setReadMessageName"
-													protocol="crownMSGPACK" crown-path="newName">
-												</crown-set>
-												</davinci-text-field>
-												</layout-column>
-												<layout-column id="ColumnLayout20" style="align-items: stretch">
-												<davinci-button id="B_DeleteReadMessage" type="primary"
-													icon-position="append">
-												<span>Delete read message</span>
-												<crown-set event="submit"
-													crown-function="CSK_MultiTCPIPServer/deleteReadMessage"
-													protocol="crownMSGPACK">
-												</crown-set>
-												</davinci-button>
-												</layout-column>
-												</layout-row>
-												<davinci-value-display id="VD_ReadMessageEventName"
-													label="Event name to use externally:">
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewReadMessageEventName">
-												</crown-on>
-												</davinci-value-display>
-												<davinci-checkbox id="CB_ReadMessageFromAnyClient">
-												<span>Use IP filter</span>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setUseReadMessageIPFilter"
-													protocol="crownMSGPACK" crown-path="newState">
-												</crown-set>
-												<crown-on property="checked"
-													crown-event="CSK_MultiTCPIPServer/OnNewUseReadMessageIPFilterState">
-												</crown-on>
-												</davinci-checkbox>
-												<stacked-view id="SV_IsReadMessageIPFilterUsed" value="false">
-												<stacked-pane id="SP_ReadMessageIPFilterISUsed" value="true">
-												<layout-column id="ColumnLayout14" style="align-items: stretch">
-												<layout-row id="RowLayout26" style="align-items: center">
-												<layout-column id="ColumnLayout51" style="align-items: stretch">
-												<davinci-text-field id="TF_IPAddressToAddToReadMessageFilter"
-													type="text" placeholder="..." label="Add IP address to filter">
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToReadMessage"
-													protocol="crownMSGPACK" crown-path="ipAddress">
-												</crown-set>
-												</davinci-text-field>
-												</layout-column>
-												<layout-column id="ColumnLayout52"
-													style="align-items: stretch; justify-content: center">
-												<layout-row id="RowLayout31"
-													style="align-items: center; justify-content: center">
-												<davinci-value-display id="VD_AddViaIPListRead"
-													value="Add IP via client list">
-												</davinci-value-display>
-												<davinci-toggle-switch id="TS_AddIPViaListRead">
-												<crown-edpws-binding property="checked"
-													name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-													update-on-resume>
-												</crown-edpws-binding>
-												<crown-binding event="change"
-													name="CSK_MultiTCPIPServer/setAddIPViaList"
-													path="param/args/status" auto-commit>
-												</crown-binding>
-												</davinci-toggle-switch>
-												</layout-row>
-												</layout-column>
-												</layout-row>
-												<curie-table id="DT_ReadMessageClientFilter">
-												<curie-table-column id="DTC_ReadMessageFilterIP"
-													header="Receive data only from these clients">
-												</curie-table-column>
-												<crown-set event="row-selected"
-													crown-function="CSK_MultiTCPIPServer/deleteReadMessageFilterIPAddress"
-													protocol="crownMSGPACK" crown-path="jsonRowToDelete">
-												</crown-set>
-												<crown-on property="data"
-													crown-event="CSK_MultiTCPIPServer/OnNewReadMessageFilterTableContent">
-												</crown-on>
-												</curie-table>
-												</layout-column>
-												</stacked-pane>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewUseReadMessageIPFilterState"
-													converter="bool2str">
-												</crown-on>
-												</stacked-view>
-												</layout-column>
-												</stacked-pane>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewReadMessageSelectedStatus"
-													converter="bool2str">
-												</crown-on>
-												</stacked-view>
-												</layout-column>
+													<layout-column id="ColumnLayout10" style="align-items: stretch">
+														<layout-row id="RowLayout10">
+															<layout-column id="ColumnLayout17" style="align-items: stretch">
+																<davinci-drop-down id="DD_ClientWhitelist" label="Select client whitelist">
+																	<crown-on property="data"
+																		crown-event="CSK_MultiTCPIPServer/OnNewListClientWhitelist"
+																		converter="convertToList">
+																	</crown-on>
+																	<crown-set event="change"
+																		crown-function="CSK_MultiTCPIPServer/setSelectedClientWhitelist"
+																		protocol="crownMSGPACK" crown-path="clientWhitelistName">
+																	</crown-set>
+																	<crown-on property="value"
+																		crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
+																	</crown-on>
+																</davinci-drop-down>
+															</layout-column>
+															<layout-column id="ColumnLayout18" style="align-items: stretch">
+																<davinci-button id="B_CreateClientWhitelist" type="primary"
+																	icon-position="append">
+																	<span>Create client whitelist</span>
+																	<crown-set event="submit"
+																		crown-function="CSK_MultiTCPIPServer/createClientWhitelist"
+																		protocol="crownMSGPACK">
+																	</crown-set>
+																</davinci-button>
+															</layout-column>
+														</layout-row>
+														<stacked-view id="SV_IsClientWhitelistSelected" value="false">
+															<stacked-pane id="SP_ClientWhitelistISSelected" value="true">
+																<layout-column id="ColumnLayout11" style="align-items: stretch">
+																	<layout-row id="RowLayout12">
+																		<layout-column id="ColumnLayout19" style="align-items: stretch">
+																			<davinci-text-field id="TF_ClientWhitelistName" type="text"
+																				label="Rename client whitelist">
+																				<crown-on property="value"
+																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
+																				</crown-on>
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setClientWhitelistName"
+																					protocol="crownMSGPACK" crown-path="newName">
+																				</crown-set>
+																			</davinci-text-field>
+																		</layout-column>
+																		<layout-column id="ColumnLayout20" style="align-items: stretch">
+																			<davinci-button id="B_DeleteClientWhitelist" type="primary"
+																				icon-position="append">
+																				<span>Delete client whitelist</span>
+																				<crown-set event="submit"
+																					crown-function="CSK_MultiTCPIPServer/deleteClientWhitelist"
+																					protocol="crownMSGPACK">
+																				</crown-set>
+																			</davinci-button>
+																		</layout-column>
+																	</layout-row>
+																	<davinci-value-display id="VD_ClientWhitelistEventName"
+																		label="Event name to use externally:">
+																		<crown-on property="value"
+																			crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistEventName">
+																		</crown-on>
+																	</davinci-value-display>
+																	<layout-row id="RowLayout26" style="align-items: center">
+																		<layout-column id="ColumnLayout51" style="align-items: stretch">
+																			<davinci-text-field id="TF_IPAddressToAddToClientWhitelist"
+																				type="text" placeholder="..." label="Add IP address to filter">
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientWhitelist"
+																					protocol="crownMSGPACK" crown-path="ipAddress">
+																				</crown-set>
+																			</davinci-text-field>
+																		</layout-column>
+																		<layout-column id="ColumnLayout52"
+																			style="align-items: stretch; justify-content: center">
+																			<layout-row id="RowLayout31"
+																				style="align-items: center; justify-content: center">
+																				<davinci-value-display id="VD_AddViaIPListWhitelist"
+																					value="Add IP via client list">
+																				</davinci-value-display>
+																				<davinci-toggle-switch id="TS_AddIPViaListWhitelist">
+																					<crown-edpws-binding property="checked"
+																						name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
+																						update-on-resume>
+																					</crown-edpws-binding>
+																					<crown-binding event="change"
+																						name="CSK_MultiTCPIPServer/setAddIPViaList"
+																						path="param/args/status" auto-commit>
+																					</crown-binding>
+																				</davinci-toggle-switch>
+																			</layout-row>
+																		</layout-column>
+																	</layout-row>
+																	<curie-table id="DT_ClientWhitelist">
+																		<curie-table-column id="DTC_ClientWhitelistIP"
+																			header="Receive data only from these clients">
+																		</curie-table-column>
+																		<crown-set event="row-selected"
+																			crown-function="CSK_MultiTCPIPServer/deleteClientWhitelistIPAddress"
+																			protocol="crownMSGPACK" crown-path="jsonRowToDelete">
+																		</crown-set>
+																		<crown-on property="data"
+																			crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistTableContent">
+																		</crown-on>
+																	</curie-table>
+																</layout-column>
+															</stacked-pane>
+															<crown-on property="value"
+																crown-event="CSK_MultiTCPIPServer/OnNewStatusClientWhitelistSelected"
+																converter="bool2str">
+															</crown-on>
+														</stacked-view>
+													</layout-column>
 												</layout-row>
 											</davinci-tab>
-											<davinci-tab id="Tab_WriteMessages" label="WriteMessages">
+											<davinci-tab id="Tab_ClientBroadcast" label="ClientBroadcast">
 												<layout-row id="RowLayout29">
-												<layout-column id="ColumnLayout21" style="align-items: stretch">
-												<layout-row id="RowLayout19">
-												<layout-column id="ColumnLayout15" style="align-items: stretch">
-												<davinci-drop-down id="DD_WriteMessage" label="Select write message">
-												<crown-on property="data"
-													crown-event="CSK_MultiTCPIPServer/OnNewListWriteMessages"
-													converter="convertToList">
-												</crown-on>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setSelectedWriteMessage"
-													protocol="crownMSGPACK" crown-path="writeMessageName">
-												</crown-set>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewSelectedWriteMessage">
-												</crown-on>
-												</davinci-drop-down>
-												</layout-column>
-												<layout-column id="ColumnLayout16" style="align-items: stretch">
-												<davinci-button id="Button3" type="primary" icon-position="append">
-												<span>Create write message</span>
-												<crown-set event="submit"
-													crown-function="CSK_MultiTCPIPServer/createWriteMessage"
-													protocol="crownMSGPACK">
-												</crown-set>
-												</davinci-button>
-												</layout-column>
-												</layout-row>
-												<stacked-view id="SV_WriteMsgSelected" value="false">
-												<stacked-pane id="SP_WirteMsgSelected" value="true">
-												<layout-column id="ColumnLayout24" style="align-items: stretch">
-												<layout-row id="RowLayout21">
-												<layout-column id="ColumnLayout26" style="align-items: stretch">
-												<davinci-text-field id="TF_WriteMessage" type="text"
-													label="Rename write message">
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewSelectedWriteMessage">
-												</crown-on>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setWriteMessageName"
-													protocol="crownMSGPACK" crown-path="newName">
-												</crown-set>
-												</davinci-text-field>
-												</layout-column>
-												<layout-column id="ColumnLayout27" style="align-items: stretch">
-												<davinci-button id="Button4" type="primary" icon-position="append">
-												<span>Delete write message</span>
-												<crown-set event="submit"
-													crown-function="CSK_MultiTCPIPServer/deleteWriteMessage"
-													protocol="crownMSGPACK">
-												</crown-set>
-												</davinci-button>
-												</layout-column>
-												</layout-row>
-												<davinci-value-display id="VD_ExternalFunctionName"
-													label="Function name to use externally:">
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewWriteMessageFunctionName">
-												</crown-on>
-												</davinci-value-display>
-												<davinci-checkbox id="Checkbox1">
-												<span>Use IP filter</span>
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setUseWriteMessageIPFilter"
-													protocol="crownMSGPACK" crown-path="newState">
-												</crown-set>
-												<crown-on property="checked"
-													crown-event="CSK_MultiTCPIPServer/OnNewUseWriteMessageIPFilterState">
-												</crown-on>
-												</davinci-checkbox>
-												<stacked-view id="SV_UseWriteFilter" value="false">
-												<stacked-pane id="SP_UseWriteFilter" value="true">
-												<layout-column id="ColumnLayout25" style="align-items: stretch">
-												<layout-row id="RowLayout18" style="align-items: center">
-												<layout-column id="ColumnLayout49" style="align-items: stretch">
-												<davinci-text-field id="TF_IPForWriteFilter" type="text"
-													placeholder="..." label="Add IP address to filter">
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToWriteMessage"
-													protocol="crownMSGPACK" crown-path="ipAddress">
-												</crown-set>
-												</davinci-text-field>
-												</layout-column>
-												<layout-column id="ColumnLayout50"
-													style="align-items: stretch; justify-content: center">
-												<layout-row id="RowLayout23"
-													style="align-items: center; justify-content: center">
-												<davinci-value-display id="VD_AddViaIPListWrite"
-													value="Add IP via client list">
-												</davinci-value-display>
-												<davinci-toggle-switch id="TS_AddIPViaList">
-												<crown-edpws-binding property="checked"
-													name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-													update-on-resume>
-												</crown-edpws-binding>
-												<crown-binding event="change"
-													name="CSK_MultiTCPIPServer/setAddIPViaList"
-													path="param/args/status" auto-commit>
-												</crown-binding>
-												</davinci-toggle-switch>
-												</layout-row>
-												</layout-column>
-												</layout-row>
-												<curie-table id="DT_WriteMessageIPFilter">
-												<curie-table-column id="DTC_WriteMessageFilterIP"
-													header="Receive data only from these clients">
-												</curie-table-column>
-												<crown-set event="row-selected"
-													crown-function="CSK_MultiTCPIPServer/deleteWriteMessageFilterIPAddress"
-													protocol="crownMSGPACK" crown-path="jsonRowToDelete">
-												</crown-set>
-												<crown-on property="data"
-													crown-event="CSK_MultiTCPIPServer/OnNewWriteMessageFilterTableContent">
-												</crown-on>
-												</curie-table>
-												</layout-column>
-												</stacked-pane>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewUseWriteMessageIPFilterState"
-													converter="bool2str">
-												</crown-on>
-												</stacked-view>
-												<layout-row id="RowLayout27">
-												<layout-column id="ColumnLayout45"
-													style="align-items: stretch; flex-grow: 3">
-												<davinci-text-field id="TF_WriteMsgCommand" type="text"
-													label="Content">
-												<crown-set event="change"
-													crown-function="CSK_MultiTCPIPServer/setTestWriteMessageDataToSend"
-													protocol="crownMSGPACK" crown-path="newTestDataToSend">
-												</crown-set>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewTestWriteMessageDataToSend">
-												</crown-on>
-												</davinci-text-field>
-												</layout-column>
-												<layout-column id="ColumnLayout46" style="align-items: stretch">
-												<davinci-button id="Button2" type="primary" icon-position="append">
-												<span>Send</span>
-												<crown-set event="submit"
-													crown-function="CSK_MultiTCPIPServer/sendTestWriteMessageData"
-													protocol="crownMSGPACK">
-												</crown-set>
-												</davinci-button>
-												</layout-column>
-												</layout-row>
-												</layout-column>
-												</stacked-pane>
-												<crown-on property="value"
-													crown-event="CSK_MultiTCPIPServer/OnNewWriteMessageSelectedStatus"
-													converter="bool2str">
-												</crown-on>
-												</stacked-view>
-												</layout-column>
+													<layout-column id="ColumnLayout21" style="align-items: stretch">
+														<layout-row id="RowLayout19">
+															<layout-column id="ColumnLayout15" style="align-items: stretch">
+																<davinci-drop-down id="DD_ClientBroadcast" label="Select client broadcast">
+																	<crown-on property="data"
+																		crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
+																		converter="convertToList">
+																	</crown-on>
+																	<crown-set event="change"
+																		crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
+																		protocol="crownMSGPACK" crown-path="clientBroadcastName">
+																	</crown-set>
+																	<crown-on property="value"
+																		crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
+																	</crown-on>
+																</davinci-drop-down>
+															</layout-column>
+															<layout-column id="ColumnLayout16" style="align-items: stretch">
+																<davinci-button id="Button3" type="primary" icon-position="append">
+																	<span>Create client broadcast</span>
+																	<crown-set event="submit"
+																		crown-function="CSK_MultiTCPIPServer/createClientBroadcast"
+																		protocol="crownMSGPACK">
+																	</crown-set>
+																</davinci-button>
+															</layout-column>
+														</layout-row>
+														<stacked-view id="SV_ClientBroadcastSelected" value="false">
+															<stacked-pane id="SP_ClientBroadcastSelected" value="true">
+																<layout-column id="ColumnLayout24" style="align-items: stretch">
+																	<layout-row id="RowLayout21">
+																		<layout-column id="ColumnLayout26" style="align-items: stretch">
+																			<davinci-text-field id="TF_ClientBroadcast" type="text"
+																				label="Rename client broadcast">
+																				<crown-on property="value"
+																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
+																				</crown-on>
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setClientBroadcastName"
+																					protocol="crownMSGPACK" crown-path="newName">
+																				</crown-set>
+																			</davinci-text-field>
+																		</layout-column>
+																		<layout-column id="ColumnLayout27" style="align-items: stretch">
+																			<davinci-button id="Button4" type="primary" icon-position="append">
+																				<span>Delete client broadcast</span>
+																				<crown-set event="submit"
+																					crown-function="CSK_MultiTCPIPServer/deleteClientBroadcast"
+																					protocol="crownMSGPACK">
+																				</crown-set>
+																			</davinci-button>
+																		</layout-column>
+																	</layout-row>
+																	<davinci-value-display id="VD_ExternalFunctionName"
+																		label="Function name to use externally:">
+																		<crown-on property="value"
+																			crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastFunctionName">
+																		</crown-on>
+																	</davinci-value-display>
+																	<layout-row id="RowLayout18" style="align-items: center">
+																		<layout-column id="ColumnLayout49" style="align-items: stretch">
+																			<davinci-text-field id="TF_IPForBroadcastFilter" type="text"
+																				placeholder="..." label="Add IP address to filter">
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientBroadcast"
+																					protocol="crownMSGPACK" crown-path="ipAddress">
+																				</crown-set>
+																			</davinci-text-field>
+																		</layout-column>
+																		<layout-column id="ColumnLayout50"
+																			style="align-items: stretch; justify-content: center">
+																			<layout-row id="RowLayout23"
+																				style="align-items: center; justify-content: center">
+																				<davinci-value-display id="VD_AddViaIPListBroadcast"
+																					value="Add IP via client list">
+																				</davinci-value-display>
+																				<davinci-toggle-switch id="TS_AddIPViaList">
+																					<crown-edpws-binding property="checked"
+																						name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
+																						update-on-resume>
+																					</crown-edpws-binding>
+																					<crown-binding event="change"
+																						name="CSK_MultiTCPIPServer/setAddIPViaList"
+																						path="param/args/status" auto-commit>
+																					</crown-binding>
+																				</davinci-toggle-switch>
+																			</layout-row>
+																		</layout-column>
+																	</layout-row>
+																	<curie-table id="DT_ClientBroadcastIPFilter">
+																		<curie-table-column id="DTC_ClientBroadcastIP"
+																			header="Receive data only from these clients">
+																		</curie-table-column>
+																		<crown-set event="row-selected"
+																			crown-function="CSK_MultiTCPIPServer/deleteClientBroadcastFilterIPAddress"
+																			protocol="crownMSGPACK" crown-path="jsonRowToDelete">
+																		</crown-set>
+																		<crown-on property="data"
+																			crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTableContent">
+																		</crown-on>
+																	</curie-table>
+																	<layout-row id="RowLayout27">
+																		<layout-column id="ColumnLayout45"
+																			style="align-items: stretch; flex-grow: 3">
+																			<davinci-text-field id="TF_BroadcastCommand" type="text"
+																				label="Content">
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setClientBroadcastTestDataToSend"
+																					protocol="crownMSGPACK" crown-path="newTestDataToSend">
+																				</crown-set>
+																				<crown-on property="value"
+																					crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTestDataToSend">
+																				</crown-on>
+																			</davinci-text-field>
+																		</layout-column>
+																		<layout-column id="ColumnLayout46" style="align-items: stretch">
+																			<davinci-button id="Button2" type="primary" icon-position="append">
+																				<span>Send</span>
+																				<crown-set event="submit"
+																					crown-function="CSK_MultiTCPIPServer/sendClientBroadcastTestData"
+																					protocol="crownMSGPACK">
+																				</crown-set>
+																			</davinci-button>
+																		</layout-column>
+																	</layout-row>
+																</layout-column>
+															</stacked-pane>
+															<crown-on property="value"
+																crown-event="CSK_MultiTCPIPServer/OnNewStatusClientBroadcastSelected"
+																converter="bool2str">
+															</crown-on>
+														</stacked-view>
+													</layout-column>
 												</layout-row>
 											</davinci-tab>
 											<crown-edpws-binding property="selected-index"
