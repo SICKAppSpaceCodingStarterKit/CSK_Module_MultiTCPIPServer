@@ -491,24 +491,115 @@
 										</curie-table>
 										<davinci-tabs id="Tabs_SubSetup"
 											class="myCustomFrame_CSK_Module_MultiTCPIPServer" type="classic">
+											<davinci-tab id="Tab_Event" label="ForwardEvents">
+												<layout-row id="RowLayout32">
+													<layout-column id="ColumnLayout14" style="align-items: stretch">
+														<layout-row id="RowLayout33"
+															style="align-items: center; justify-content: space-between">
+															<davinci-value-display id="VD_BroadcastConfig"
+																value="Config for Broadcast">
+															</davinci-value-display>
+																<davinci-checkbox id="CB_SelectBroadcast">
+																<span></span>
+																<crown-edpws-binding property="checked"
+																	name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
+																	update-on-resume>
+																</crown-edpws-binding>
+																<crown-binding event="change"
+																	name="CSK_MultiTCPIPServer/setForwardBroadcastEvent"
+																	path="param/args/status" auto-commit>
+																</crown-binding>
+															</davinci-checkbox>
+														</layout-row>
+														<stacked-view id="SV_BroadcastActive">
+															<stacked-pane id="SP_BroadcastActive" value="true">
+																<layout-row id="RowLayout34">
+																	<layout-column id="ColumnLayout25" style="align-items: stretch">
+																		<davinci-drop-down id="DD_ForwardEventBroadcast"
+																			label="Select client broadcast">
+																		<crown-on property="data"
+																			crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
+																			converter="convertToList">
+																		</crown-on>
+																		<crown-set event="change"
+																			crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
+																			protocol="crownMSGPACK" crown-path="clientBroadcastName">
+																		</crown-set>
+																		<crown-on property="value"
+																			crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
+																		</crown-on>
+																		</davinci-drop-down>
+																	</layout-column>
+																</layout-row>
+															</stacked-pane>
+															<stacked-pane id="SP_BroadcastNotActive" value="false">
+															</stacked-pane>
+															<crown-edpws-binding property="value"
+																name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
+																update-on-resume
+																converter="function(value) {return value.toString();}">
+															</crown-edpws-binding>
+														</stacked-view>
+														<curie-table id="DT_EventToForward" selectable
+															select-mode="highlight_row">
+															<curie-table-column id="EventToForward" header="EventToForward">
+															</curie-table-column>
+															<crown-edpws-binding property="data"
+																name="CSK_MultiTCPIPServer/OnNewEventToForwardList"
+																update-on-resume>
+															</crown-edpws-binding>
+															<crown-binding event="row-selected"
+																name="CSK_MultiTCPIPServer/selectEventToForwardViaUI"
+																path="param/args/selection" auto-commit>
+															</crown-binding>
+														</curie-table>
+														<layout-column id="ColumnLayout57" style="align-items: stretch">
+															<davinci-text-field id="TF_EventToForward" type="text"
+																label="Event to register:"
+																title="Register to this event to forward its content to TCP/IP server.">
+																<crown-binding event="change"
+																	name="CSK_MultiTCPIPServer/setEventToForward"
+																	path="param/args/value" auto-commit>
+																</crown-binding>
+															</davinci-text-field>
+															<layout-row id="RowLayou77"
+																class="myCustomFrame_CSK_Module_MultiTCPIPServer"
+																style="justify-content: space-between">
+																<davinci-button id="B_AddEventToForward" type="primary"
+																	icon-position="append" style="width: 100%">
+																	<span>ADD</span>
+																	<crown-binding event="submit"
+																		name="CSK_MultiTCPIPServer/addEventToForwardViaUI" auto-commit>
+																	</crown-binding>
+																</davinci-button>
+																<davinci-button id="B_DeleteEventToForward" type="primary"
+																	icon-position="append" style="width: 100%">
+																	<span>DELETE</span>
+																	<crown-binding event="submit"
+																		name="CSK_MultiTCPIPServer/deleteEventToForwardViaUI" auto-commit>
+																	</crown-binding>
+																</davinci-button>
+															</layout-row>
+														</layout-column>
+													</layout-column>
+												</layout-row>
+											</davinci-tab>
 											<davinci-tab id="Tab_ClientWhitelist" label="ClientWhitelist">
 												<layout-row id="RowLayout30">
 													<layout-column id="ColumnLayout10" style="align-items: stretch">
 														<layout-row id="RowLayout10">
 															<layout-column id="ColumnLayout17" style="align-items: stretch">
-																<davinci-drop-down id="DD_ClientWhitelist" label="Select client whitelist">
-																	<crown-on property="data"
-																		crown-event="CSK_MultiTCPIPServer/OnNewListClientWhitelist"
-																		converter="convertToList">
-																	</crown-on>
+																<davinci-text-field id="TF_ClientWhitelistName" type="text"
+																	label="ClientWhitelist name">
 																	<crown-set event="change"
-																		crown-function="CSK_MultiTCPIPServer/setSelectedClientWhitelist"
-																		protocol="crownMSGPACK" crown-path="clientWhitelistName">
+																		crown-function="CSK_MultiTCPIPServer/setClientWhitelistName"
+																		protocol="crownMSGPACK" crown-path="newName">
 																	</crown-set>
-																	<crown-on property="value"
-																		crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
-																	</crown-on>
-																</davinci-drop-down>
+																	<crown-edpws-binding property="value"
+																		name="CSK_MultiTCPIPServer/OnNewClientWhitelistName"
+																		update-on-resume>
+																	</crown-edpws-binding>
+																</davinci-text-field>
 															</layout-column>
 															<layout-column id="ColumnLayout18" style="align-items: stretch">
 																<davinci-button id="B_CreateClientWhitelist" type="primary"
@@ -526,16 +617,20 @@
 																<layout-column id="ColumnLayout11" style="align-items: stretch">
 																	<layout-row id="RowLayout12">
 																		<layout-column id="ColumnLayout19" style="align-items: stretch">
-																			<davinci-text-field id="TF_ClientWhitelistName" type="text"
-																				label="Rename client whitelist">
+																			<davinci-drop-down id="DD_ClientWhitelist"
+																				label="Select client whitelist">
+																				<crown-on property="data"
+																					crown-event="CSK_MultiTCPIPServer/OnNewListClientWhitelist"
+																					converter="convertToList">
+																				</crown-on>
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setSelectedClientWhitelist"
+																					protocol="crownMSGPACK" crown-path="clientWhitelistName">
+																				</crown-set>
 																				<crown-on property="value"
 																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
 																				</crown-on>
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setClientWhitelistName"
-																					protocol="crownMSGPACK" crown-path="newName">
-																				</crown-set>
-																			</davinci-text-field>
+																			</davinci-drop-down>
 																		</layout-column>
 																		<layout-column id="ColumnLayout20" style="align-items: stretch">
 																			<davinci-button id="B_DeleteClientWhitelist" type="primary"
@@ -611,22 +706,21 @@
 													<layout-column id="ColumnLayout21" style="align-items: stretch">
 														<layout-row id="RowLayout19">
 															<layout-column id="ColumnLayout15" style="align-items: stretch">
-																<davinci-drop-down id="DD_ClientBroadcast" label="Select client broadcast">
-																	<crown-on property="data"
-																		crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
-																		converter="convertToList">
-																	</crown-on>
+																<davinci-text-field id="TF_ClientBroadcast" type="text"
+																	label="ClientBroadcast name">
 																	<crown-set event="change"
-																		crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
-																		protocol="crownMSGPACK" crown-path="clientBroadcastName">
+																		crown-function="CSK_MultiTCPIPServer/setClientBroadcastName"
+																		protocol="crownMSGPACK" crown-path="newName">
 																	</crown-set>
-																	<crown-on property="value"
-																		crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
-																	</crown-on>
-																</davinci-drop-down>
+																	<crown-edpws-binding property="value"
+																		name="CSK_MultiTCPIPServer/OnNewClientBroadcastName"
+																		update-on-resume>
+																	</crown-edpws-binding>
+																</davinci-text-field>
 															</layout-column>
 															<layout-column id="ColumnLayout16" style="align-items: stretch">
-																<davinci-button id="Button3" type="primary" icon-position="append">
+																<davinci-button id="Button_CreateBroadcast" type="primary"
+																	icon-position="append">
 																	<span>Create client broadcast</span>
 																	<crown-set event="submit"
 																		crown-function="CSK_MultiTCPIPServer/createClientBroadcast"
@@ -640,19 +734,24 @@
 																<layout-column id="ColumnLayout24" style="align-items: stretch">
 																	<layout-row id="RowLayout21">
 																		<layout-column id="ColumnLayout26" style="align-items: stretch">
-																			<davinci-text-field id="TF_ClientBroadcast" type="text"
-																				label="Rename client broadcast">
+																			<davinci-drop-down id="DD_ClientBroadcast"
+																				label="Select client broadcast">
+																				<crown-on property="data"
+																					crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
+																					converter="convertToList">
+																				</crown-on>
+																				<crown-set event="change"
+																					crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
+																					protocol="crownMSGPACK" crown-path="clientBroadcastName">
+																				</crown-set>
 																				<crown-on property="value"
 																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
 																				</crown-on>
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setClientBroadcastName"
-																					protocol="crownMSGPACK" crown-path="newName">
-																				</crown-set>
-																			</davinci-text-field>
+																			</davinci-drop-down>
 																		</layout-column>
 																		<layout-column id="ColumnLayout27" style="align-items: stretch">
-																			<davinci-button id="Button4" type="primary" icon-position="append">
+																			<davinci-button id="Button_DeleteBroadcast" type="primary"
+																				icon-position="append">
 																				<span>Delete client broadcast</span>
 																				<crown-set event="submit"
 																					crown-function="CSK_MultiTCPIPServer/deleteClientBroadcast"
@@ -724,7 +823,8 @@
 																			</davinci-text-field>
 																		</layout-column>
 																		<layout-column id="ColumnLayout46" style="align-items: stretch">
-																			<davinci-button id="Button2" type="primary" icon-position="append">
+																			<davinci-button id="Button_SendBroadcast" type="primary"
+																				icon-position="append">
 																				<span>Send</span>
 																				<crown-set event="submit"
 																					crown-function="CSK_MultiTCPIPServer/sendClientBroadcastTestData"

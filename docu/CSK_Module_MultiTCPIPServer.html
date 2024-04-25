@@ -619,7 +619,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <div class="details">
 <span id="author" class="author">SICK AG</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-03-27</span>
+<span id="revdate">2024-04-25</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -639,6 +639,8 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#_overview_2">Overview</a></li>
 <li><a href="#_functions">Functions</a>
 <ul class="sectlevel4">
+<li><a href="#API:Function:CSK_MultiTCPIPServer.addEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addEventToForward()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.addEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addEventToForwardViaUI()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.addInstance"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addInstance()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.createClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientBroadcast()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.createClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientWhitelist()</span></a></li>
@@ -646,6 +648,8 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Function:CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientBroadcastFilterIPAddress()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.deleteClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelist()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelistIPAddress()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.deleteEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteEventToForward()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.deleteEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteEventToForwardViaUI()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.getConnectedClientsIPsNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getConnectedClientsIPsNUM()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.getInstancesAmount"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getInstancesAmount()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.getInterfaceIP"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getInterfaceIP()</span></a></li>
@@ -653,6 +657,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Function:CSK_MultiTCPIPServer.pageCalled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">pageCalled()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.resetInstances"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">resetInstances()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.selectConnectedClient"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">selectConnectedClient()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.selectEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">selectEventToForwardViaUI()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.sendClientBroadcastTestData"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendClientBroadcastTestData()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.sendDataNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendDataNUM()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendDataNUM_BROADCASTNAME()</span></a></li>
@@ -663,6 +668,8 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setClientBroadcastName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientBroadcastName()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setClientBroadcastTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientBroadcastTestDataToSend()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setClientWhitelistName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientWhitelistName()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.setEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setEventToForward()</span></a></li>
+<li><a href="#API:Function:CSK_MultiTCPIPServer.setForwardBroadcastEvent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setForwardBroadcastEvent()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setInterface"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setInterface()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientBroadcast()</span></a></li>
 <li><a href="#API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientWhitelist()</span></a></li>
@@ -693,12 +700,15 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnDataLoadedOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnDataLoadedOnReboot</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewACKTimeout"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewACKTimeout</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastFunctionName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastFunctionName</span></a></li>
+<li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastName</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastTableContent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastTableContent</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastTestDataToSend</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistEventName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistEventName</span></a></li>
+<li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistName</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistTableContent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistTableContent</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewConnectedClientsNumber"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewConnectedClientsNumber</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewConnectedClientsTable"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewConnectedClientsTable</span></a></li>
+<li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewEventToForwardList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewEventToForwardList</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewGenericReceivedDataEventName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewGenericReceivedDataEventName</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewGenericSendDataFunctionName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewGenericSendDataFunctionName</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewInstanceList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewInstanceList</span></a></li>
@@ -725,6 +735,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusAddIPViaList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusAddIPViaList</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusClientBroadcastSelected"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusClientBroadcastSelected</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusClientWhitelistSelected"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusClientWhitelistSelected</span></a></li>
+<li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusForwardEventForBroadcasts"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusForwardEventForBroadcasts</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusLoadParameterOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusLoadParameterOnReboot</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTestDataToSend</span></a></li>
 <li><a href="#API:Event:CSK_MultiTCPIPServer.OnNewTransmitBuffer"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTransmitBuffer</span></a></li>
@@ -779,7 +790,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Date</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-03-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-25</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Author</p></th>
@@ -865,6 +876,12 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <div class="ulist">
 <ul>
 <li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.addEventToForward">addEventToForward()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.addEventToForwardViaUI">addEventToForwardViaUI()</a></p>
+</li>
+<li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.addInstance">addInstance()</a></p>
 </li>
 <li>
@@ -886,6 +903,12 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <p><a href="#API:Function:CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress">deleteClientWhitelistIPAddress()</a></p>
 </li>
 <li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.deleteEventToForward">deleteEventToForward()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.deleteEventToForwardViaUI">deleteEventToForwardViaUI()</a></p>
+</li>
+<li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.getConnectedClientsIPsNUM">getConnectedClientsIPsNUM()</a></p>
 </li>
 <li>
@@ -905,6 +928,9 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.selectConnectedClient">selectConnectedClient()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.selectEventToForwardViaUI">selectEventToForwardViaUI()</a></p>
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.sendClientBroadcastTestData">sendClientBroadcastTestData()</a></p>
@@ -935,6 +961,12 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.setClientWhitelistName">setClientWhitelistName()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.setEventToForward">setEventToForward()</a></p>
+</li>
+<li>
+<p><a href="#API:Function:CSK_MultiTCPIPServer.setForwardBroadcastEvent">setForwardBroadcastEvent()</a></p>
 </li>
 <li>
 <p><a href="#API:Function:CSK_MultiTCPIPServer.setInterface">setInterface()</a></p>
@@ -1015,6 +1047,9 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastFunctionName">OnNewClientBroadcastFunctionName</a></p>
 </li>
 <li>
+<p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastName">OnNewClientBroadcastName</a></p>
+</li>
+<li>
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastTableContent">OnNewClientBroadcastTableContent</a></p>
 </li>
 <li>
@@ -1024,6 +1059,9 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistEventName">OnNewClientWhitelistEventName</a></p>
 </li>
 <li>
+<p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistName">OnNewClientWhitelistName</a></p>
+</li>
+<li>
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistTableContent">OnNewClientWhitelistTableContent</a></p>
 </li>
 <li>
@@ -1031,6 +1069,9 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 </li>
 <li>
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewConnectedClientsTable">OnNewConnectedClientsTable</a></p>
+</li>
+<li>
+<p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewEventToForwardList">OnNewEventToForwardList</a></p>
 </li>
 <li>
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewGenericReceivedDataEventName">OnNewGenericReceivedDataEventName</a></p>
@@ -1111,6 +1152,9 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusClientWhitelistSelected">OnNewStatusClientWhitelistSelected</a></p>
 </li>
 <li>
+<p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusForwardEventForBroadcasts">OnNewStatusForwardEventForBroadcasts</a></p>
+</li>
+<li>
 <p><a href="#API:Event:CSK_MultiTCPIPServer.OnNewStatusLoadParameterOnReboot">OnNewStatusLoadParameterOnReboot</a></p>
 </li>
 <li>
@@ -1176,79 +1220,11 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <div class="sect3">
 <h4 id="_functions">Functions</h4>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.addInstance"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addInstance()</span></h5>
+<h5 id="API:Function:CSK_MultiTCPIPServer.addEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addEventToForward()</span></h5>
 <div class="sect5">
 <h6 id="_short_description_3">Short description</h6>
 <div class="paragraph">
-<p>Function to add an additional instance.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.addInstance()</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.createClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientBroadcast()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_4">Short description</h6>
-<div class="paragraph">
-<p>Create a new client broadcast with default name.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_2">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.createClientBroadcast()</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.createClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientWhitelist()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_5">Short description</h6>
-<div class="paragraph">
-<p>Create a new client whitelist with default name.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_3">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.createClientWhitelist()</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientBroadcast()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_6">Short description</h6>
-<div class="paragraph">
-<p>Delete the selected client broadcast.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_4">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientBroadcast()</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientBroadcastFilterIPAddress()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_7">Short description</h6>
-<div class="paragraph">
-<p>Delete the selected IP address from the list of the selected client broadcast.</p>
+<p>Add an event to register to and to forward the content of its first parameter (as string) to all connected TCP/IP clients.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1270,46 +1246,114 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">jsonRowToDelete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">event</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JSON content of the selected row of the dynamic with IP Address to delete.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of event to register to.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_5">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress(jsonRowToDelete)</code></pre>
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.addEventToForward(event)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelist()</span></h5>
+<h5 id="API:Function:CSK_MultiTCPIPServer.addEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addEventToForwardViaUI()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_4">Short description</h6>
+<div class="paragraph">
+<p>Add event to register to and forward content (first event parameter as string) to all connected TCPI/IP cleints via UI (event needs to be prefilled on UI / via "setEventToForward").</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_2">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.addEventToForwardViaUI()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.addInstance"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">addInstance()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_5">Short description</h6>
+<div class="paragraph">
+<p>Function to add an additional instance.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_3">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.addInstance()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.createClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientBroadcast()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_6">Short description</h6>
+<div class="paragraph">
+<p>Create a new client broadcast with preset name (see 'setClientBroadcastName').</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_4">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.createClientBroadcast()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.createClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">createClientWhitelist()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_7">Short description</h6>
+<div class="paragraph">
+<p>Create a new client whitelist with default name.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_5">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.createClientWhitelist()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientBroadcast()</span></h5>
 <div class="sect5">
 <h6 id="_short_description_8">Short description</h6>
 <div class="paragraph">
-<p>Delete the selected client whitelist.</p>
+<p>Delete the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_sample_auto_generated_6">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientWhitelist()</code></pre>
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientBroadcast()</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelistIPAddress()</span></h5>
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientBroadcastFilterIPAddress()</span></h5>
 <div class="sect5">
 <h6 id="_short_description_9">Short description</h6>
 <div class="paragraph">
-<p>Delete the selected IP address from the list of the selected client whitelist.</p>
+<p>Delete the selected IP address from the list of the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1343,7 +1387,129 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <h6 id="_sample_auto_generated_7">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientBroadcastFilterIPAddress(jsonRowToDelete)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelist()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_10">Short description</h6>
+<div class="paragraph">
+<p>Delete the selected client whitelist.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_8">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientWhitelist()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteClientWhitelistIPAddress()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_11">Short description</h6>
+<div class="paragraph">
+<p>Delete the selected IP address from the list of the selected client whitelist.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_3">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jsonRowToDelete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSON content of the selected row of the dynamic with IP Address to delete.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_9">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress(jsonRowToDelete)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteEventToForward()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_12">Short description</h6>
+<div class="paragraph">
+<p>Remove event to forward content.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_4">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">event</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eventname</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_10">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteEventToForward(event)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.deleteEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">deleteEventToForwardViaUI()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_13">Short description</h6>
+<div class="paragraph">
+<p>Remove event preselected via UI.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_11">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.deleteEventToForwardViaUI()</code></pre>
 </div>
 </div>
 </div>
@@ -1351,7 +1517,7 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.getConnectedClientsIPsNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getConnectedClientsIPsNUM()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_10">Short description</h6>
+<h6 id="_short_description_14">Short description</h6>
 <div class="paragraph">
 <p>Function to get list of IP addresses of the connected clients.<br>
 NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").<br></p>
@@ -1385,7 +1551,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_8">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_12">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">connectedClientsIPs = CSK_MultiTCPIPServer.getConnectedClientsIPsNUM()</code></pre>
@@ -1396,7 +1562,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.getInstancesAmount"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getInstancesAmount()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_11">Short description</h6>
+<h6 id="_short_description_15">Short description</h6>
 <div class="paragraph">
 <p>Get the amount of created instances of this module.</p>
 </div>
@@ -1429,7 +1595,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_9">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_13">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">amount = CSK_MultiTCPIPServer.getInstancesAmount()</code></pre>
@@ -1440,7 +1606,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.getInterfaceIP"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">getInterfaceIP()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_12">Short description</h6>
+<h6 id="_short_description_16">Short description</h6>
 <div class="paragraph">
 <p>Get the IP address of the selected server.</p>
 </div>
@@ -1473,7 +1639,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_10">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_14">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">selectedInterfaceIp = CSK_MultiTCPIPServer.getInterfaceIP()</code></pre>
@@ -1484,13 +1650,13 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.loadParameters"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">loadParameters()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_13">Short description</h6>
+<h6 id="_short_description_17">Short description</h6>
 <div class="paragraph">
 <p>Load parameters for this module from the CSK_PersistentData module if possible and use them.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_11">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_15">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.loadParameters()</code></pre>
@@ -1501,7 +1667,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.pageCalled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">pageCalled()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_14">Short description</h6>
+<h6 id="_short_description_18">Short description</h6>
 <div class="paragraph">
 <p>Function to register "OnResume" of the module UI (only as helper function).</p>
 </div>
@@ -1534,7 +1700,7 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_12">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_16">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">empty = CSK_MultiTCPIPServer.pageCalled()</code></pre>
@@ -1545,14 +1711,14 @@ NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1").
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.resetInstances"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">resetInstances()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_15">Short description</h6>
+<h6 id="_short_description_19">Short description</h6>
 <div class="paragraph">
 <p>Function to reset instances to one single instance.<br>
 IMPORTANT: As instances start their own threads, the module needs to be restarted if new instances are needed&#8230;&#8203; (see AppEngine docu for "Script.startScript").</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_13">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_17">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.resetInstances()</code></pre>
@@ -1563,13 +1729,13 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.selectConnectedClient"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">selectConnectedClient()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_16">Short description</h6>
+<h6 id="_short_description_20">Short description</h6>
 <div class="paragraph">
 <p>Select row in the connected clients dynamic table. Used to copy the IP Address of the selected client into client whitelist / broadcast filter list.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_3">Parameters</h6>
+<h6 id="_parameters_5">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1596,7 +1762,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_14">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_18">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.selectConnectedClient(selectedRow)</code></pre>
@@ -1605,15 +1771,59 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.selectEventToForwardViaUI"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">selectEventToForwardViaUI()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_21">Short description</h6>
+<div class="paragraph">
+<p>Select an event to forward the content of its first parameter to all TCP/IP clients via UI.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_6">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">selection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selected event.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_19">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.selectEventToForwardViaUI(selection)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.sendClientBroadcastTestData"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendClientBroadcastTestData()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_17">Short description</h6>
+<h6 id="_short_description_22">Short description</h6>
 <div class="paragraph">
 <p>Function to send the pre-defined test data (see 'setClientBroadcastTestDataToSend') as the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_15">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_20">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.sendClientBroadcastTestData()</code></pre>
@@ -1624,7 +1834,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.sendDataNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendDataNUM()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_18">Short description</h6>
+<h6 id="_short_description_23">Short description</h6>
 <div class="paragraph">
 <p>Example of dynamically served function to send data on instance to clients.<br>
 NUM will be replaced by the number of instance (e.g. "sendData1").<br>
@@ -1633,7 +1843,7 @@ Needs then to be called via "Script.callFunction".</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_4">Parameters</h6>
+<h6 id="_parameters_7">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1699,7 +1909,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_16">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_21">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">success, details = CSK_MultiTCPIPServer.sendDataNUM(data, ipList)</code></pre>
@@ -1710,7 +1920,7 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendDataNUM_BROADCASTNAME()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_19">Short description</h6>
+<h6 id="_short_description_24">Short description</h6>
 <div class="paragraph">
 <p>Example of dynamically served function to send data on instance via client broadcast.<br>
 'NUM' and 'BROADCASTNAME' will be replaced by the numeric identifier of the instance and name of client broadcast(e.g. "sendData1_broadcast1").<br>
@@ -1719,7 +1929,7 @@ Needs then to be called via "Script.callFunction".</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_5">Parameters</h6>
+<h6 id="_parameters_8">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1770,12 +1980,6 @@ Needs then to be called via "Script.callFunction".</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Success of sending the data.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">queueSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Details if sending failed.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">neededTime</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
@@ -1791,10 +1995,10 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_17">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_22">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">success, queueSize, neededTime, <span class="predefined">error</span> = CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME(data)</code></pre>
+<pre class="CodeRay highlight"><code data-lang="lua">success, neededTime, <span class="predefined">error</span> = CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME(data)</code></pre>
 </div>
 </div>
 </div>
@@ -1802,13 +2006,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.sendParameters"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendParameters()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_20">Short description</h6>
+<h6 id="_short_description_25">Short description</h6>
 <div class="paragraph">
 <p>Send parameters to CSK_PersistentData module if possible to save them.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_18">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_23">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.sendParameters()</code></pre>
@@ -1819,13 +2023,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.sendTestData"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">sendTestData()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_21">Short description</h6>
+<h6 id="_short_description_26">Short description</h6>
 <div class="paragraph">
 <p>Function to send the pre-defined test data (see setTestDataToSend).</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_19">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_24">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.sendTestData()</code></pre>
@@ -1836,13 +2040,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setACKTimeout"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setACKTimeout()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_22">Short description</h6>
+<h6 id="_short_description_27">Short description</h6>
 <div class="paragraph">
 <p>Sets from UI the maximum time interval, in milliseconds, that a transmitted packet may stay unacknowledged before the connection is terminated.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_6">Parameters</h6>
+<h6 id="_parameters_9">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1869,7 +2073,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_20">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_25">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setACKTimeout(newACKTimeout)</code></pre>
@@ -1880,13 +2084,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setAddIPViaList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setAddIPViaList()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_23">Short description</h6>
+<h6 id="_short_description_28">Short description</h6>
 <div class="paragraph">
 <p>Function to activate to select IP via UI list for filter.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_7">Parameters</h6>
+<h6 id="_parameters_10">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1913,7 +2117,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_21">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_26">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setAddIPViaList(status)</code></pre>
@@ -1924,13 +2128,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setClientBroadcastName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientBroadcastName()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_24">Short description</h6>
+<h6 id="_short_description_29">Short description</h6>
 <div class="paragraph">
-<p>Set a new name of the selected client broadcast.</p>
+<p>Set a name to create a new client broadcast via 'createClientBroadcast'.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_8">Parameters</h6>
+<h6 id="_parameters_11">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1957,7 +2161,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_22">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_27">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setClientBroadcastName(newName)</code></pre>
@@ -1968,13 +2172,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setClientBroadcastTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientBroadcastTestDataToSend()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_25">Short description</h6>
+<h6 id="_short_description_30">Short description</h6>
 <div class="paragraph">
 <p>Set data to be sent to clients filtered in the selected broadcast for testing purposes.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_9">Parameters</h6>
+<h6 id="_parameters_12">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2001,7 +2205,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_23">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_28">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setClientBroadcastTestDataToSend(newTestDataToSend)</code></pre>
@@ -2012,13 +2216,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setClientWhitelistName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setClientWhitelistName()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_26">Short description</h6>
+<h6 id="_short_description_31">Short description</h6>
 <div class="paragraph">
 <p>Set a new name of the selected client whitelist.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_10">Parameters</h6>
+<h6 id="_parameters_13">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2045,7 +2249,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_24">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_29">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setClientWhitelistName(newName)</code></pre>
@@ -2054,143 +2258,11 @@ Needs then to be called via "Script.callFunction".</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.setInterface"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setInterface()</span></h5>
+<h5 id="API:Function:CSK_MultiTCPIPServer.setEventToForward"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setEventToForward()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_27">Short description</h6>
+<h6 id="_short_description_32">Short description</h6>
 <div class="paragraph">
-<p>Sets device&#8217;s interface from UI, server must be rebooted to apply the settings</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_parameters_11">Parameters</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">newInterface</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">New interface to listen to.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_25">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setInterface(newInterface)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientBroadcast()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_28">Short description</h6>
-<div class="paragraph">
-<p>Set IP address to be added to list of clients to which the server send the message.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_parameters_12">Parameters</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IP address.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_26">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast(ipAddress)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientWhitelist()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_29">Short description</h6>
-<div class="paragraph">
-<p>Set IP address to be added to list of clients from which server will wait for a message.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_parameters_13">Parameters</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IP address.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_27">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist(ipAddress)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.setListenState"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setListenState()</span></h5>
-<div class="sect5">
-<h6 id="_short_description_30">Short description</h6>
-<div class="paragraph">
-<p>Function to turn server on or off.</p>
+<p>Preset event to register to and forward content to all connected TCP/IP clients via UI.</p>
 </div>
 </div>
 <div class="sect5">
@@ -2212,29 +2284,29 @@ Needs then to be called via "Script.callFunction".</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">newState</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">New listen state, true if active.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Event to register to.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_28">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_30">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setListenState(newState)</code></pre>
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setEventToForward(value)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Function:CSK_MultiTCPIPServer.setLoadOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setLoadOnReboot()</span></h5>
+<h5 id="API:Function:CSK_MultiTCPIPServer.setForwardBroadcastEvent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setForwardBroadcastEvent()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_31">Short description</h6>
+<h6 id="_short_description_33">Short description</h6>
 <div class="paragraph">
-<p>Configure if this module should load its saved parameters at app/ device boot up.</p>
+<p>Function to set if adding/deleting forwarding events in UI is for broadcasts.</p>
 </div>
 </div>
 <div class="sect5">
@@ -2265,7 +2337,227 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_29">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_31">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setForwardBroadcastEvent(status)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.setInterface"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setInterface()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_34">Short description</h6>
+<div class="paragraph">
+<p>Sets device&#8217;s interface from UI, server must be rebooted to apply the settings</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_16">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">newInterface</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New interface to listen to.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_32">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setInterface(newInterface)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientBroadcast()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_35">Short description</h6>
+<div class="paragraph">
+<p>Set IP address to be added to list of clients to which the server send the message.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_17">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_33">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setIPAddressToAddToClientBroadcast(ipAddress)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setIPAddressToAddToClientWhitelist()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_36">Short description</h6>
+<div class="paragraph">
+<p>Set IP address to be added to list of clients from which server will wait for a message.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_18">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_34">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setIPAddressToAddToClientWhitelist(ipAddress)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.setListenState"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setListenState()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_37">Short description</h6>
+<div class="paragraph">
+<p>Function to turn server on or off.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_19">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">newState</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New listen state, true if active.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_35">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setListenState(newState)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Function:CSK_MultiTCPIPServer.setLoadOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setLoadOnReboot()</span></h5>
+<div class="sect5">
+<h6 id="_short_description_38">Short description</h6>
+<div class="paragraph">
+<p>Configure if this module should load its saved parameters at app/ device boot up.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_parameters_20">Parameters</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_36">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setLoadOnReboot(status)</code></pre>
@@ -2276,13 +2568,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setMaxConnections"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setMaxConnections()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_32">Short description</h6>
+<h6 id="_short_description_39">Short description</h6>
 <div class="paragraph">
 <p>Set limit of connections, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_16">Parameters</h6>
+<h6 id="_parameters_21">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2309,7 +2601,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_30">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_37">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setMaxConnections(newMaxConnections)</code></pre>
@@ -2320,13 +2612,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setParameterName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setParameterName()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_33">Short description</h6>
+<h6 id="_short_description_40">Short description</h6>
 <div class="paragraph">
 <p>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_17">Parameters</h6>
+<h6 id="_parameters_22">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2353,7 +2645,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_31">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_38">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setParameterName(name)</code></pre>
@@ -2364,13 +2656,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setPort"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setPort()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_34">Short description</h6>
+<h6 id="_short_description_41">Short description</h6>
 <div class="paragraph">
 <p>Function to set port, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_18">Parameters</h6>
+<h6 id="_parameters_23">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2397,7 +2689,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_32">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_39">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setPort(newPort)</code></pre>
@@ -2408,13 +2700,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setRxBuffer"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setRxBuffer()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_35">Short description</h6>
+<h6 id="_short_description_42">Short description</h6>
 <div class="paragraph">
 <p>Sets the Rx size of the internal framing parser buffer from UI. Server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_19">Parameters</h6>
+<h6 id="_parameters_24">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2441,7 +2733,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_33">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_40">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setRxBuffer(newRxBuffer)</code></pre>
@@ -2452,13 +2744,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setRxFraming"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setRxFraming()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_36">Short description</h6>
+<h6 id="_short_description_43">Short description</h6>
 <div class="paragraph">
 <p>Set Rx Framing type, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_20">Parameters</h6>
+<h6 id="_parameters_25">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2486,7 +2778,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_34">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_41">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setRxFraming(newRxFraming)</code></pre>
@@ -2497,13 +2789,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setRxStart"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setRxStart()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_37">Short description</h6>
+<h6 id="_short_description_44">Short description</h6>
 <div class="paragraph">
 <p>Set RxStart frame from UI, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_21">Parameters</h6>
+<h6 id="_parameters_26">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2530,7 +2822,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_35">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_42">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setRxStart(newRxStart)</code></pre>
@@ -2541,13 +2833,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setRxStop"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setRxStop()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_38">Short description</h6>
+<h6 id="_short_description_45">Short description</h6>
 <div class="paragraph">
 <p>Set RxStop frame from UI, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_22">Parameters</h6>
+<h6 id="_parameters_27">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2574,7 +2866,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_36">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_43">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setRxStop(newRxStop)</code></pre>
@@ -2585,13 +2877,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setSelectedClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setSelectedClientBroadcast()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_39">Short description</h6>
+<h6 id="_short_description_46">Short description</h6>
 <div class="paragraph">
 <p>Select client broadcast to edit.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_23">Parameters</h6>
+<h6 id="_parameters_28">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2618,7 +2910,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_37">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_44">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setSelectedClientBroadcast(clientBroadcastName)</code></pre>
@@ -2629,13 +2921,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setSelectedClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setSelectedClientWhitelist()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_40">Short description</h6>
+<h6 id="_short_description_47">Short description</h6>
 <div class="paragraph">
 <p>Select client whitelist to edit.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_24">Parameters</h6>
+<h6 id="_parameters_29">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2662,7 +2954,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_38">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_45">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setSelectedClientWhitelist(clientWhitelistName)</code></pre>
@@ -2673,13 +2965,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setSelectedInstance"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setSelectedInstance()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_41">Short description</h6>
+<h6 id="_short_description_48">Short description</h6>
 <div class="paragraph">
 <p>Select one of the multiple instances.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_25">Parameters</h6>
+<h6 id="_parameters_30">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2706,7 +2998,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_39">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_46">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setSelectedInstance(instance)</code></pre>
@@ -2717,13 +3009,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setSelectedTab"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setSelectedTab()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_42">Short description</h6>
+<h6 id="_short_description_49">Short description</h6>
 <div class="paragraph">
 <p>Set selcetd settings tab in UI.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_26">Parameters</h6>
+<h6 id="_parameters_31">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2750,7 +3042,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_40">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_47">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setSelectedTab(newSelectedTab)</code></pre>
@@ -2761,13 +3053,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTestDataToSend()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_43">Short description</h6>
+<h6 id="_short_description_50">Short description</h6>
 <div class="paragraph">
 <p>Set data to be sent to clients for testing purposes.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_27">Parameters</h6>
+<h6 id="_parameters_32">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2794,7 +3086,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_41">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_48">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTestDataToSend(newTestDataToSend)</code></pre>
@@ -2805,13 +3097,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTransmitionBuffer"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTransmitionBuffer()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_44">Short description</h6>
+<h6 id="_short_description_51">Short description</h6>
 <div class="paragraph">
 <p>Sets the size of the socket send buffer. Server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_28">Parameters</h6>
+<h6 id="_parameters_33">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2838,7 +3130,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_42">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_49">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTransmitionBuffer(newTransmitionBuffer)</code></pre>
@@ -2849,13 +3141,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTransmitionTimeout"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTransmitionTimeout()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_45">Short description</h6>
+<h6 id="_short_description_52">Short description</h6>
 <div class="paragraph">
 <p>Set data transmition timeout, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_29">Parameters</h6>
+<h6 id="_parameters_34">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2882,7 +3174,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_43">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_50">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTransmitionTimeout(newTransmitionTimeout)</code></pre>
@@ -2893,13 +3185,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTxBuffer"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTxBuffer()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_46">Short description</h6>
+<h6 id="_short_description_53">Short description</h6>
 <div class="paragraph">
 <p>Sets the Tx size of the internal framing parser buffer. Server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_30">Parameters</h6>
+<h6 id="_parameters_35">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2926,7 +3218,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_44">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_51">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTxBuffer(newTxBuffer)</code></pre>
@@ -2937,13 +3229,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTxFraming"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTxFraming()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_47">Short description</h6>
+<h6 id="_short_description_54">Short description</h6>
 <div class="paragraph">
 <p>Set Tx framing type, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_31">Parameters</h6>
+<h6 id="_parameters_36">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2971,7 +3263,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_45">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_52">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTxFraming(newTxFraming)</code></pre>
@@ -2982,13 +3274,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTxStart"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTxStart()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_48">Short description</h6>
+<h6 id="_short_description_55">Short description</h6>
 <div class="paragraph">
 <p>Set TxStart frame, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_32">Parameters</h6>
+<h6 id="_parameters_37">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3015,7 +3307,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_46">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_53">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTxStart(newTxStart)</code></pre>
@@ -3026,13 +3318,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Function:CSK_MultiTCPIPServer.setTxStop"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-function">setTxStop()</span></h5>
 <div class="sect5">
-<h6 id="_short_description_49">Short description</h6>
+<h6 id="_short_description_56">Short description</h6>
 <div class="paragraph">
 <p>Set TxStop frame, server must be restarted to apply the settings.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_parameters_33">Parameters</h6>
+<h6 id="_parameters_38">Parameters</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3059,7 +3351,7 @@ Needs then to be called via "Script.callFunction".</p>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_47">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_54">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua">CSK_MultiTCPIPServer.setTxStop(newTxStop)</code></pre>
@@ -3073,13 +3365,13 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnDataLoadedOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnDataLoadedOnReboot</span></h5>
 <div class="sect5">
-<h6 id="_short_description_50">Short description</h6>
+<h6 id="_short_description_57">Short description</h6>
 <div class="paragraph">
 <p>Event to call if module tried to load parameters and should be ready.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_48">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_55">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnDataLoadedOnReboot</span>()
@@ -3094,7 +3386,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewACKTimeout"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewACKTimeout</span></h5>
 <div class="sect5">
-<h6 id="_short_description_51">Short description</h6>
+<h6 id="_short_description_58">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the current acknowledgement timeout value.</p>
 </div>
@@ -3127,7 +3419,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_49">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_56">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewACKTimeout</span>(newTransmitAckTimeout)
@@ -3142,7 +3434,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastFunctionName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastFunctionName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_52">Short description</h6>
+<h6 id="_short_description_59">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the function name of the selected client broadcast.</p>
 </div>
@@ -3175,7 +3467,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_50">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_57">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientBroadcastFunctionName</span>(eventName)
@@ -3188,15 +3480,63 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastName</span></h5>
+<div class="sect5">
+<h6 id="_short_description_60">Short description</h6>
+<div class="paragraph">
+<p>Notify name of broadcast to create.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_3">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_58">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientBroadcastName</span>(name)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnNewClientBroadcastName</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewClientBroadcastName</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastTableContent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastTableContent</span></h5>
 <div class="sect5">
-<h6 id="_short_description_53">Short description</h6>
+<h6 id="_short_description_61">Short description</h6>
 <div class="paragraph">
 <p>Event to provide IP filter table of the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_3">Callback arguments</h6>
+<h6 id="_callback_arguments_4">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3223,7 +3563,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_51">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_59">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientBroadcastTableContent</span>(jsonTableContent)
@@ -3238,13 +3578,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientBroadcastTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientBroadcastTestDataToSend</span></h5>
 <div class="sect5">
-<h6 id="_short_description_54">Short description</h6>
+<h6 id="_short_description_62">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the data to be sent for testing purposes as the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_4">Callback arguments</h6>
+<h6 id="_callback_arguments_5">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3271,7 +3611,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_52">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_60">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientBroadcastTestDataToSend</span>(testDataToSend)
@@ -3286,13 +3626,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistEventName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistEventName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_55">Short description</h6>
+<h6 id="_short_description_63">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the event name of the selected client whitelist.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_5">Callback arguments</h6>
+<h6 id="_callback_arguments_6">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3319,7 +3659,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_53">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_61">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientWhitelistEventName</span>(eventName)
@@ -3332,15 +3672,63 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistName</span></h5>
+<div class="sect5">
+<h6 id="_short_description_64">Short description</h6>
+<div class="paragraph">
+<p>Notify name of whitelist to create.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_7">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_62">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientWhitelistName</span>(name)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnNewClientWhitelistName</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewClientWhitelistName</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewClientWhitelistTableContent"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewClientWhitelistTableContent</span></h5>
 <div class="sect5">
-<h6 id="_short_description_56">Short description</h6>
+<h6 id="_short_description_65">Short description</h6>
 <div class="paragraph">
 <p>Event to provide IP filter table of the selected client whitelist.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_6">Callback arguments</h6>
+<h6 id="_callback_arguments_8">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3367,7 +3755,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_54">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_63">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewClientWhitelistTableContent</span>(jsonTableContent)
@@ -3382,13 +3770,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewConnectedClientsNumber"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewConnectedClientsNumber</span></h5>
 <div class="sect5">
-<h6 id="_short_description_57">Short description</h6>
+<h6 id="_short_description_66">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the connected clients number.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_7">Callback arguments</h6>
+<h6 id="_callback_arguments_9">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3415,7 +3803,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_55">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_64">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewConnectedClientsNumber</span>(clientsNum)
@@ -3430,13 +3818,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewConnectedClientsTable"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewConnectedClientsTable</span></h5>
 <div class="sect5">
-<h6 id="_short_description_58">Short description</h6>
+<h6 id="_short_description_67">Short description</h6>
 <div class="paragraph">
 <p>Event to provide dynamic table content with connected clients.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_8">Callback arguments</h6>
+<h6 id="_callback_arguments_10">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3463,7 +3851,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_56">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_65">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewConnectedClientsTable</span>(newData)
@@ -3476,15 +3864,63 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnNewEventToForwardList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewEventToForwardList</span></h5>
+<div class="sect5">
+<h6 id="_short_description_68">Short description</h6>
+<div class="paragraph">
+<p>Notify list of events to register to and to forward its content to all connected TCP/IP clients.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_11">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_66">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewEventToForwardList</span>(list)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnNewEventToForwardList</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewEventToForwardList</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewGenericReceivedDataEventName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewGenericReceivedDataEventName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_59">Short description</h6>
+<h6 id="_short_description_69">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the name of event notified when server receives any data from any client.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_9">Callback arguments</h6>
+<h6 id="_callback_arguments_12">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3511,7 +3947,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_57">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_67">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewGenericReceivedDataEventName</span>(eventName)
@@ -3526,13 +3962,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewGenericSendDataFunctionName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewGenericSendDataFunctionName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_60">Short description</h6>
+<h6 id="_short_description_70">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the name of function to be called to send any data to all clients.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_10">Callback arguments</h6>
+<h6 id="_callback_arguments_13">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3559,7 +3995,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_58">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_68">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewGenericSendDataFunctionName</span>(functionName)
@@ -3574,13 +4010,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewInstanceList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewInstanceList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_61">Short description</h6>
+<h6 id="_short_description_71">Short description</h6>
 <div class="paragraph">
 <p>Event to provide list of created instances.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_11">Callback arguments</h6>
+<h6 id="_callback_arguments_14">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3607,7 +4043,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_59">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_69">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewInstanceList</span>(list)
@@ -3622,13 +4058,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewInterface"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewInterface</span></h5>
 <div class="sect5">
-<h6 id="_short_description_62">Short description</h6>
+<h6 id="_short_description_72">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the selected Interface for active server.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_12">Callback arguments</h6>
+<h6 id="_callback_arguments_15">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3655,7 +4091,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_60">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_70">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewInterface</span>(Interface)
@@ -3670,13 +4106,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewInterfaceList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewInterfaceList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_63">Short description</h6>
+<h6 id="_short_description_73">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the list of available ethernet interfaces.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_13">Callback arguments</h6>
+<h6 id="_callback_arguments_16">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3703,7 +4139,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_61">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_71">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewInterfaceList</span>(interfaceList)
@@ -3718,13 +4154,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewListClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewListClientBroadcast</span></h5>
 <div class="sect5">
-<h6 id="_short_description_64">Short description</h6>
+<h6 id="_short_description_74">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the list of all created client broadcasts.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_14">Callback arguments</h6>
+<h6 id="_callback_arguments_17">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3751,7 +4187,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_62">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_72">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewListClientBroadcast</span>(jsonBroadcastList)
@@ -3766,13 +4202,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewListClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewListClientWhitelist</span></h5>
 <div class="sect5">
-<h6 id="_short_description_65">Short description</h6>
+<h6 id="_short_description_75">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the list of all created client whitelists.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_15">Callback arguments</h6>
+<h6 id="_callback_arguments_18">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3799,7 +4235,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_63">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_73">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewListClientWhitelist</span>(jsonClientWhitelistsList)
@@ -3814,13 +4250,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewListenState"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewListenState</span></h5>
 <div class="sect5">
-<h6 id="_short_description_66">Short description</h6>
+<h6 id="_short_description_76">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the active state of server.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_16">Callback arguments</h6>
+<h6 id="_callback_arguments_19">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3847,7 +4283,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_64">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_74">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewListenState</span>(newState)
@@ -3862,13 +4298,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewLog"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewLog</span></h5>
 <div class="sect5">
-<h6 id="_short_description_67">Short description</h6>
+<h6 id="_short_description_77">Short description</h6>
 <div class="paragraph">
 <p>Notfiy latest log.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_17">Callback arguments</h6>
+<h6 id="_callback_arguments_20">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3895,7 +4331,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_65">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_75">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewLog</span>(log)
@@ -3910,13 +4346,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewMaxConnections"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewMaxConnections</span></h5>
 <div class="sect5">
-<h6 id="_short_description_68">Short description</h6>
+<h6 id="_short_description_78">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the max connections value.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_18">Callback arguments</h6>
+<h6 id="_callback_arguments_21">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3943,7 +4379,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_66">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_76">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewMaxConnections</span>(newMaxConnections)
@@ -3958,13 +4394,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewParameterName"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewParameterName</span></h5>
 <div class="sect5">
-<h6 id="_short_description_69">Short description</h6>
+<h6 id="_short_description_79">Short description</h6>
 <div class="paragraph">
 <p>Notify name of persistent data parameter.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_19">Callback arguments</h6>
+<h6 id="_callback_arguments_22">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3991,7 +4427,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_67">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_77">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewParameterName</span>(name)
@@ -4006,13 +4442,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewPort"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewPort</span></h5>
 <div class="sect5">
-<h6 id="_short_description_70">Short description</h6>
+<h6 id="_short_description_80">Short description</h6>
 <div class="paragraph">
 <p>Event to provide port number.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_20">Callback arguments</h6>
+<h6 id="_callback_arguments_23">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4039,7 +4475,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_68">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_78">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewPort</span>(Port)
@@ -4054,13 +4490,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewProcessingParameter"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewProcessingParameter</span></h5>
 <div class="sect5">
-<h6 id="_short_description_71">Short description</h6>
+<h6 id="_short_description_81">Short description</h6>
 <div class="paragraph">
 <p>Event to share processing parameters to the instances.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_21">Callback arguments</h6>
+<h6 id="_callback_arguments_24">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4092,23 +4528,23 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AUTO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Value of the parameter.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">internalObjectNo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">internalValue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AUTO</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If parameter is for specifici internal used object, its number.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional custom value.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_69">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_79">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewProcessingParameter</span>(objectNo, parameter, value, internalObjectNo)
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewProcessingParameter</span>(objectNo, parameter, value, internalValue)
   <span class="comment">-- Do something</span>
 <span class="keyword">end</span>
 
@@ -4120,13 +4556,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewRxFraming"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewRxFraming</span></h5>
 <div class="sect5">
-<h6 id="_short_description_72">Short description</h6>
+<h6 id="_short_description_82">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the selected Rx framing type.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_22">Callback arguments</h6>
+<h6 id="_callback_arguments_25">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4153,7 +4589,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_70">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_80">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewRxFraming</span>(newRxFraming)
@@ -4168,13 +4604,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewRxFramingBufferSize"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewRxFramingBufferSize</span></h5>
 <div class="sect5">
-<h6 id="_short_description_73">Short description</h6>
+<h6 id="_short_description_83">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Rx buffer size.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_23">Callback arguments</h6>
+<h6 id="_callback_arguments_26">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4201,7 +4637,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_71">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_81">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewRxFramingBufferSize</span>(newRxFramingBufferSize)
@@ -4216,13 +4652,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewRxFramingList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewRxFramingList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_74">Short description</h6>
+<h6 id="_short_description_84">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the list of available Rx framing types.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_24">Callback arguments</h6>
+<h6 id="_callback_arguments_27">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4249,7 +4685,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_72">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_82">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewRxFramingList</span>(RxFramingList)
@@ -4264,13 +4700,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewRxStart"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewRxStart</span></h5>
 <div class="sect5">
-<h6 id="_short_description_75">Short description</h6>
+<h6 id="_short_description_85">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Rx Start hex symbol.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_25">Callback arguments</h6>
+<h6 id="_callback_arguments_28">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4297,7 +4733,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_73">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_83">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewRxStart</span>(newRxStart)
@@ -4312,13 +4748,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewRxStop"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewRxStop</span></h5>
 <div class="sect5">
-<h6 id="_short_description_76">Short description</h6>
+<h6 id="_short_description_86">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Rx stop hex symbol.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_26">Callback arguments</h6>
+<h6 id="_callback_arguments_29">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4345,7 +4781,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_74">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_84">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewRxStop</span>(newRxStop)
@@ -4360,13 +4796,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewSelectedClientBroadcast"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewSelectedClientBroadcast</span></h5>
 <div class="sect5">
-<h6 id="_short_description_77">Short description</h6>
+<h6 id="_short_description_87">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the name of the selected client broadcast.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_27">Callback arguments</h6>
+<h6 id="_callback_arguments_30">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4393,7 +4829,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_75">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_85">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewSelectedClientBroadcast</span>(clientBroadcastName)
@@ -4408,13 +4844,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewSelectedClientWhitelist"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewSelectedClientWhitelist</span></h5>
 <div class="sect5">
-<h6 id="_short_description_78">Short description</h6>
+<h6 id="_short_description_88">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the name of the selected client whitelist.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_28">Callback arguments</h6>
+<h6 id="_callback_arguments_31">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4441,7 +4877,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_76">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_86">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewSelectedClientWhitelist</span>(clientWhitelistName)
@@ -4456,13 +4892,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewSelectedInstance"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewSelectedInstance</span></h5>
 <div class="sect5">
-<h6 id="_short_description_79">Short description</h6>
+<h6 id="_short_description_89">Short description</h6>
 <div class="paragraph">
 <p>Notify if new instance is selected.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_29">Callback arguments</h6>
+<h6 id="_callback_arguments_32">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4489,7 +4925,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_77">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_87">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewSelectedInstance</span>(selectedObject)
@@ -4504,13 +4940,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewSelectedTab"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewSelectedTab</span></h5>
 <div class="sect5">
-<h6 id="_short_description_80">Short description</h6>
+<h6 id="_short_description_90">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the current selected tab ID.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_30">Callback arguments</h6>
+<h6 id="_callback_arguments_33">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4537,7 +4973,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_78">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_88">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewSelectedTab</span>(newSelectedTab)
@@ -4552,13 +4988,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewServerIP"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewServerIP</span></h5>
 <div class="sect5">
-<h6 id="_short_description_81">Short description</h6>
+<h6 id="_short_description_91">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the server IP address.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_31">Callback arguments</h6>
+<h6 id="_callback_arguments_34">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4585,7 +5021,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_79">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_89">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewServerIP</span>(newIPAddress)
@@ -4600,13 +5036,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewStatusAddIPViaList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusAddIPViaList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_82">Short description</h6>
+<h6 id="_short_description_92">Short description</h6>
 <div class="paragraph">
 <p>Notify status if IP for filter should be added via list selection in UI.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_32">Callback arguments</h6>
+<h6 id="_callback_arguments_35">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4633,7 +5069,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_80">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_90">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusAddIPViaList</span>(status)
@@ -4648,13 +5084,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewStatusClientBroadcastSelected"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusClientBroadcastSelected</span></h5>
 <div class="sect5">
-<h6 id="_short_description_83">Short description</h6>
+<h6 id="_short_description_93">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the status if any client broadcast is selected.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_33">Callback arguments</h6>
+<h6 id="_callback_arguments_36">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4681,7 +5117,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_81">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_91">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusClientBroadcastSelected</span>(status)
@@ -4696,13 +5132,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewStatusClientWhitelistSelected"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusClientWhitelistSelected</span></h5>
 <div class="sect5">
-<h6 id="_short_description_84">Short description</h6>
+<h6 id="_short_description_94">Short description</h6>
 <div class="paragraph">
 <p>Event to provide status if any client whitelist is selected.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_34">Callback arguments</h6>
+<h6 id="_callback_arguments_37">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4729,7 +5165,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_82">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_92">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusClientWhitelistSelected</span>(status)
@@ -4742,15 +5178,63 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </div>
 </div>
 <div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnNewStatusForwardEventForBroadcasts"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusForwardEventForBroadcasts</span></h5>
+<div class="sect5">
+<h6 id="_short_description_95">Short description</h6>
+<div class="paragraph">
+<p>Notify if config of forward events in UI is for broadcasts.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_38">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_93">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusForwardEventForBroadcasts</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnNewStatusForwardEventForBroadcasts</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnNewStatusForwardEventForBroadcasts</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewStatusLoadParameterOnReboot"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewStatusLoadParameterOnReboot</span></h5>
 <div class="sect5">
-<h6 id="_short_description_85">Short description</h6>
+<h6 id="_short_description_96">Short description</h6>
 <div class="paragraph">
 <p>Notify status if parameters should be loaded on app/device boot up.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_35">Callback arguments</h6>
+<h6 id="_callback_arguments_39">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4777,7 +5261,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_83">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_94">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewStatusLoadParameterOnReboot</span>(status)
@@ -4792,13 +5276,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTestDataToSend"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTestDataToSend</span></h5>
 <div class="sect5">
-<h6 id="_short_description_86">Short description</h6>
+<h6 id="_short_description_97">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the data to be sent for testing purposes.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_36">Callback arguments</h6>
+<h6 id="_callback_arguments_40">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4825,7 +5309,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_84">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_95">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTestDataToSend</span>(testDataToSend)
@@ -4840,13 +5324,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTransmitBuffer"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTransmitBuffer</span></h5>
 <div class="sect5">
-<h6 id="_short_description_87">Short description</h6>
+<h6 id="_short_description_98">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the transmittion buffer value.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_37">Callback arguments</h6>
+<h6 id="_callback_arguments_41">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4873,7 +5357,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_85">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_96">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTransmitBuffer</span>(newTransmitBuffer)
@@ -4888,13 +5372,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTransmitTimeout"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTransmitTimeout</span></h5>
 <div class="sect5">
-<h6 id="_short_description_88">Short description</h6>
+<h6 id="_short_description_99">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the transmittion timeout value.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_38">Callback arguments</h6>
+<h6 id="_callback_arguments_42">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4921,7 +5405,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_86">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_97">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTransmitTimeout</span>(newTransmitTimeout)
@@ -4936,13 +5420,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTxFraming"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTxFraming</span></h5>
 <div class="sect5">
-<h6 id="_short_description_89">Short description</h6>
+<h6 id="_short_description_100">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the selected Tx framing type.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_39">Callback arguments</h6>
+<h6 id="_callback_arguments_43">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4969,7 +5453,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_87">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_98">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTxFraming</span>(newTxFraming)
@@ -4984,13 +5468,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTxFramingBufferSize"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTxFramingBufferSize</span></h5>
 <div class="sect5">
-<h6 id="_short_description_90">Short description</h6>
+<h6 id="_short_description_101">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Tx buffer size.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_40">Callback arguments</h6>
+<h6 id="_callback_arguments_44">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5017,7 +5501,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_88">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_99">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTxFramingBufferSize</span>(newTxFramingBufferSize)
@@ -5032,13 +5516,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTxFramingList"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTxFramingList</span></h5>
 <div class="sect5">
-<h6 id="_short_description_91">Short description</h6>
+<h6 id="_short_description_102">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the list of available Tx framing types.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_41">Callback arguments</h6>
+<h6 id="_callback_arguments_45">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5065,7 +5549,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_89">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_100">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTxFramingList</span>(TxFramingList)
@@ -5080,13 +5564,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTxStart"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTxStart</span></h5>
 <div class="sect5">
-<h6 id="_short_description_92">Short description</h6>
+<h6 id="_short_description_103">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Tx Start hex symbol.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_42">Callback arguments</h6>
+<h6 id="_callback_arguments_46">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5113,7 +5597,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_90">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_101">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTxStart</span>(newTxStart)
@@ -5128,13 +5612,13 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewTxStop"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewTxStop</span></h5>
 <div class="sect5">
-<h6 id="_short_description_93">Short description</h6>
+<h6 id="_short_description_104">Short description</h6>
 <div class="paragraph">
 <p>Event to provide the Tx Stop hex symbol.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_43">Callback arguments</h6>
+<h6 id="_callback_arguments_47">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5161,7 +5645,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_91">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_102">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewTxStop</span>(newTxStop)
@@ -5176,14 +5660,14 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewValueToForwardNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewValueToForwardNUM</span></h5>
 <div class="sect5">
-<h6 id="_short_description_94">Short description</h6>
+<h6 id="_short_description_105">Short description</h6>
 <div class="paragraph">
 <p>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI.<br>
 NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1").<br></p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_44">Callback arguments</h6>
+<h6 id="_callback_arguments_48">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5216,7 +5700,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1").<br
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_92">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_103">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewValueToForwardNUM</span>(eventname, value)
@@ -5231,14 +5715,14 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnNewValueUpdateNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnNewValueUpdateNUM</span></h5>
 <div class="sect5">
-<h6 id="_short_description_95">Short description</h6>
+<h6 id="_short_description_106">Short description</h6>
 <div class="paragraph">
 <p>Example of dynamically created event to sync paramters between instance threads and Controller part of module.<br>
 NUM will be replaced by the number of instance (e.g. "OnNewValueToUpdate1").<br></p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_callback_arguments_45">Callback arguments</h6>
+<h6 id="_callback_arguments_49">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5283,7 +5767,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewValueToUpdate1").<br>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_93">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_104">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnNewValueUpdateNUM</span>(instance, parameter, value, selectedObject)
@@ -5298,253 +5782,9 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div class="sect4">
 <h5 id="API:Event:CSK_MultiTCPIPServer.OnPersistentDataModuleAvailable"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnPersistentDataModuleAvailable</span></h5>
 <div class="sect5">
-<h6 id="_short_description_96">Short description</h6>
+<h6 id="_short_description_107">Short description</h6>
 <div class="paragraph">
 <p>Notify status if features of CSK_PersistentData module are available.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_callback_arguments_46">Callback arguments</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_94">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnPersistentDataModuleAvailable</span>(status)
-  <span class="comment">-- Do something</span>
-<span class="keyword">end</span>
-
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnPersistentDataModuleAvailable</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnPersistentDataModuleAvailable</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnReceivedDataNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnReceivedDataNUM</span></h5>
-<div class="sect5">
-<h6 id="_short_description_97">Short description</h6>
-<div class="paragraph">
-<p>Example of dynamically created event to provide received data of instance.<br>
-NUM will be replaced by the number of instance (e.g. "OnReceivedData1").<br>
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_callback_arguments_47">Callback arguments</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Received data.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of source.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">queueSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Queue size.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Needed time.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">errorMsg</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional error message.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_95">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnReceivedDataNUM</span>(data, ipAddress, queueSize, time, errorMsg)
-  <span class="comment">-- Do something</span>
-<span class="keyword">end</span>
-
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnReceivedDataNUM</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnReceivedDataNUM</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnReceivedDataNUM_WHITELISTNAME</span></h5>
-<div class="sect5">
-<h6 id="_short_description_98">Short description</h6>
-<div class="paragraph">
-<p>Example of dynamically created event to provide received data of client whitelist of instance.<br>
-'NUM' and 'WHITELISTNAME' will be replaced by the number of instance and name of client whitelist (e.g. "OnReceivedData1_whitelist1").<br>
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_callback_arguments_48">Callback arguments</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Received data.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of source.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">queueSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Queue size.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Needed time.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">errorMsg</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional error message.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_96">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnReceivedDataNUM_WHITELISTNAME</span>(data, ipAddress, queueSize, time, errorMsg)
-  <span class="comment">-- Do something</span>
-<span class="keyword">end</span>
-
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnReceivedDataNUM_WHITELISTNAME</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnRxFramingDisabled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnRxFramingDisabled</span></h5>
-<div class="sect5">
-<h6 id="_short_description_99">Short description</h6>
-<div class="paragraph">
-<p>Event to disable/enable editing Rx Framing field in UI.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_callback_arguments_49">Callback arguments</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 12.5%;">
-<col style="width: 37.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Multiplicity</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">isDisabled</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true if disabled</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_sample_auto_generated_97">Sample (auto-generated)</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnRxFramingDisabled</span>(isDisabled)
-  <span class="comment">-- Do something</span>
-<span class="keyword">end</span>
-
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnRxFramingDisabled</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnRxFramingDisabled</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnTxFramingDisabled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnTxFramingDisabled</span></h5>
-<div class="sect5">
-<h6 id="_short_description_100">Short description</h6>
-<div class="paragraph">
-<p>Event to disable/enable editing Tx Framing field in UI.</p>
 </div>
 </div>
 <div class="sect5">
@@ -5566,33 +5806,35 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">isDisabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true if disabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_98">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_105">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnTxFramingDisabled</span>(isDisabled)
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnPersistentDataModuleAvailable</span>(status)
   <span class="comment">-- Do something</span>
 <span class="keyword">end</span>
 
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnTxFramingDisabled</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnTxFramingDisabled</span><span class="delimiter">&quot;</span></span>)</code></pre>
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnPersistentDataModuleAvailable</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnPersistentDataModuleAvailable</span><span class="delimiter">&quot;</span></span>)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelAdminActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelAdminActive</span></h5>
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnReceivedDataNUM"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnReceivedDataNUM</span></h5>
 <div class="sect5">
-<h6 id="_short_description_101">Short description</h6>
+<h6 id="_short_description_108">Short description</h6>
 <div class="paragraph">
-<p>Status of Admin userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+<p>Example of dynamically created event to provide received data of instance.<br>
+NUM will be replaced by the number of instance (e.g. "OnReceivedData1").<br>
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</p>
 </div>
 </div>
 <div class="sect5">
@@ -5614,33 +5856,47 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Received data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of source.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Needed time.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_99">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_106">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelAdminActive</span>(status)
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnReceivedDataNUM</span>(data, ipAddress, time)
   <span class="comment">-- Do something</span>
 <span class="keyword">end</span>
 
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelAdminActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelAdminActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnReceivedDataNUM</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnReceivedDataNUM</span><span class="delimiter">&quot;</span></span>)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelMaintenanceActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelMaintenanceActive</span></h5>
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnReceivedDataNUM_WHITELISTNAME</span></h5>
 <div class="sect5">
-<h6 id="_short_description_102">Short description</h6>
+<h6 id="_short_description_109">Short description</h6>
 <div class="paragraph">
-<p>Status of Maintenance userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+<p>Example of dynamically created event to provide received data of client whitelist of instance.<br>
+'NUM' and 'WHITELISTNAME' will be replaced by the number of instance and name of client whitelist (e.g. "OnReceivedData1_whitelist1").<br>
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</p>
 </div>
 </div>
 <div class="sect5">
@@ -5662,33 +5918,45 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Received data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ipAddress</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of source.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Needed time.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_100">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_107">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelMaintenanceActive</span>(status)
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnReceivedDataNUM_WHITELISTNAME</span>(data, ipAddress, time)
   <span class="comment">-- Do something</span>
 <span class="keyword">end</span>
 
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelMaintenanceActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelMaintenanceActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnReceivedDataNUM_WHITELISTNAME</span><span class="delimiter">&quot;</span></span>)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelOperatorActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelOperatorActive</span></h5>
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnRxFramingDisabled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnRxFramingDisabled</span></h5>
 <div class="sect5">
-<h6 id="_short_description_103">Short description</h6>
+<h6 id="_short_description_110">Short description</h6>
 <div class="paragraph">
-<p>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+<p>Event to disable/enable editing Rx Framing field in UI.</p>
 </div>
 </div>
 <div class="sect5">
@@ -5710,37 +5978,85 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isDisabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true if disabled</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_101">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_108">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelOperatorActive</span>(status)
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnRxFramingDisabled</span>(isDisabled)
   <span class="comment">-- Do something</span>
 <span class="keyword">end</span>
 
-Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelOperatorActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelOperatorActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnRxFramingDisabled</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnRxFramingDisabled</span><span class="delimiter">&quot;</span></span>)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelServiceActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelServiceActive</span></h5>
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnTxFramingDisabled"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnTxFramingDisabled</span></h5>
 <div class="sect5">
-<h6 id="_short_description_104">Short description</h6>
+<h6 id="_short_description_111">Short description</h6>
 <div class="paragraph">
-<p>Status of Service userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+<p>Event to disable/enable editing Tx Framing field in UI.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_callback_arguments_54">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isDisabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true if disabled</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_109">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnTxFramingDisabled</span>(isDisabled)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnTxFramingDisabled</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnTxFramingDisabled</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelAdminActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelAdminActive</span></h5>
+<div class="sect5">
+<h6 id="_short_description_112">Short description</h6>
+<div class="paragraph">
+<p>Status of Admin userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_55">Callback arguments</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5767,7 +6083,151 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_sample_auto_generated_102">Sample (auto-generated)</h6>
+<h6 id="_sample_auto_generated_110">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelAdminActive</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelAdminActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelAdminActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelMaintenanceActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelMaintenanceActive</span></h5>
+<div class="sect5">
+<h6 id="_short_description_113">Short description</h6>
+<div class="paragraph">
+<p>Status of Maintenance userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_56">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_111">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelMaintenanceActive</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelMaintenanceActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelMaintenanceActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelOperatorActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelOperatorActive</span></h5>
+<div class="sect5">
+<h6 id="_short_description_114">Short description</h6>
+<div class="paragraph">
+<p>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_57">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_112">Sample (auto-generated)</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelOperatorActive</span>(status)
+  <span class="comment">-- Do something</span>
+<span class="keyword">end</span>
+
+Script.register(<span class="string"><span class="delimiter">&quot;</span><span class="content">CSK_MultiTCPIPServer.OnUserLevelOperatorActive</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">handleOnUserLevelOperatorActive</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="API:Event:CSK_MultiTCPIPServer.OnUserLevelServiceActive"><span class="breadcrumb">CSK_MultiTCPIPServer.</span><span class="api-event">OnUserLevelServiceActive</span></h5>
+<div class="sect5">
+<h6 id="_short_description_115">Short description</h6>
+<div class="paragraph">
+<p>Status of Service userlevel. Used internally in combination with the CSK_UserManagement module if available.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_callback_arguments_58">Callback arguments</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_sample_auto_generated_113">Sample (auto-generated)</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="lua"><span class="keyword">function</span> <span class="function">handleOnUserLevelServiceActive</span>(status)
@@ -5844,7 +6304,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-03-27 15:21:39 +0100
+Last updated 2024-04-25 13:59:46 +0200
 </div>
 </div>
 <script type="text/javascript">

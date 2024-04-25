@@ -61,8 +61,8 @@ A created broadcast can be used by calling the dynamically created 'CSK_MultiTCP
                     <desc>Event to share processing parameters to the instances.</desc>
                     <param desc="Number of the instance to receive the parameter." multiplicity="1" name="objectNo" type="int"/>
                     <param desc="Name of the parameter." multiplicity="1" name="parameter" type="string"/>
-                    <param desc="Value of the parameter." multiplicity="1" name="value" type="auto"/>
-                    <param desc="If parameter is for specifici internal used object, its number." multiplicity="?" name="internalObjectNo" type="int"/>
+                    <param desc="Value of the parameter." multiplicity="?" name="value" type="auto"/>
+                    <param desc="Optional custom value." multiplicity="?" name="internalValue" type="auto"/>
                 </event>
                 <event name="OnNewSelectedInstance">
                     <desc>Notify if new instance is selected.</desc>
@@ -286,9 +286,7 @@ NUM will be replaced by the number of instance (e.g. "OnReceivedData1"). +
 INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
                     <param desc="Received data." multiplicity="1" name="data" type="string"/>
                     <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
-                    <param desc="Queue size." multiplicity="1" name="queueSize" type="int"/>
                     <param desc="Needed time." multiplicity="1" name="time" type="int"/>
-                    <param desc="Optional error message." multiplicity="?" name="errorMsg" type="string"/>
                 </event>
                 <event name="OnReceivedDataNUM_WHITELISTNAME">
                     <desc>Example of dynamically created event to provide received data of client whitelist of instance. +
@@ -296,9 +294,23 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
 INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
                     <param desc="Received data." multiplicity="1" name="data" type="string"/>
                     <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
-                    <param desc="Queue size." multiplicity="1" name="queueSize" type="int"/>
                     <param desc="Needed time." multiplicity="1" name="time" type="int"/>
-                    <param desc="Optional error message." multiplicity="?" name="errorMsg" type="string"/>
+                </event>
+                <event name="OnNewEventToForwardList">
+                    <desc>Notify list of events to register to and to forward its content to all connected TCP/IP clients.</desc>
+                    <param desc="List" multiplicity="1" name="list" type="string"/>
+                </event>
+                <event name="OnNewStatusForwardEventForBroadcasts">
+                    <desc>Notify if config of forward events in UI is for broadcasts.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewClientWhitelistName">
+                    <desc>Notify name of whitelist to create.</desc>
+                    <param desc="Name" multiplicity="1" name="name" type="string"/>
+                </event>
+                <event name="OnNewClientBroadcastName">
+                    <desc>Notify name of broadcast to create.</desc>
+                    <param desc="Name" multiplicity="1" name="name" type="string"/>
                 </event>
                 <function name="setListenState">
                     <desc>Function to turn server on or off.</desc>
@@ -445,7 +457,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                 </function>
                 <function name="setClientBroadcastName">
                     <trait>released</trait>
-                    <desc>Set a new name of the selected client broadcast.</desc>
+                    <desc>Set a name to create a new client broadcast via 'createClientBroadcast'.</desc>
                     <param desc="New name of the message." multiplicity="1" name="newName" type="string"/>
                 </function>
                 <function name="setSelectedClientBroadcast">
@@ -455,7 +467,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                 </function>
                 <function name="createClientBroadcast">
                     <trait>released</trait>
-                    <desc>Create a new client broadcast with default name.</desc>
+                    <desc>Create a new client broadcast with preset name (see 'setClientBroadcastName').</desc>
                 </function>
                 <function name="deleteClientBroadcast">
                     <trait>released</trait>
@@ -507,9 +519,34 @@ INFO: Other modules can check via "Script.isServedAsFunction" if function of sep
 Needs then to be called via "Script.callFunction".</desc>
                     <param desc="Data to write." multiplicity="1" name="data" type="auto"/>
                     <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
-                    <return desc="Details if sending failed." multiplicity="1" name="queueSize" type="string"/>
                     <return desc="Needed time." multiplicity="1" name="neededTime" type="int"/>
                     <return desc="Optional error message." multiplicity="?" name="error" type="string"/>
+                </function>
+                <function name="selectEventToForwardViaUI">
+                    <desc>Select an event to forward the content of its first parameter to all TCP/IP clients via UI.</desc>
+                    <param desc="Selected event." multiplicity="1" name="selection" type="string"/>
+                </function>
+                <function name="addEventToForward">
+                    <desc>Add an event to register to and to forward the content of its first parameter (as string) to all connected TCP/IP clients.</desc>
+                    <param desc="Name of event to register to." multiplicity="1" name="event" type="string"/>
+                </function>
+                <function name="addEventToForwardViaUI">
+                    <desc>Add event to register to and forward content (first event parameter as string) to all connected TCPI/IP cleints via UI (event needs to be prefilled on UI / via "setEventToForward").</desc>
+                </function>
+                <function name="deleteEventToForward">
+                    <desc>Remove event to forward content.</desc>
+                    <param desc="Eventname" multiplicity="1" name="event" type="string"/>
+                </function>
+                <function name="deleteEventToForwardViaUI">
+                    <desc>Remove event preselected via UI.</desc>
+                </function>
+                <function name="setEventToForward">
+                    <desc>Preset event to register to and forward content to all connected TCP/IP clients via UI.</desc>
+                    <param desc="Event to register to." multiplicity="1" name="value" type="string"/>
+                </function>
+                <function name="setForwardBroadcastEvent">
+                    <desc>Function to set if adding/deleting forwarding events in UI is for broadcasts.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </function>
             </serves>
         </crown>
@@ -519,7 +556,7 @@ Needs then to be called via "Script.callFunction".</desc>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>
         <meta key="crown2-flow-engine">false</meta>
-        <meta key="LuaLoadAllEngineAPI">true</meta>
+        <meta key="LuaLoadAllEngineAPI">false</meta>
         <entry default="CSK_Module_MultiTCPIPServer.lua" path="scripts"/>
     </application>
 </manifest>

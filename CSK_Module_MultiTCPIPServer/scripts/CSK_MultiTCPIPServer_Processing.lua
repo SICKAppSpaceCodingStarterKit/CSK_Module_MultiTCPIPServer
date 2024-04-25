@@ -2,7 +2,7 @@
 
 -- If App property "LuaLoadAllEngineAPI" is FALSE, use this to load and check for required APIs
 -- This can improve performance of garbage collection
--- local availableAPIs = require('Mainfolder/Subfolder/helper/checkAPIs') -- check for available APIs
+local availableAPIs = require('Communication/MultiTCPIPServer/helper/checkAPIs') -- check for available APIs
 -----------------------------------------------------------
 local nameOfModule = 'CSK_MultiTCPIPServer'
 --Logger
@@ -21,8 +21,6 @@ Script.serveEvent("CSK_MultiTCPIPServer.OnNewValueUpdate" .. multiTCPIPServerIns
 local handleTCPIPServer -- TCPIP server handle
 local connectedClientsIPs = {} -- array of the IP addresses of the connected clients
 local conHandles = {} -- table with connection handles and info of the connected clients
-local receiveDataQueue = Script.Queue.create() -- queue to track the calls when the data is received
-local sendDataQueue = Script.Queue.create() -- queue to track the calls when the data is sent
 local clientWhitelistsEventsAny = {} -- list of events to be notified when data is received from any clients
 local clientWhitelistsEventsFiltered = {} -- list of events to be notified when data is received from clients in the filter of client whitelist
 local ipToClientWhitelistNameMap = { -- table containing map of filtered IP addresses to message names for event notification convenience 
@@ -46,8 +44,10 @@ processingParams.clientWhitelists = json.decode(scriptParams:get('clientWhitelis
 processingParams.clientBroadcasts = json.decode(scriptParams:get('clientBroadcasts'))
 processingParams.onReceivedDataEventName = scriptParams:get('onReceivedDataEventName')
 processingParams.sendDataFunctionName = scriptParams:get('sendDataFunctionName')
+processingParams.forwardEvents = {}
+processingParams.broadcastFunction = {}
 
-Script.serveEvent(processingParams.onReceivedDataEventName, processingParams.onReceivedDataEventName, 'string:1:,string:1:,int:1:,int:1:,string:?:')
+Script.serveEvent(processingParams.onReceivedDataEventName, processingParams.onReceivedDataEventName, 'string:1:,string:1:,int:1:')
 
 --- Function to notify latest log messages, e.g. to show on UI
 local function sendLog()
@@ -128,25 +128,17 @@ local function handleOnReceiveData(conHandle, data)
   end
   sendLog()
 
-  local queueSize = receiveDataQueue:getSize()
-  local errorMessage
-  if queueSize > 10 then
-    errorMessage = 'Queue is building up: ' .. tostring(queueSize) ..' clearing the queue'
-    receiveDataQueue:clear()
-  end
-
   local timestamp2 = DateTime.getTimestamp()
   for _, eventName in ipairs(clientWhitelistsEventsAny) do
-    Script.notifyEvent(eventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
+    Script.notifyEvent(eventName, data, ipAddress, timestamp2-timestamp1)
   end
   if clientWhitelistsEventsFiltered[ipAddress] then
     for _, eventName in ipairs(clientWhitelistsEventsFiltered[ipAddress]) do
-      Script.notifyEvent(eventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
+      Script.notifyEvent(eventName, data, ipAddress, timestamp2-timestamp1)
     end
   end
-  Script.notifyEvent(processingParams.onReceivedDataEventName, data, ipAddress, queueSize, timestamp2-timestamp1, errorMessage)
+  Script.notifyEvent(processingParams.onReceivedDataEventName, data, ipAddress, timestamp2-timestamp1)
 end
-receiveDataQueue:setFunction({handleOnReceiveData})
 
 -- Function called to set the messages expected from any or some specific clients and register the respected events.
 local function setClientWhitelists()
@@ -158,7 +150,7 @@ local function setClientWhitelists()
   clientWhitelistsEventsFiltered = {}
   for messageName, messageInfo in pairs(processingParams.clientWhitelists) do
     if not Script.isServedAsEvent(messageInfo.eventName) then
-      Script.serveEvent(messageInfo.eventName, messageInfo.eventName, 'string:1:,string:1:,int:1:,int:1:,string:?:')
+      Script.serveEvent(messageInfo.eventName, messageInfo.eventName, 'string:1:,string:1:,int:1:')
     end
     if messageInfo.ipFilterInfo then
       for _, ipAddress in ipairs(messageInfo.ipFilterInfo.filteredIPs) do
@@ -179,9 +171,14 @@ local function setClientWhitelists()
 end
 
 local function sendData(dataToSend, clientsIPs)
-  if not clientsIPs or #clientsIPs == 0 then
+  if not clientsIPs or type(clientsIPs) ~= 'table' then
     clientsIPs = connectedClientsIPs
+  else
+    if #clientsIPs == 0 then
+      clientsIPs = connectedClientsIPs
+    end
   end
+
   local totalNumberOfBytesTransmitted = 0
   for _, ipAddress in ipairs(clientsIPs) do
     if conHandles[ipAddress] then
@@ -210,9 +207,8 @@ local function sendData(dataToSend, clientsIPs)
 end
 Script.serveFunction(processingParams.sendDataFunctionName, sendData, "string:1:,string:*:","bool:1:,string:?:")
 
--- Function called to set the messages to be written to any or some specific clients and serve the respected functions.
+--- Function called to set the messages to be written to any or some specific clients and serve the respected functions.
 local function setClientBroadcasts()
-  local queueFunctions = {}
   for messageName, messageInfo in pairs(processingParams.clientBroadcasts) do
     local function sendMessage(dataToWrite)
       if dataToWrite == nil then
@@ -225,24 +221,19 @@ local function setClientBroadcasts()
       else
         success, errorMessage = sendData(tostring(dataToWrite))
       end
-      local queueSize = sendDataQueue:getSize()
-      if queueSize > 10 then
-        errorMessage = 'Queue is building up: ' .. tostring(queueSize) ..' clearing the queue'
-        sendDataQueue:clear()
-      end
       local timestamp2 = DateTime.getTimestamp()
-      return success, queueSize, timestamp2-timestamp1, errorMessage
+      return success, timestamp2-timestamp1, errorMessage
     end
 
     if not Script.isServedAsFunction(messageInfo.functionName) then
-      Script.serveFunction(messageInfo.functionName, sendMessage, 'auto:1:', 'bool:1:,int:1:,int:1:,string:?:')
+      Script.serveFunction(messageInfo.functionName, sendMessage, 'auto:1:', 'bool:1:,int:1:,string:?:')
+      processingParams.broadcastFunction[messageName] = sendMessage
     end
-    table.insert(queueFunctions, messageInfo.functionName)
+    processingParams.clientBroadcasts[messageName].forwardEvents = {}
   end
-  sendDataQueue:setFunction(queueFunctions)
 end
 
---- Function to start the TCP-IP server
+--- Function to start the TCP/IP server
 local function startServer()
   handleTCPIPServer = TCPIPServer.create()
   handleTCPIPServer:setPort(processingParams.port)
@@ -272,22 +263,24 @@ end
 
 --- Function to stop the TCP-IP server
 local function stopServer()
-  handleTCPIPServer:deregister("OnConnectionAccepted", handleOnConnectionAccepted)
-  handleTCPIPServer:deregister("OnConnectionClosed", handleOnConnectionClosed)
-  handleTCPIPServer:deregister("OnReceive", handleOnReceiveData)
-  conHandles = {}
-  getConnectedClientsIPs()
-  Script.releaseObject(handleTCPIPServer)
-  handleTCPIPServer = nil
-  _G.logger:fine(nameOfModule .. ": Stopped server.")
+  if handleTCPIPServer then
+    handleTCPIPServer:deregister("OnConnectionAccepted", handleOnConnectionAccepted)
+    handleTCPIPServer:deregister("OnConnectionClosed", handleOnConnectionClosed)
+    handleTCPIPServer:deregister("OnReceive", handleOnReceiveData)
+    conHandles = {}
+    getConnectedClientsIPs()
+    Script.releaseObject(handleTCPIPServer)
+    handleTCPIPServer = nil
+    _G.logger:fine(nameOfModule .. ": Stopped server.")
+  end
 end
 
 --- Function to handle updates of processing parameters from Controller
 ---@param multiTCPIPServerNo int Number of instance to update
 ---@param parameter string Parameter to update
 ---@param value auto Value of parameter to update
----@param internalObjectNo int? Number of object
-local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, value, internalObjectNo)
+---@param internalValue auto? Custom value
+local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, value, internalValue)
   if multiTCPIPServerNo == multiTCPIPServerInstanceNumber then -- set parameter only in selected script
     _G.logger:fine(nameOfModule .. ": Update parameter '" .. parameter .. "' of multiTCPIPServerInstanceNo." .. tostring(multiTCPIPServerNo) .. " to value = " .. tostring(value))
 
@@ -308,6 +301,57 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
     elseif parameter == 'clientBroadcasts' then
       processingParams.clientBroadcasts = json.decode(value)
       setClientBroadcasts()
+    elseif parameter == 'addEvent' then
+
+      if internalValue then -- Broadcast info
+        -- Check if subTable exists, otherwise create
+        if not processingParams.clientBroadcasts[internalValue].forwardEvents then
+          processingParams.clientBroadcasts[internalValue].forwardEvents = {}
+        end
+
+        if processingParams.clientBroadcasts[internalValue].forwardEvents[value] then
+          Script.deregister(processingParams.clientBroadcasts.forwardEvents[value], processingParams.broadcastFunction[internalValue])
+        end
+        processingParams.clientBroadcasts[internalValue].forwardEvents[value] = value
+        local suc = Script.register(value, processingParams.broadcastFunction[internalValue])
+        _G.logger:fine(nameOfModule .. ": Added event to forward content = " .. value .. " on instance No. " .. multiTCPIPServerInstanceNumberString .. ' to broadcast ' .. tostring(internalValue))
+      else
+        if processingParams.forwardEvents[value] then
+          Script.deregister(processingParams.forwardEvents[value], sendData)
+        end
+        processingParams.forwardEvents[value] = value
+        local suc = Script.register(value, sendData)
+        _G.logger:fine(nameOfModule .. ": Added event to forward content = " .. value .. " on instance No. " .. multiTCPIPServerInstanceNumberString)
+      end
+    elseif parameter == 'removeEvent' then
+      if internalValue then -- Broadcast info
+        processingParams.clientBroadcasts[internalValue].forwardEvents[value] = nil
+        local suc = Script.deregister(value, processingParams.broadcastFunction[internalValue])
+        _G.logger:fine(nameOfModule .. ": Deleted event = " .. tostring(value) .. " on instance No. " .. multiTCPIPServerInstanceNumberString .. ' of broadcast ' .. tostring(internalValue))
+      else
+        processingParams.forwardEvents[value] = nil
+        local suc = Script.deregister(value, sendData)
+        _G.logger:fine(nameOfModule .. ": Deleted event = " .. tostring(value) .. " on instance No. " .. multiTCPIPServerInstanceNumberString)
+      end
+    elseif parameter == 'deregisterBroadcast' then
+      for eventName, _ in pairs(processingParams.clientBroadcasts[value].forwardEvents) do
+        Script.deregister(eventName, processingParams.broadcastFunction[value])
+      end
+    elseif parameter == 'clearAll' then
+      for forwardEvent in pairs(processingParams.forwardEvents) do
+        processingParams.forwardEvents[forwardEvent] = nil
+        Script.deregister(forwardEvent, sendData)
+      end
+      -- Clear all broadcast functions as well
+      for broadcastName, _ in pairs(processingParams.clientBroadcasts) do
+        if type(processingParams.clientBroadcasts[broadcastName].forwardEvents) == 'table' then
+          for eventName, _ in pairs(processingParams.clientBroadcasts[broadcastName].forwardEvents) do
+            Script.deregister(eventName, processingParams.broadcastFunction[broadcastName])
+          end
+        end
+      end
+      processingParams.clientBroadcasts = {}
+
     else
       processingParams[parameter] = value
     end

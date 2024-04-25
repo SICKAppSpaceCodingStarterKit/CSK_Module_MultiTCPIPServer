@@ -6,14 +6,19 @@
 local availableAPIs = {}
 
 local function loadAPIs()
-  CSK_ModuleName = require 'API.CSK_ModuleName'
+  CSK_MultiTCPIPServer = require 'API.CSK_MultiTCPIPServer'
 
   Container = require 'API.Container'
+  DateTime = require 'API.DateTime'
+  Ethernet = require 'API.Ethernet'
+  Ethernet.Interface = require 'API.Ethernet.Interface'
   Engine = require 'API.Engine'
   Log = require 'API.Log'
   Log.Handler = require 'API.Log.Handler'
   Log.SharedLogger = require 'API.Log.SharedLogger'
   Object = require 'API.Object'
+  TCPIPServer = require 'API.TCPIPServer'
+  TCPIPServer.Connection = require 'API.TCPIPServer.Connection'
   Timer = require 'API.Timer'
 
   -- Check if related CSK modules are available to be used

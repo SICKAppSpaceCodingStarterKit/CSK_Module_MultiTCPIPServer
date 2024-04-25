@@ -47,9 +47,12 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.parametersName = 'CSK_MultiTCPIPServer_Parameter' .. self.multiTCPIPServerInstanceNoString -- name of parameter dataset to be used for this module
   self.parameterLoadOnReboot = false -- Status if parameter dataset should be loaded on app/device reboot
 
+  self.RxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for received data
+  self.TxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for transmitted data
+
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
-  self.parameters.listenState = false
+  self.parameters.listenState = false -- Status if server should be active to listen for clients
   self.parameters.processingFile = 'CSK_MultiTCPIPServer_Processing' -- which file to use for processing (will be started in own thread)
   self.currentDevice = Engine.getTypeName() -- device type running the app
   if self.currentDevice == 'Webdisplay' then
@@ -63,16 +66,17 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.parameters.port = 1234 -- port number to listen to
   self.parameters.RxFrameMode = 'Empty' -- type of framing for received data
   self.parameters.TxFrameMode = 'Empty' -- type of framing for transmitted data
-  self.RxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for received data
-  self.TxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for transmitted data
   self.parameters.framing = {'','','',''} -- array with start/end framing of received and transmitted data
   self.parameters.framingBufferSize = {10240, 10240} -- array with size of the internal framing parser buffer for received and transmitted data in bytes
   self.parameters.maxConnections = 10 -- limit of connections
   self.parameters.transmitAckTimeout = 15000 -- data transmittion acknowledgement timeout in millliseconds
   self.parameters.transmitBufferSize = 0 --  size of the socket’s send buffer
   self.parameters.transmitTimeout = 15000 -- timeout for transmits, in milliseconds
+  self.parameters.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server
   self.parameters.clientWhitelists = {} -- info about configured client whitelists
   self.parameters.clientBroadcasts = {} -- info about configured client broadcasts
+  self.parameters.clientBroadcasts.names = {} -- Names of configured client broadcasts
+  self.parameters.clientBroadcasts.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server limited to client broadcast
   self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
   self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString -- function name to call to send data to all clients
 
