@@ -30,6 +30,7 @@ It is possible to register to events provided by other modules to forward their 
 1. Select if the content should be forwarded only for specific clients (defined by a client broadcast list, see in next chapters)
 2. Set the event to register
 3. Add / delete registration to event
+   
 ![plot](./docu/media/forwardEvents.png)
 
 ### Client whitelists
@@ -37,6 +38,7 @@ Whitelists can be used to filter for data of specific data sources. It is possib
 1. Create, delete and select the whitelist
 2. Event to register for forwarded data from the selected whitelist is shown here
 3. Add IP addresses to whitelist here
+   
 ![plot](./docu/media/clientWhitelist.png)
 
 ### Client broadcasts
@@ -45,6 +47,7 @@ Broadcasts can be used to send data only to specific clients. It is possible to 
 2. Function to call to send data for the selected broadcast is shown here
 3. Add IP addresses to the broadcast here
 4. Input field to test sending data via the selected broadcast
+   
 ![plot](./docu/media/clientBroadcast.png)
 
 ## Information
