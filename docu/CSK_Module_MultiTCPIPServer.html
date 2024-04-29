@@ -619,7 +619,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 <div class="details">
 <span id="author" class="author">SICK AG</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-04-25</span>
+<span id="revdate">2024-04-29</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -790,7 +790,7 @@ h1,h2,h3,h4,h5,h6{color:#007cc1}
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Date</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2024-04-29</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">Author</p></th>
@@ -858,15 +858,17 @@ It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.se
 <br>
 <strong>5. Client whitelists</strong><br>
 Whitelists can be used to filter for data of specific data sources. It is possible to set an IP filter for each created whitelist.<br>
-- Create a new whitelist via 'createClientWhitelist'<br>
-- Selecte the whitelist via 'setSelectedClientWhitelist' and rename it with 'setClientWhitelistName'.<br>
+- Set name of a whitelist to be created via 'setClientWhitelistName'.<br>
+- Create a new whitelist via 'createClientWhitelist'.<br>
+- Select the whitelist via 'setSelectedClientWhitelist' and delete it with 'deleteClientWhitelist'.<br>
 - Now you can add IP addresses to this whitelist via 'setIPAddressToAddToClientWhitelist'.<br>
 Incoming data will be provided via event 'CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME' ('NUM' and 'WHITELISTNAME' will be replaced by instance number and name of whitelist).<br>
 <br>
 <strong>6. Client broadcasts</strong><br>
 Broadcasts can be used to send data only to specific clients. It is possible to set individual IP filter for each created broadcast.<br>
-- Create a new broadcast via 'createClientBroadcast'<br>
-- Selecte the broadcast via 'setSelectedClientBroadcast' and rename it with 'setClientBroadcastName'.<br>
+- Set name of a broadcast to be created via 'setClientBroadcastName'.<br>
+- Create a new broadcast via 'createClientBroadcast'.<br>
+- Select the broadcast via 'setSelectedClientBroadcast' and delete it with 'deleteClientBroadcast'.<br>
 - Now you can add IP addresses to this broadcast via 'setIPAddressToAddToClientBroadcast'.<br>
 A created broadcast can be used by calling the dynamically created 'CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME' functions ('NUM' and 'BROADCASTNAME' will be replaced by instance number and name of the broadcast).<br></p>
 </div>
@@ -2218,7 +2220,7 @@ Needs then to be called via "Script.callFunction".</p>
 <div class="sect5">
 <h6 id="_short_description_31">Short description</h6>
 <div class="paragraph">
-<p>Set a new name of the selected client whitelist.</p>
+<p>Set a new name of a whitelist to be created.</p>
 </div>
 </div>
 <div class="sect5">
@@ -6304,7 +6306,7 @@ Script.register(<span class="string"><span class="delimiter">&quot;</span><span 
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-04-25 13:59:46 +0200
+Last updated 2024-04-29 16:50:43 +0200
 </div>
 </div>
 <script type="text/javascript">

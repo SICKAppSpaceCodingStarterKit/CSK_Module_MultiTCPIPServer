@@ -27,15 +27,17 @@ It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.se
 {empty} +
 **5. Client whitelists** +
 Whitelists can be used to filter for data of specific data sources. It is possible to set an IP filter for each created whitelist. +
-- Create a new whitelist via 'createClientWhitelist' +
-- Selecte the whitelist via 'setSelectedClientWhitelist' and rename it with 'setClientWhitelistName'. +
+- Set name of a whitelist to be created via 'setClientWhitelistName'. +
+- Create a new whitelist via 'createClientWhitelist'. +
+- Select the whitelist via 'setSelectedClientWhitelist' and delete it with 'deleteClientWhitelist'. +
 - Now you can add IP addresses to this whitelist via 'setIPAddressToAddToClientWhitelist'. +
 Incoming data will be provided via event 'CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME' ('NUM' and 'WHITELISTNAME' will be replaced by instance number and name of whitelist). +
 {empty} +
 **6. Client broadcasts** +
 Broadcasts can be used to send data only to specific clients. It is possible to set individual IP filter for each created broadcast. +
-- Create a new broadcast via 'createClientBroadcast' +
-- Selecte the broadcast via 'setSelectedClientBroadcast' and rename it with 'setClientBroadcastName'. +
+- Set name of a broadcast to be created via 'setClientBroadcastName'. +
+- Create a new broadcast via 'createClientBroadcast'. +
+- Select the broadcast via 'setSelectedClientBroadcast' and delete it with 'deleteClientBroadcast'. +
 - Now you can add IP addresses to this broadcast via 'setIPAddressToAddToClientBroadcast'. +
 A created broadcast can be used by calling the dynamically created 'CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME' functions ('NUM' and 'BROADCASTNAME' will be replaced by instance number and name of the broadcast). +</desc>
             <enum name="FramingType" trait="released">
@@ -419,7 +421,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                 </function>
                 <function name="setClientWhitelistName">
                     <trait>released</trait>
-                    <desc>Set a new name of the selected client whitelist.</desc>
+                    <desc>Set a new name of a whitelist to be created.</desc>
                     <param desc="New name of the whitelist." multiplicity="1" name="newName" type="string"/>
                 </function>
                 <function name="setSelectedClientWhitelist">
