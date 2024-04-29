@@ -17,29 +17,9 @@ funcs.json = require('Communication/MultiTCPIPServer/helper/Json')
 --**********************Start Function Scope *******************************
 --**************************************************************************
 
-local function copy(origTable, seen)
-  if type(origTable) ~= 'table' then return origTable end
-  if seen and seen[origTable] then return seen[origTable] end
-  local s = seen or {}
-  local res = setmetatable({}, getmetatable(origTable))
-  s[origTable] = res
-  for k, v in pairs(origTable) do res[copy(k, s)] = copy(v, s) end
-  return res
-end
-funcs.copy = copy
-
-local function getTableSize(someTable)
-  if not someTable then
-    return 0
-  end
-  local size = 0
-  for _,_ in pairs(someTable) do
-    size = size + 1
-  end
-  return size
-end
-funcs.getTableSize = getTableSize
-
+--- Function to convert hex to string
+---@param hex string String with hex content
+---@return string readableString Readable string
 local function convertHex2String(hex)
   local readableString = ''
   if #hex > 0 then
@@ -56,6 +36,9 @@ local function convertHex2String(hex)
 end
 funcs.convertHex2String = convertHex2String
 
+--- Function to convert string to hex
+---@param readableString string String
+---@return string hex String as hex
 local function convertString2Hex(readableString)
   local hex = ''
   if #readableString > 0 and string.sub(readableString,1,1) == [[\]] then
@@ -75,7 +58,9 @@ local function convertString2Hex(readableString)
 end
 funcs.convertString2Hex = convertString2Hex
 
-
+--- Function to check if string has valid IP
+---@param ip string String with IP
+---@return bool result Result
 local function checkIP(ip)
   if not ip then return false end
   local a,b,c,d=ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
@@ -224,6 +209,42 @@ local function createStringListBySimpleTable(content)
   return list
 end
 funcs.createStringListBySimpleTable = createStringListBySimpleTable
+
+--- Function to create a JSON string out of a table content
+---@param list string Type of list
+---@param content string[] Lua Table with entries for list
+---@return string jsonstring List created of table entries
+local function createSpecificJsonList(list, content)
+  local commandList = {}
+  if content == nil then
+    if list == 'commandList' then
+      commandList = {{TriggerCommand = '-', notifyEvent = '-'},}
+    else
+      commandList = {{EventToForward = '-'},}
+    end
+  else
+    local size = 0
+      for key, value in pairs(content) do
+        if list == 'commandList' then
+          table.insert(commandList, {TriggerCommand = key, notifyEvent = 'CSK_MultiTCPIPServer.' .. value})
+        elseif list == 'eventToForward' then
+          table.insert(commandList, {EventToForward = key})
+        end
+        size = size + 1
+      end
+      if size == 0 then
+        if list == 'commandList' then
+          commandList = {{TriggerCommand = '-', notifyEvent = '-'},}
+        elseif list == 'eventToForward' then
+          commandList = {{EventToForward = '-'},}
+        end
+      end
+  end
+
+  local jsonstring = funcs.json.encode(commandList)
+  return jsonstring
+end
+funcs.createSpecificJsonList = createSpecificJsonList
 
 return funcs
 

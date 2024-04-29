@@ -31,7 +31,7 @@
 -- If app property "LuaLoadAllEngineAPI" is FALSE, use this to load and check for required APIs
 -- This can improve performance of garbage collection
 
--- _G.availableAPIs = require('Communication/MultiTCPIPServer/helper/checkAPIs') -- can be used to adjust function scope of the module related on available APIs of the device
+_G.availableAPIs = require('Communication/MultiTCPIPServer/helper/checkAPIs') -- can be used to adjust function scope of the module related on available APIs of the device
 -----------------------------------------------------------
 -- Logger
 _G.logger = Log.SharedLogger.create('ModuleLogger')
@@ -60,31 +60,6 @@ multiTCPIPServerController.setMultiTCPIPServer_Instances_Handle(multiTCPIPServer
 --**********************Start Function Scope *******************************
 --**************************************************************************
 
---[[
---- Function to show how this module could be used
-local function startProcessing()
-
-  CSK_MultiTCPIPServer.setSelectedInstance(1) --> select instance of module
-  CSK_MultiTCPIPServer.doSomething() --> preparation
-
-  -- Option A --> prepare an event to trigger processing via this one
-  --Script.serveEvent("CSK_MultiTCPIPServer.OnNewTestEvent", "MultiTCPIPServer_OnNewTestEvent") --> Create event to listen to and process forwarded object
-  --CSK_MultiTCPIPServer.setRegisterEvent('CSK_MultiTCPIPServer.OnNewTestEvent') --> Register processing to the event
-
-  --Script.notifyEvent('OnNewTestEvent', data)
-
-    -- Option B --> trigger processing via function call
-    local result = CSK_MultiTCPIPServer.processSomething(data)
-
-  end
-end
-
--- Call processing function after persistent data was loaded
---Script.register("CSK_MultiTCPIPServer.OnDataLoadedOnReboot", startProcessing)
-]]
-
---OR
-
 --- Function to react on startup event of the app
 local function main()
 
@@ -99,7 +74,6 @@ local function main()
   -- Can be used e.g. like this
   ----------------------------------------------------------------------------------------
 
-  --startProcessing() --> see above
   CSK_MultiTCPIPServer.pageCalled() -- Update UI
 
 end
