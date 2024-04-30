@@ -3,23 +3,53 @@
     <application name="CSK_Module_MultiTCPIPServer">
         <crown name="CSK_Module_MultiTCPIPServer">
             <desc>This is an automatically generated CROWN (description not necessary).</desc>
+            <serves/>
         </crown>
         <crown name="CSK_MultiTCPIPServer">
             <trait>released</trait>
-            <desc>Please fill in information regarding: What is the idea of this module and its features? +
-How to use this module in general.... like: +
-{empty} + 
+            <desc>This CSK module provides an easy access to TCP/IP Server functionality and provides a UI for all relevant features. +
+The main externally useful features are following: +
+{empty} +
 Typically the features of this module are used like this (check also main script of this module): +
-{empty} + 
-**1) Setup** +
-ToDo +
-{empty} + 
-**2) Something else....** +
-</desc>
+{empty} +
+**1. Setup the TCP/IP server configuration** +
+- Select the server via 'setSelectedInstance'. If needed, add a new instance via 'addInstance'. +
+- Setup the interface, port, framing, etc. via its related 'set...' function. +
+- Start / stop to wait for clients via 'setListenState'. +
+{empty} +
+NOTE! Server must be restarted with "setListenState(false)" - "setListenState(true)" to apply new settings. +
+{empty} +
+**3. Receive data** +
+It is possible to receive data via dynamically created "CSK_MultiTCPIPServer.OnReceivedDataNUM" events or "client whitelists" (see chapter 5). +
+{empty} +
+**4. Data transmission** +
+It is possible to transmit data via dynamically created "CSK_MultiTCPIPServer.sendDataNUM" functions or "client broadcasts" (see chapter 6). +
+{empty} +
+**5. Client whitelists** +
+Whitelists can be used to filter for data of specific data sources. It is possible to set an IP filter for each created whitelist. +
+- Set name of a whitelist to be created via 'setClientWhitelistName'. +
+- Create a new whitelist via 'createClientWhitelist'. +
+- Select the whitelist via 'setSelectedClientWhitelist' and delete it with 'deleteClientWhitelist'. +
+- Now you can add IP addresses to this whitelist via 'setIPAddressToAddToClientWhitelist'. +
+Incoming data will be provided via event 'CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME' ('NUM' and 'WHITELISTNAME' will be replaced by instance number and name of whitelist). +
+{empty} +
+**6. Client broadcasts** +
+Broadcasts can be used to send data only to specific clients. It is possible to set individual IP filter for each created broadcast. +
+- Set name of a broadcast to be created via 'setClientBroadcastName'. +
+- Create a new broadcast via 'createClientBroadcast'. +
+- Select the broadcast via 'setSelectedClientBroadcast' and delete it with 'deleteClientBroadcast'. +
+- Now you can add IP addresses to this broadcast via 'setIPAddressToAddToClientBroadcast'. +
+A created broadcast can be used by calling the dynamically created 'CSK_MultiTCPIPServer.sendDataNUM_BROADCASTNAME' functions ('NUM' and 'BROADCASTNAME' will be replaced by instance number and name of the broadcast). +</desc>
+            <enum name="FramingType" trait="released">
+                <desc>Framing type of TCPIP server for Rx or Tx data.</desc>
+                <item desc="Start framing is STX, end framing is ETX." name="STX_ETX">STX-ETX</item>
+                <item desc="Empty framing." name="Empty">Empty</item>
+                <item desc="Custom type where user can set ant start / end symbols." name="Custom">Custom</item>
+            </enum>
             <serves>
                 <event name="OnNewStatusLoadParameterOnReboot">
                     <desc>Notify status if parameters should be loaded on app/device boot up.</desc>
-                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                    <param desc="Status." multiplicity="1" name="status" type="bool"/>
                 </event>
                 <event name="OnPersistentDataModuleAvailable">
                     <desc>Notify status if features of CSK_PersistentData module are available.</desc>
@@ -33,8 +63,8 @@ ToDo +
                     <desc>Event to share processing parameters to the instances.</desc>
                     <param desc="Number of the instance to receive the parameter." multiplicity="1" name="objectNo" type="int"/>
                     <param desc="Name of the parameter." multiplicity="1" name="parameter" type="string"/>
-                    <param desc="Value of the parameter." multiplicity="1" name="value" type="auto"/>
-                    <param desc="If parameter is for specifici internal used object, its number." multiplicity="?" name="internalObjectNo" type="int"/>
+                    <param desc="Value of the parameter." multiplicity="?" name="value" type="auto"/>
+                    <param desc="Optional custom value." multiplicity="?" name="internalValue" type="auto"/>
                 </event>
                 <event name="OnNewSelectedInstance">
                     <desc>Notify if new instance is selected.</desc>
@@ -43,15 +73,9 @@ ToDo +
                 <event name="OnDataLoadedOnReboot">
                     <desc>Event to call if module tried to load parameters and should be ready.</desc>
                 </event>
-                <event name="OnNewResultNUM">
-                    <desc>Example of dynamically created event to provide result of instance. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +
-INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
-                    <param desc="Result" multiplicity="1" name="result" type="bool"/>
-                </event>
                 <event name="OnNewParameterName">
                     <desc>Notify name of persistent data parameter.</desc>
-                    <param desc="Parameter name" multiplicity="1" name="name" type="string"/>
+                    <param desc="Parameter name." multiplicity="1" name="name" type="string"/>
                 </event>
                 <event name="OnUserLevelOperatorActive">
                     <desc>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
@@ -71,7 +95,7 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                 </event>
                 <event name="OnNewValueUpdateNUM">
                     <desc>Example of dynamically created event to sync paramters between instance threads and Controller part of module. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToUpdate1"). +</desc>
                     <param desc="Instance new value is coming from." multiplicity="1" name="instance" type="int"/>
                     <param desc="Name of the paramter to update/sync." multiplicity="1" name="parameter" type="string"/>
                     <param desc="Value to update." multiplicity="1" name="value" type="auto"/>
@@ -79,21 +103,288 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </event>
                 <event name="OnNewValueToForwardNUM">
                     <desc>Example of dynamically created event to forward data from instance thread to Controller part of module, e.g. to forward values to UI. +
-NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
+NUM will be replaced by the number of instance (e.g. "OnNewValueToForward1"). +</desc>
                     <param desc="Eventname to use to forward value." multiplicity="1" name="eventname" type="string"/>
                     <param desc="Value to forward." multiplicity="1" name="value" type="auto"/>
                 </event>
-                <event name="OnNewResult">
-                    <desc>Generic event to notify results. E.g. to forward results from single instances.</desc>
-                    <param desc="Result" multiplicity="1" name="result" type="bool"/>
+                <event name="OnNewPort">
+                    <desc>Event to provide port number.</desc>
+                    <param desc="Port number value." multiplicity="1" name="Port" type="int"/>
                 </event>
-                <event name="OnNewStatusRegisteredEvent">
-                    <desc>Notify event instance is registered to receive data to process.</desc>
-                    <param desc="Name of event." multiplicity="1" name="eventname" type="string"/>
+                <event name="OnNewInterface">
+                    <desc>Event to provide the selected Interface for active server.</desc>
+                    <param desc="The interface TCP/IP server listens to." multiplicity="1" name="Interface" type="string"/>
                 </event>
+                <event name="OnNewRxFraming">
+                    <desc>Event to provide the selected Rx framing type.</desc>
+                    <param desc="Rx framing type." multiplicity="1" name="newRxFraming" type="string"/>
+                </event>
+                <event name="OnNewTxFraming">
+                    <desc>Event to provide the selected Tx framing type.</desc>
+                    <param desc="Tx framing type." multiplicity="1" name="newTxFraming" type="string"/>
+                </event>
+                <event name="OnNewRxStart">
+                    <desc>Event to provide the Rx Start hex symbol.</desc>
+                    <param desc="Rx start symbol." multiplicity="?" name="newRxStart" type="string"/>
+                </event>
+                <event name="OnNewRxStop">
+                    <desc>Event to provide the Rx stop hex symbol.</desc>
+                    <param desc="Rx stop symbol." multiplicity="?" name="newRxStop" type="string"/>
+                </event>
+                <event name="OnNewTxStart">
+                    <desc>Event to provide the Tx Start hex symbol.</desc>
+                    <param desc="Tx start symbol." multiplicity="?" name="newTxStart" type="string"/>
+                </event>
+                <event name="OnNewTxStop">
+                    <desc>Event to provide the Tx Stop hex symbol.</desc>
+                    <param desc="Tx stop symbol." multiplicity="?" name="newTxStop" type="string"/>
+                </event>
+                <event name="OnNewMaxConnections">
+                    <desc>Event to provide the max connections value.</desc>
+                    <param desc="Max connections value." multiplicity="1" name="newMaxConnections" type="string"/>
+                </event>
+                <event name="OnNewTransmitTimeout">
+                    <desc>Event to provide the transmittion timeout value.</desc>
+                    <param desc="Transmittion timeout in ms." multiplicity="1" name="newTransmitTimeout" type="string"/>
+                </event>
+                <event name="OnNewACKTimeout">
+                    <desc>Event to provide the current acknowledgement timeout value.</desc>
+                    <param desc="ACK timeout." multiplicity="1" name="newTransmitAckTimeout" type="string"/>
+                </event>
+                <event name="OnNewTransmitBuffer">
+                    <desc>Event to provide the transmittion buffer value.</desc>
+                    <param desc="Transmittion buffer in bytes." multiplicity="1" name="newTransmitBuffer" type="string"/>
+                </event>
+                <event name="OnNewRxFramingBufferSize">
+                    <desc>Event to provide the Rx buffer size.</desc>
+                    <param desc="Rx buffer size in bytes." multiplicity="1" name="newRxFramingBufferSize" type="string"/>
+                </event>
+                <event name="OnNewTxFramingBufferSize">
+                    <desc>Event to provide the Tx buffer size.</desc>
+                    <param desc="Tx buffer size in bytes." multiplicity="1" name="newTxFramingBufferSize" type="string"/>
+                </event>
+                <event name="OnNewConnectedClientsNumber">
+                    <desc>Event to provide the connected clients number.</desc>
+                    <param desc="New number of connected clients." multiplicity="1" name="clientsNum" type="int"/>
+                </event>
+                <event name="OnNewInterfaceList">
+                    <desc>Event to provide the list of available ethernet interfaces.</desc>
+                    <param desc="List of interfaces in JSON format." multiplicity="1" name="interfaceList" type="string"/>
+                </event>
+                <event name="OnNewRxFramingList">
+                    <desc>Event to provide the list of available Rx framing types.</desc>
+                    <param desc="List of framings in JSON format." multiplicity="1" name="RxFramingList" type="string"/>
+                </event>
+                <event name="OnNewTxFramingList">
+                    <desc>Event to provide the list of available Tx framing types.</desc>
+                    <param desc="List of framings in JSON format." multiplicity="1" name="TxFramingList" type="string"/>
+                </event>
+                <event name="OnNewConnectedClientsTable">
+                    <desc>Event to provide dynamic table content with connected clients.</desc>
+                    <param desc="Connected clients table in JSON format." multiplicity="1" name="newData" type="string"/>
+                </event>
+                <event name="OnNewListenState">
+                    <desc>Event to provide the active state of server.</desc>
+                    <param desc="Active state to show in UI." multiplicity="1" name="newState" type="bool"/>
+                </event>
+                <event name="OnRxFramingDisabled">
+                    <desc>Event to disable/enable editing Rx Framing field in UI.</desc>
+                    <param desc="true if disabled" multiplicity="1" name="isDisabled" type="bool"/>
+                </event>
+                <event name="OnTxFramingDisabled">
+                    <desc>Event to disable/enable editing Tx Framing field in UI.</desc>
+                    <param desc="true if disabled" multiplicity="1" name="isDisabled" type="bool"/>
+                </event>
+                <event name="OnNewServerIP">
+                    <desc>Event to provide the server IP address.</desc>
+                    <param desc="Server IP address." multiplicity="1" name="newIPAddress" type="string"/>
+                </event>
+                <event name="OnNewSelectedClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Event to provide the name of the selected client whitelist.</desc>
+                    <param desc="Name of the selected client whitelist." multiplicity="1" name="clientWhitelistName" type="string"/>
+                </event>
+                <event name="OnNewListClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Event to provide the list of all created client whitelists.</desc>
+                    <param desc="List of client whitelists in JSON format." multiplicity="1" name="jsonClientWhitelistsList" type="string"/>
+                </event>
+                <event name="OnNewClientWhitelistEventName">
+                    <trait>released</trait>
+                    <desc>Event to provide the event name of the selected client whitelist.</desc>
+                    <param desc="Event name." multiplicity="1" name="eventName" type="string"/>
+                </event>
+                <event name="OnNewClientWhitelistTableContent">
+                    <trait>released</trait>
+                    <desc>Event to provide IP filter table of the selected client whitelist. </desc>
+                    <param desc="Table content in JSON format." multiplicity="1" name="jsonTableContent" type="string"/>
+                </event>
+                <event name="OnNewSelectedTab">
+                    <trait>released</trait>
+                    <desc>Event to provide the current selected tab ID.</desc>
+                    <param desc="Tab ID." multiplicity="1" name="newSelectedTab" type="int"/>
+                </event>
+                <event name="OnNewStatusClientWhitelistSelected">
+                    <trait>released</trait>
+                    <desc>Event to provide status if any client whitelist is selected.</desc>
+                    <param desc="True if selected." multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewGenericReceivedDataEventName">
+                    <trait>released</trait>
+                    <desc>Event to provide the name of event notified when server receives any data from any client.</desc>
+                    <param desc="Event name." multiplicity="1" name="eventName" type="string"/>
+                </event>
+                <event name="OnNewGenericSendDataFunctionName">
+                    <trait>released</trait>
+                    <desc>Event to provide the name of function to be called to send any data to all clients.</desc>
+                    <param desc="Function name." multiplicity="1" name="functionName" type="string"/>
+                </event>
+                <event name="OnNewTestDataToSend">
+                    <trait>released</trait>
+                    <desc>Event to provide the data to be sent for testing purposes.</desc>
+                    <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
+                </event>
+                <event name="OnNewListClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Event to provide the list of all created client broadcasts.</desc>
+                    <param desc="List of client broadcasts in JSON format." multiplicity="1" name="jsonBroadcastList" type="string"/>
+                </event>
+                <event name="OnNewSelectedClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Event to provide the name of the selected client broadcast.</desc>
+                    <param desc="Name of the selected client broadcast." multiplicity="1" name="clientBroadcastName" type="string"/>
+                </event>
+                <event name="OnNewClientBroadcastFunctionName">
+                    <trait>released</trait>
+                    <desc>Event to provide the function name of the selected client broadcast.</desc>
+                    <param desc="Event name." multiplicity="1" name="eventName" type="string"/>
+                </event>
+                <event name="OnNewClientBroadcastTableContent">
+                    <trait>released</trait>
+                    <desc>Event to provide IP filter table of the selected client broadcast. </desc>
+                    <param desc="Table content in JSON format." multiplicity="1" name="jsonTableContent" type="string"/>
+                </event>
+                <event name="OnNewClientBroadcastTestDataToSend">
+                    <trait>released</trait>
+                    <desc>Event to provide the data to be sent for testing purposes as the selected client broadcast.</desc>
+                    <param desc="Data to be sent." multiplicity="1" name="testDataToSend" type="string"/>
+                </event>
+                <event name="OnNewStatusClientBroadcastSelected">
+                    <trait>released</trait>
+                    <desc>Event to provide the status if any client broadcast is selected.</desc>
+                    <param desc="True if selected." multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewLog">
+                    <desc>Notfiy latest log.</desc>
+                    <param desc="Log entries." multiplicity="1" name="log" type="string"/>
+                </event>
+                <event name="OnNewStatusAddIPViaList">
+                    <desc>Notify status if IP for filter should be added via list selection in UI.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnReceivedDataNUM">
+                    <desc>Example of dynamically created event to provide received data of instance. +
+NUM will be replaced by the number of instance (e.g. "OnReceivedData1"). +
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
+                    <param desc="Received data." multiplicity="1" name="data" type="string"/>
+                    <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
+                    <param desc="Needed time." multiplicity="1" name="time" type="int"/>
+                </event>
+                <event name="OnReceivedDataNUM_WHITELISTNAME">
+                    <desc>Example of dynamically created event to provide received data of client whitelist of instance. +
+'NUM' and 'WHITELISTNAME' will be replaced by the number of instance and name of client whitelist (e.g. "OnReceivedData1_whitelist1"). +
+INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific instance exists.</desc>
+                    <param desc="Received data." multiplicity="1" name="data" type="string"/>
+                    <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
+                    <param desc="Needed time." multiplicity="1" name="time" type="int"/>
+                </event>
+                <event name="OnNewEventToForwardList">
+                    <desc>Notify list of events to register to and to forward its content to all connected TCP/IP clients.</desc>
+                    <param desc="List" multiplicity="1" name="list" type="string"/>
+                </event>
+                <event name="OnNewStatusForwardEventForBroadcasts">
+                    <desc>Notify if config of forward events in UI is for broadcasts.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewClientWhitelistName">
+                    <desc>Notify name of whitelist to create.</desc>
+                    <param desc="Name" multiplicity="1" name="name" type="string"/>
+                </event>
+                <event name="OnNewClientBroadcastName">
+                    <desc>Notify name of broadcast to create.</desc>
+                    <param desc="Name" multiplicity="1" name="name" type="string"/>
+                </event>
+                <function name="setListenState">
+                    <desc>Function to turn server on or off.</desc>
+                    <param desc="New listen state, true if active." multiplicity="1" name="newState" type="bool"/>
+                </function>
+                <function name="setPort">
+                    <desc>Function to set port, server must be restarted to apply the settings.</desc>
+                    <param desc="New port to listen to" multiplicity="1" name="newPort" type="int"/>
+                </function>
+                <function name="setInterface">
+                    <desc>Sets device's interface from UI, server must be rebooted to apply the settings</desc>
+                    <param desc="New interface to listen to." multiplicity="1" name="newInterface" type="string"/>
+                </function>
+                <function name="setRxFraming">
+                    <desc>Set Rx Framing type, server must be restarted to apply the settings.</desc>
+                    <param desc="Framing type of recived data to be used by server. " multiplicity="1" name="newRxFraming" ref="CSK_MultiTCPIPServer.FramingType" type="enum"/>
+                </function>
+                <function name="setTxFraming">
+                    <desc>Set Tx framing type, server must be restarted to apply the settings.</desc>
+                    <param desc="Framing  of transmitted data to be used by server." multiplicity="1" name="newTxFraming" type="enum"/>
+                </function>
+                <function name="setRxStart">
+                    <desc>Set RxStart frame from UI, server must be restarted to apply the settings.</desc>
+                    <param desc="Hex symbol of a start frame of recived data to be used by server." multiplicity="1" name="newRxStart" type="string"/>
+                </function>
+                <function name="setRxStop">
+                    <desc>Set RxStop frame from UI, server must be restarted to apply the settings.</desc>
+                    <param desc="Hex symbol of a stop frame of recived data to be used by server." multiplicity="1" name="newRxStop" type="string"/>
+                </function>
+                <function name="setTxStart">
+                    <desc>Set TxStart frame, server must be restarted to apply the settings.</desc>
+                    <param desc="Hex symbol of a start frame of transmitted data to be used by server." multiplicity="1" name="newTxStart" type="string"/>
+                </function>
+                <function name="setTxStop">
+                    <desc>Set TxStop frame, server must be restarted to apply the settings.</desc>
+                    <param desc="Hex symbol of a stop frame of transmitted data to be used by server." multiplicity="1" name="newTxStop" type="string"/>
+                </function>
+                <function name="setMaxConnections">
+                    <desc>Set limit of connections, server must be restarted to apply the settings.</desc>
+                    <param desc="Maximum number of connected clients for server." multiplicity="1" name="newMaxConnections" type="int"/>
+                </function>
+                <function name="setTransmitionTimeout">
+                    <desc>Set data transmition timeout, server must be restarted to apply the settings.</desc>
+                    <param desc="Timeout for transmits, in milliseconds." multiplicity="1" name="newTransmitionTimeout" type="int"/>
+                </function>
+                <function name="setACKTimeout">
+                    <desc>Sets from UI the maximum time interval, in milliseconds, that a transmitted packet may stay unacknowledged before the connection is terminated.</desc>
+                    <param desc="Timeout for packet ACKs, in milliseconds." multiplicity="1" name="newACKTimeout" type="int"/>
+                </function>
+                <function name="setTransmitionBuffer">
+                    <desc>Sets the size of the socket send buffer. Server must be restarted to apply the settings.</desc>
+                    <param desc="Size of the buffer, in bytes" multiplicity="1" name="newTransmitionBuffer" type="int"/>
+                </function>
+                <function name="setRxBuffer">
+                    <desc>Sets the Rx size of the internal framing parser buffer from UI. Server must be restarted to apply the settings.</desc>
+                    <param desc="Framing buffer size for receiving data." multiplicity="1" name="newRxBuffer" type="int"/>
+                </function>
+                <function name="setTxBuffer">
+                    <desc>Sets the Tx size of the internal framing parser buffer. Server must be restarted to apply the settings.</desc>
+                    <param desc="Framing buffer size for transmitting." multiplicity="1" name="newTxBuffer" type="int"/>
+                </function>
+                <function name="selectConnectedClient">
+                    <desc>Select row in the connected clients dynamic table. Used to copy the IP Address of the selected client into client whitelist / broadcast filter list.</desc>
+                    <param desc="Selected row from the connected clients table in JSON format." multiplicity="1" name="selectedRow" type="string"/>
+                </function>
+                <function name="getInterfaceIP">
+                    <desc>Get the IP address of the selected server.</desc>
+                    <return desc="IP" multiplicity="1" name="selectedInterfaceIp" type="string"/>
+                </function>
                 <function name="setParameterName">
                     <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
-                    <param desc="Name of the parameter" multiplicity="1" name="name" type="string"/>
+                    <param desc="Name of the parameter." multiplicity="1" name="name" type="string"/>
                 </function>
                 <function name="sendParameters">
                     <desc>Send parameters to CSK_PersistentData module if possible to save them.</desc>
@@ -103,7 +394,7 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                 </function>
                 <function name="setLoadOnReboot">
                     <desc>Configure if this module should load its saved parameters at app/ device boot up.</desc>
-                    <param desc="Set status" multiplicity="1" name="status" type="bool"/>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </function>
                 <function name="pageCalled">
                     <desc>Function to register "OnResume" of the module UI (only as helper function).</desc>
@@ -117,19 +408,6 @@ NUM will be replaced by the number of instance (e.g. "OnNewResult1"). +</desc>
                     <desc>Get the amount of created instances of this module.</desc>
                     <return desc="Amount of created instances." multiplicity="1" name="amount" type="int"/>
                 </function>
-                <function name="setRegisterEvent">
-                    <desc>Configure event that this module should listen to. If this one is notified, it will be linked to internal processing function. +
-(Will be set to currently active instance, see "setSelectedObject")</desc>
-                    <param desc="(external) Event name to listen to." multiplicity="1" name="event" type="string"/>
-                </function>
-                <function name="processInstanceNUM">
-                    <desc>Example of dynamically served function to process internally coded function. +
-NUM will be replaced by the number of instance (e.g. "processInstance1"). +
-INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
-Needs then to be called via "Script.callFunction".</desc>
-                    <param alias="Alias" desc="Transferred object (optional)" multiplicity="?" name="object" type="object"/>
-                    <return desc="Processing result (optional)." multiplicity="?" name="result" type="bool"/>
-                </function>
                 <function name="addInstance">
                     <desc>Function to add an additional instance.</desc>
                 </function>
@@ -137,15 +415,150 @@ Needs then to be called via "Script.callFunction".</desc>
                     <desc>Function to reset instances to one single instance. +
 IMPORTANT: As instances start their own threads, the module needs to be restarted if new instances are needed... (see AppEngine docu for "Script.startScript").</desc>
                 </function>
+                <function name="createClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Create a new client whitelist with default name.</desc>
+                </function>
+                <function name="setClientWhitelistName">
+                    <trait>released</trait>
+                    <desc>Set a new name of a whitelist to be created.</desc>
+                    <param desc="New name of the whitelist." multiplicity="1" name="newName" type="string"/>
+                </function>
+                <function name="setSelectedClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Select client whitelist to edit.</desc>
+                    <param desc="Name of the client whitelist." multiplicity="1" name="clientWhitelistName" type="string"/>
+                </function>
+                <function name="deleteClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Delete the selected client whitelist.</desc>
+                </function>
+                <function name="setIPAddressToAddToClientWhitelist">
+                    <trait>released</trait>
+                    <desc>Set IP address to be added to list of clients from which server will wait for a message.</desc>
+                    <param desc="IP address." multiplicity="1" name="ipAddress" type="string"/>
+                </function>
+                <function name="deleteClientWhitelistIPAddress">
+                    <trait>released</trait>
+                    <desc>Delete the selected IP address from the list of the selected client whitelist.</desc>
+                    <param desc="JSON content of the selected row of the dynamic with IP Address to delete." multiplicity="1" name="jsonRowToDelete" type="string"/>
+                </function>
+                <function name="setSelectedTab">
+                    <trait>released</trait>
+                    <desc>Set selcetd settings tab in UI.</desc>
+                    <param desc="Tab ID." multiplicity="1" name="newSelectedTab" type="int"/>
+                </function>
+                <function name="setTestDataToSend">
+                    <trait>released</trait>
+                    <desc>Set data to be sent to clients for testing purposes.</desc>
+                    <param desc="Data to be sent." multiplicity="1" name="newTestDataToSend" type="string"/>
+                </function>
+                <function name="sendTestData">
+                    <trait>released</trait>
+                    <desc>Function to send the pre-defined test data (see setTestDataToSend).</desc>
+                </function>
+                <function name="setClientBroadcastName">
+                    <trait>released</trait>
+                    <desc>Set a name to create a new client broadcast via 'createClientBroadcast'.</desc>
+                    <param desc="New name of the message." multiplicity="1" name="newName" type="string"/>
+                </function>
+                <function name="setSelectedClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Select client broadcast to edit.</desc>
+                    <param desc="Name of the client broadcast." multiplicity="1" name="clientBroadcastName" type="string"/>
+                </function>
+                <function name="createClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Create a new client broadcast with preset name (see 'setClientBroadcastName').</desc>
+                </function>
+                <function name="deleteClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Delete the selected client broadcast.</desc>
+                </function>
+                <function name="setIPAddressToAddToClientBroadcast">
+                    <trait>released</trait>
+                    <desc>Set IP address to be added to list of clients to which the server send the message.</desc>
+                    <param desc="IP address." multiplicity="1" name="ipAddress" type="string"/>
+                </function>
+                <function name="deleteClientBroadcastFilterIPAddress">
+                    <trait>released</trait>
+                    <desc>Delete the selected IP address from the list of the selected client broadcast.</desc>
+                    <param desc="JSON content of the selected row of the dynamic with IP Address to delete." multiplicity="1" name="jsonRowToDelete" type="string"/>
+                </function>
+                <function name="sendClientBroadcastTestData">
+                    <trait>released</trait>
+                    <desc>Function to send the pre-defined test data (see 'setClientBroadcastTestDataToSend') as the selected client broadcast.</desc>
+                </function>
+                <function name="setClientBroadcastTestDataToSend">
+                    <trait>released</trait>
+                    <desc>Set data to be sent to clients filtered in the selected broadcast for testing purposes.</desc>
+                    <param desc="Data to be sent." multiplicity="1" name="newTestDataToSend" type="string"/>
+                </function>
+                <function name="getConnectedClientsIPsNUM">
+                    <trait>released</trait>
+                    <desc>Function to get list of IP addresses of the connected clients. +
+NUM will be replaced by the number of instance (e.g. "getConnectedClientsIPs1"). +</desc>
+                    <return desc="Array with IP addresses of the connected clients." multiplicity="*" name="connectedClientsIPs" type="string"/>
+                </function>
+                <function name="setAddIPViaList">
+                    <desc>Function to activate to select IP via UI list for filter.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="sendDataNUM">
+                    <desc>Example of dynamically served function to send data on instance to clients. +
+NUM will be replaced by the number of instance (e.g. "sendData1"). +
+INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
+Needs then to be called via "Script.callFunction".</desc>
+                    <param desc="Data to send." multiplicity="1" name="data" type="string"/>
+                    <param desc="Optional list of IP addresses of the clients to send the data to. " multiplicity="*" name="ipList" type="string"/>
+                    <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
+                    <return desc="Details if sending failed." multiplicity="?" name="details" type="string"/>
+                </function>
+                <function name="sendDataNUM_BROADCASTNAME">
+                    <desc>Example of dynamically served function to send data on instance via client broadcast. +
+'NUM' and 'BROADCASTNAME' will be replaced by the numeric identifier of the instance and name of client broadcast(e.g. "sendData1_broadcast1"). +
+INFO: Other modules can check via "Script.isServedAsFunction" if function of sepecific instance exists. +
+Needs then to be called via "Script.callFunction".</desc>
+                    <param desc="Data to write." multiplicity="1" name="data" type="auto"/>
+                    <return desc="Success of sending the data." multiplicity="1" name="success" type="bool"/>
+                    <return desc="Needed time." multiplicity="1" name="neededTime" type="int"/>
+                    <return desc="Optional error message." multiplicity="?" name="error" type="string"/>
+                </function>
+                <function name="selectEventToForwardViaUI">
+                    <desc>Select an event to forward the content of its first parameter to all TCP/IP clients via UI.</desc>
+                    <param desc="Selected event." multiplicity="1" name="selection" type="string"/>
+                </function>
+                <function name="addEventToForward">
+                    <desc>Add an event to register to and to forward the content of its first parameter (as string) to all connected TCP/IP clients.</desc>
+                    <param desc="Name of event to register to." multiplicity="1" name="event" type="string"/>
+                </function>
+                <function name="addEventToForwardViaUI">
+                    <desc>Add event to register to and forward content (first event parameter as string) to all connected TCPI/IP cleints via UI (event needs to be prefilled on UI / via "setEventToForward").</desc>
+                </function>
+                <function name="deleteEventToForward">
+                    <desc>Remove event to forward content.</desc>
+                    <param desc="Eventname" multiplicity="1" name="event" type="string"/>
+                </function>
+                <function name="deleteEventToForwardViaUI">
+                    <desc>Remove event preselected via UI.</desc>
+                </function>
+                <function name="setEventToForward">
+                    <desc>Preset event to register to and forward content to all connected TCP/IP clients via UI.</desc>
+                    <param desc="Event to register to." multiplicity="1" name="value" type="string"/>
+                </function>
+                <function name="setForwardBroadcastEvent">
+                    <desc>Function to set if adding/deleting forwarding events in UI is for broadcasts.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
             </serves>
         </crown>
         <meta key="author">SICK AG</meta>
-        <meta key="version">0.1.0</meta>
+        <meta key="version">1.0.0</meta>
         <meta key="priority">low</meta>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>
         <meta key="crown2-flow-engine">false</meta>
-        <meta key="LuaLoadAllEngineAPI">true</meta>
+        <meta key="LuaLoadAllEngineAPI">false</meta>
         <entry default="CSK_Module_MultiTCPIPServer.lua" path="scripts"/>
     </application>
 </manifest>

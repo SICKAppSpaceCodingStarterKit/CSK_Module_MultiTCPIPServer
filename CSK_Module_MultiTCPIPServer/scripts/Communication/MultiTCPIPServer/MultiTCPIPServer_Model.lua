@@ -13,6 +13,8 @@ local nameOfModule = 'CSK_MultiTCPIPServer'
 local multiTCPIPServer = {}
 multiTCPIPServer.__index = multiTCPIPServer
 
+local json = require('Communication/MultiTCPIPServer/helper/Json')
+
 --**************************************************************************
 --********************** End Global Scope **********************************
 --**************************************************************************
@@ -31,15 +33,8 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.multiTCPIPServerInstanceNoString = tostring(self.multiTCPIPServerInstanceNo) -- Number of this instance as string
   self.helperFuncs = require('Communication/MultiTCPIPServer/helper/funcs') -- Load helper functions
 
-  -- Optionally check if specific API was loaded via
-  --[[
-  if _G.availableAPIs.specific then
-  -- ... doSomething ...
-  end
-  ]]
-
   -- Create parameters etc. for this module instance
-  self.activeInUI = false -- Check if this instance is currently active in UI
+  self.activeInUI = (multiTCPIPServerInstanceNo == 1) -- Check if this instance is currently active in UI
 
   -- Check if CSK_PersistentData module can be used if wanted
   self.persistentModuleAvailable = CSK_PersistentData ~= nil or false
@@ -52,61 +47,62 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
   self.parametersName = 'CSK_MultiTCPIPServer_Parameter' .. self.multiTCPIPServerInstanceNoString -- name of parameter dataset to be used for this module
   self.parameterLoadOnReboot = false -- Status if parameter dataset should be loaded on app/device reboot
 
-  --self.object = Image.create() -- Use any AppEngine CROWN
-  --self.counter = 1 -- Short docu of variable
-  --self.varA = 'value' -- Short docu of variable
+  self.RxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for received data
+  self.TxFramingList = {'STX-ETX', 'Empty', 'Custom'} -- available framing types for transmitted data
 
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
-  self.parameters.registeredEvent = '' -- If thread internal function should react on external event, define it here, e.g. 'CSK_OtherModule.OnNewInput'
+  self.parameters.listenState = false -- Status if server should be active to listen for clients
   self.parameters.processingFile = 'CSK_MultiTCPIPServer_Processing' -- which file to use for processing (will be started in own thread)
-  --self.parameters.showImage = true -- Short docu of variable
-  --self.parameters.paramA = 'paramA' -- Short docu of variable
-  --self.parameters.paramB = 123 -- Short docu of variable
-
-  self.parameters.internalObject = {} -- optionally
-  --self.parameters.selectedObject = 1 -- Which object is currently selected
-  --[[
-    for i = 1, 10 do
-    local obj = {}
-
-    obj.objectName = 'Object' .. tostring(i) -- name of the object
-    obj.active = false  -- is this object active
-    -- ...
-
-    table.insert(self.parameters.internalObject, obj)
+  self.currentDevice = Engine.getTypeName() -- device type running the app
+  if self.currentDevice == 'Webdisplay' then
+    self.parameters.interface = 'ETH1' -- ethernet interface to listen to
+  elseif self.currentDevice == 'SICK AppEngine' then
+    self.parameters.interface = ""
+  else
+    local interfaceList = Ethernet.Interface.getInterfaces()
+    self.parameters.interface = interfaceList[1]
   end
-
-  local internalObjectContainer = self.helperFuncs.convertTable2Container(self.parameters.internalObject)
-  ]]
+  self.parameters.port = 1234 -- port number to listen to
+  self.parameters.RxFrameMode = 'Empty' -- type of framing for received data
+  self.parameters.TxFrameMode = 'Empty' -- type of framing for transmitted data
+  self.parameters.framing = {'','','',''} -- array with start/end framing of received and transmitted data
+  self.parameters.framingBufferSize = {10240, 10240} -- array with size of the internal framing parser buffer for received and transmitted data in bytes
+  self.parameters.maxConnections = 10 -- limit of connections
+  self.parameters.transmitAckTimeout = 15000 -- data transmittion acknowledgement timeout in millliseconds
+  self.parameters.transmitBufferSize = 0 --  size of the socket’s send buffer
+  self.parameters.transmitTimeout = 15000 -- timeout for transmits, in milliseconds
+  self.parameters.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server
+  self.parameters.clientWhitelists = {} -- info about configured client whitelists
+  self.parameters.clientBroadcasts = {} -- info about configured client broadcasts
+  self.parameters.clientBroadcasts.names = {} -- Names of configured client broadcasts
+  self.parameters.clientBroadcasts.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server limited to client broadcast
+  self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
+  self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString -- function name to call to send data to all clients
 
   -- Parameters to give to the processing script
   self.multiTCPIPServerProcessingParams = Container.create()
   self.multiTCPIPServerProcessingParams:add('multiTCPIPServerInstanceNumber', multiTCPIPServerInstanceNo, "INT")
-  self.multiTCPIPServerProcessingParams:add('registeredEvent', self.parameters.registeredEvent, "STRING")
-  --self.multiTCPIPServerProcessingParams:add('showImage', self.parameters.showImage, "BOOL")
-  --self.multiTCPIPServerProcessingParams:add('viewerId', 'multiTCPIPServerViewer' .. self.multiTCPIPServerInstanceNoString, "STRING")
-
-  --self.multiTCPIPServerProcessingParams:add('internalObjects', internalObjectContainer, "OBJECT") -- optionally
-  --self.multiTCPIPServerProcessingParams:add('selectedObject', self.parameters.selectedObject, "INT")
+  self.multiTCPIPServerProcessingParams:add('activeInUI', self.activeInUI, "BOOL")
+  self.multiTCPIPServerProcessingParams:add('listenState', self.parameters.listenState, "BOOL")
+  self.multiTCPIPServerProcessingParams:add('interface', self.parameters.interface, "STRING")
+  self.multiTCPIPServerProcessingParams:add('port', self.parameters.port, "INT")
+  self.multiTCPIPServerProcessingParams:add('framing', json.encode(self.parameters.framing), "STRING")
+  self.multiTCPIPServerProcessingParams:add('framingBufferSize', json.encode(self.parameters.framingBufferSize), "STRING")
+  self.multiTCPIPServerProcessingParams:add('maxConnections', self.parameters.maxConnections, "INT")
+  self.multiTCPIPServerProcessingParams:add('transmitAckTimeout', self.parameters.transmitAckTimeout, "INT")
+  self.multiTCPIPServerProcessingParams:add('transmitBufferSize', self.parameters.transmitBufferSize, "INT")
+  self.multiTCPIPServerProcessingParams:add('transmitTimeout', self.parameters.transmitTimeout, "INT")
+  self.multiTCPIPServerProcessingParams:add('clientWhitelists', json.encode(self.parameters.clientWhitelists), "STRING")
+  self.multiTCPIPServerProcessingParams:add('clientBroadcasts', json.encode(self.parameters.clientBroadcasts), "STRING")
+  self.multiTCPIPServerProcessingParams:add('onReceivedDataEventName', self.parameters.onReceivedDataEventName, "STRING")
+  self.multiTCPIPServerProcessingParams:add('sendDataFunctionName', self.parameters.sendDataFunctionName, "STRING")
 
   -- Handle processing
   Script.startScript(self.parameters.processingFile, self.multiTCPIPServerProcessingParams)
 
   return self
 end
-
---[[
---- Some internal code docu for local used function to do something
-function multiTCPIPServer:doSomething()
-  self.object:doSomething()
-end
-
---- Some internal code docu for local used function to do something else
-function multiTCPIPServer:doSomethingElse()
-  self:doSomething() --> access internal function
-end
-]]
 
 return multiTCPIPServer
 

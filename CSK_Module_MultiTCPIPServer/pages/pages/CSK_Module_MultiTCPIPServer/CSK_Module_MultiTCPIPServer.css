@@ -5,5 +5,10 @@
   margin: 6px;
 }
 
-.myCustomCssClass_CSK_Module_MultiTCPIPServer {
+.myCustomMarginTop_CSK_Module_MultiTCPIPServer {
+  margin-top: 1.5rem
+}
+
+.myCustomMinHeight200px_CSK_Module_MultiTCPIPServer {
+  min-height: 200px;
 }

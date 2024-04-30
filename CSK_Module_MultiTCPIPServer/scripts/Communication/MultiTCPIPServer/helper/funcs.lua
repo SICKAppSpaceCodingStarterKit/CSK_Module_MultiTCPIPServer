@@ -17,6 +17,66 @@ funcs.json = require('Communication/MultiTCPIPServer/helper/Json')
 --**********************Start Function Scope *******************************
 --**************************************************************************
 
+--- Function to convert hex to string
+---@param hex string String with hex content
+---@return string readableString Readable string
+local function convertHex2String(hex)
+  local readableString = ''
+  if #hex > 0 then
+    for i = 1, #hex do
+      readableString = readableString .. [[\]]
+      local charByte = string.byte(hex,i)
+      if charByte < 10 then
+        readableString = readableString .. '0'
+      end
+      readableString = readableString .. tostring(charByte)
+    end
+  end
+  return readableString
+end
+funcs.convertHex2String = convertHex2String
+
+--- Function to convert string to hex
+---@param readableString string String
+---@return string hex String as hex
+local function convertString2Hex(readableString)
+  local hex = ''
+  if #readableString > 0 and string.sub(readableString,1,1) == [[\]] then
+    local lastpos = 2
+    while lastpos < #readableString do
+      local newpos = string.find(readableString, [[\]], lastpos)
+      if newpos then
+        hex = hex .. string.char(tonumber(string.sub(readableString, lastpos, newpos-1)))
+        lastpos = newpos + 1
+      else
+        hex = hex .. string.char(tonumber(string.sub(readableString, lastpos)))
+        break
+      end
+    end
+  end
+  return hex
+end
+funcs.convertString2Hex = convertString2Hex
+
+--- Function to check if string has valid IP
+---@param ip string String with IP
+---@return bool result Result
+local function checkIP(ip)
+  if not ip then return false end
+  local a,b,c,d=ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
+  a=tonumber(a)
+  b=tonumber(b)
+  c=tonumber(c)
+  d=tonumber(d)
+  if not a or not b or not c or not d then return false end
+  if a<0 or 255<a then return false end
+  if b<0 or 255<b then return false end
+  if c<0 or 255<c then return false end
+  if d<0 or 255<d then return false end
+  return true
+end
+funcs.checkIP = checkIP
+
 --- Function to create a list with numbers
 ---@param size int Size of the list
 ---@return string list List of numbers
@@ -35,17 +95,46 @@ local function createStringListBySize(size)
 end
 funcs.createStringListBySize = createStringListBySize
 
---- Function to convert a table into a Container object
----@param content auto[] Lua Table to convert to Container
----@return Container cont Created Container
-local function convertTable2Container(content)
-  local cont = Container.create()
-  for key, value in pairs(content) do
-    if type(value) == 'table' then
-      cont:add(key, convertTable2Container(value), nil)
-    else
-      cont:add(key, value, nil)
+
+local function checkIfKeyListFormArray(keyList)
+  local success, _ = pcall(
+    table.sort,
+    keyList,
+    function(left,right)
+      return tonumber(left) < tonumber(right)
     end
+  )
+  if not success then
+    return false, keyList
+  end
+  local i = 0
+  for _, key in ipairs(keyList) do
+    if tonumber(key) and tonumber(key)-i == 1 then
+      i = i + 1
+    else
+      return false, keyList
+    end
+  end
+  if i ~= #keyList then
+    return false, keyList
+  end
+  return true, keyList
+end
+
+-- Function to convert a table into a Container object
+---@param data auto[] Lua Table to convert to Container
+---@return Container cont Created Container
+local function convertTable2Container(data)
+  local cont = Container.create()
+  for key, val in pairs(data) do
+    local valType = nil
+    local val2add = val
+    if type(val) == 'table' then
+      val2add = convertTable2Container(val)
+      valType = 'OBJECT'
+    end
+    if type(val) == 'string' then valType = 'STRING' end
+    cont:add(key, val2add, valType)
   end
   return cont
 end
@@ -55,46 +144,25 @@ funcs.convertTable2Container = convertTable2Container
 ---@param cont Container Container to convert to Lua table
 ---@return auto[] data Created Lua table
 local function convertContainer2Table(cont)
-  local data = {}
-  local containerList = Container.list(cont)
-  local containerCheck = false
-  if tonumber(containerList[1]) then
-    containerCheck = true
-  end
-  for i=1, #containerList do
-
-    local subContainer
-
-    if containerCheck then
-      subContainer = Container.get(cont, tostring(i) .. '.00')
-    else
-      subContainer = Container.get(cont, containerList[i])
+  local arrayInside, keyList = checkIfKeyListFormArray(cont:list())
+  local tab = {}
+  for _, key in ipairs(keyList) do
+    local tempVal = cont:get(key, cont:getType(key))
+    local keyToAdd = key
+    if arrayInside then
+      keyToAdd = tonumber(key)
     end
-    if type(subContainer) == 'userdata' then
-      if Object.getType(subContainer) == "Container" then
-
-        if containerCheck then
-          table.insert(data, convertContainer2Table(subContainer))
-        else
-          data[containerList[i]] = convertContainer2Table(subContainer)
-        end
-
+    if cont:getType(key) == 'OBJECT' then
+      if Object.getType(tempVal) == 'Container' then
+        tab[keyToAdd] = convertContainer2Table(tempVal)
       else
-        if containerCheck then
-          table.insert(data, subContainer)
-        else
-          data[containerList[i]] = subContainer
-        end
+        tab[keyToAdd] = tempVal
       end
     else
-      if containerCheck then
-        table.insert(data, subContainer)
-      else
-        data[containerList[i]] = subContainer
-      end
+      tab[keyToAdd] = tempVal
     end
   end
-  return data
+  return tab
 end
 funcs.convertContainer2Table = convertContainer2Table
 
@@ -141,6 +209,42 @@ local function createStringListBySimpleTable(content)
   return list
 end
 funcs.createStringListBySimpleTable = createStringListBySimpleTable
+
+--- Function to create a JSON string out of a table content
+---@param list string Type of list
+---@param content string[] Lua Table with entries for list
+---@return string jsonstring List created of table entries
+local function createSpecificJsonList(list, content)
+  local commandList = {}
+  if content == nil then
+    if list == 'commandList' then
+      commandList = {{TriggerCommand = '-', notifyEvent = '-'},}
+    else
+      commandList = {{EventToForward = '-'},}
+    end
+  else
+    local size = 0
+      for key, value in pairs(content) do
+        if list == 'commandList' then
+          table.insert(commandList, {TriggerCommand = key, notifyEvent = 'CSK_MultiTCPIPServer.' .. value})
+        elseif list == 'eventToForward' then
+          table.insert(commandList, {EventToForward = key})
+        end
+        size = size + 1
+      end
+      if size == 0 then
+        if list == 'commandList' then
+          commandList = {{TriggerCommand = '-', notifyEvent = '-'},}
+        elseif list == 'eventToForward' then
+          commandList = {{EventToForward = '-'},}
+        end
+      end
+  end
+
+  local jsonstring = funcs.json.encode(commandList)
+  return jsonstring
+end
+funcs.createSpecificJsonList = createSpecificJsonList
 
 return funcs
 
