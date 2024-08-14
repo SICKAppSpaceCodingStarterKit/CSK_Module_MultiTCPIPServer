@@ -310,7 +310,7 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
         end
 
         if processingParams.clientBroadcasts[internalValue].forwardEvents[value] then
-          Script.deregister(processingParams.clientBroadcasts.forwardEvents[value], processingParams.broadcastFunction[internalValue])
+          Script.deregister(processingParams.clientBroadcasts[internalValue].forwardEvents[value], processingParams.broadcastFunction[internalValue])
         end
         processingParams.clientBroadcasts[internalValue].forwardEvents[value] = value
         local suc = Script.register(value, processingParams.broadcastFunction[internalValue])
@@ -350,8 +350,6 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
           end
         end
       end
-      processingParams.clientBroadcasts = {}
-
     else
       processingParams[parameter] = value
     end

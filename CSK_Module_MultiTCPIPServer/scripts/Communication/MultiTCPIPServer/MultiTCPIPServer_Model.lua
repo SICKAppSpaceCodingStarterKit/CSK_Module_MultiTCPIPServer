@@ -13,6 +13,9 @@ local nameOfModule = 'CSK_MultiTCPIPServer'
 local multiTCPIPServer = {}
 multiTCPIPServer.__index = multiTCPIPServer
 
+multiTCPIPServer.styleForUI = 'None' -- Optional parameter to set UI style
+multiTCPIPServer.version = Engine.getCurrentAppVersion() -- Version of module
+
 local json = require('Communication/MultiTCPIPServer/helper/Json')
 
 --**************************************************************************
@@ -20,6 +23,13 @@ local json = require('Communication/MultiTCPIPServer/helper/Json')
 --**************************************************************************
 --**********************Start Function Scope *******************************
 --**************************************************************************
+
+--- Function to react on UI style change
+local function handleOnStyleChanged(theme)
+  multiTCPIPServer.styleForUI = theme
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusCSKStyle", multiTCPIPServer.styleForUI)
+end
+Script.register('CSK_PersistentData.OnNewStatusCSKStyle', handleOnStyleChanged)
 
 --- Function to create new instance
 ---@param multiTCPIPServerInstanceNo int Number of instance
@@ -52,6 +62,7 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
 
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
+  self.parameters.flowConfigPriority = CSK_FlowConfig ~= nil or false -- Status if FlowConfig should have priority for FlowConfig relevant configurations
   self.parameters.listenState = false -- Status if server should be active to listen for clients
   self.parameters.processingFile = 'CSK_MultiTCPIPServer_Processing' -- which file to use for processing (will be started in own thread)
   self.currentDevice = Engine.getTypeName() -- device type running the app

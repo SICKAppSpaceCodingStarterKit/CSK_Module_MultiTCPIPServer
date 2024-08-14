@@ -298,6 +298,10 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <param desc="IP address of source." multiplicity="1" name="ipAddress" type="string"/>
                     <param desc="Needed time." multiplicity="1" name="time" type="int"/>
                 </event>
+                <event name="OnNewStatusFlowConfigPriority">
+                    <desc>Notify if FlowConfig should have priority for FlowConfig relevant configurations.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
                 <event name="OnNewEventToForwardList">
                     <desc>Notify list of events to register to and to forward its content to all connected TCP/IP clients.</desc>
                     <param desc="List" multiplicity="1" name="list" type="string"/>
@@ -314,6 +318,18 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <desc>Notify name of broadcast to create.</desc>
                     <param desc="Name" multiplicity="1" name="name" type="string"/>
                 </event>
+                <event name="OnNewStatusCSKStyle">
+                    <desc>Notify UI style to use for CSK modules.</desc>
+                    <param desc="UI style" multiplicity="1" name="theme" type="string"/>
+                </event>
+                <event name="OnNewStatusModuleVersion">
+                    <desc>Notify version of module.</desc>
+                    <param desc="Version" multiplicity="1" name="version" type="string"/>
+                </event>
+                <event name="OnNewStatusModuleIsActive">
+                    <desc>Notify if module can be used on device.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
                 <function name="setListenState">
                     <desc>Function to turn server on or off.</desc>
                     <param desc="New listen state, true if active." multiplicity="1" name="newState" type="bool"/>
@@ -323,7 +339,7 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                     <param desc="New port to listen to" multiplicity="1" name="newPort" type="int"/>
                 </function>
                 <function name="setInterface">
-                    <desc>Sets device's interface from UI, server must be rebooted to apply the settings</desc>
+                    <desc>Sets device's interface from UI, server must be restarted to apply the settings (see 'setListenState').</desc>
                     <param desc="New interface to listen to." multiplicity="1" name="newInterface" type="string"/>
                 </function>
                 <function name="setRxFraming">
@@ -388,9 +404,7 @@ INFO: Other modules can check via "Script.isServedAsEvent" if event of sepecific
                 </function>
                 <function name="sendParameters">
                     <desc>Send parameters to CSK_PersistentData module if possible to save them.</desc>
-                </function>
-                <function name="loadParameters">
-                    <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
+                    <param desc="[Optional] Set to TRUE if the data should NOT be saved immediately after sending." multiplicity="?" name="noDataSave" type="bool"/>
                 </function>
                 <function name="setLoadOnReboot">
                     <desc>Configure if this module should load its saved parameters at app/ device boot up.</desc>
@@ -428,6 +442,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                     <trait>released</trait>
                     <desc>Select client whitelist to edit.</desc>
                     <param desc="Name of the client whitelist." multiplicity="1" name="clientWhitelistName" type="string"/>
+                    <return desc="Success" multiplicity="1" name="success" type="bool"/>
                 </function>
                 <function name="deleteClientWhitelist">
                     <trait>released</trait>
@@ -466,6 +481,7 @@ IMPORTANT: As instances start their own threads, the module needs to be restarte
                     <trait>released</trait>
                     <desc>Select client broadcast to edit.</desc>
                     <param desc="Name of the client broadcast." multiplicity="1" name="clientBroadcastName" type="string"/>
+                    <return desc="Success" multiplicity="1" name="success" type="bool"/>
                 </function>
                 <function name="createClientBroadcast">
                     <trait>released</trait>
@@ -524,6 +540,13 @@ Needs then to be called via "Script.callFunction".</desc>
                     <return desc="Needed time." multiplicity="1" name="neededTime" type="int"/>
                     <return desc="Optional error message." multiplicity="?" name="error" type="string"/>
                 </function>
+                <function name="setFlowConfigPriority">
+                    <desc>Function to configure if FlowConfig should have priority for FlowConfig relevant configuration.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="clearFlowConfigRelevantConfiguration">
+                    <desc>Function to clear FlowConfig relevant configurations.</desc>
+                </function>
                 <function name="selectEventToForwardViaUI">
                     <desc>Select an event to forward the content of its first parameter to all TCP/IP clients via UI.</desc>
                     <param desc="Selected event." multiplicity="1" name="selection" type="string"/>
@@ -550,10 +573,79 @@ Needs then to be called via "Script.callFunction".</desc>
                     <desc>Function to set if adding/deleting forwarding events in UI is for broadcasts.</desc>
                     <param desc="Status" multiplicity="1" name="status" type="bool"/>
                 </function>
+                <function name="getStatusModuleActive">
+                    <desc>Function to get status if module is active.</desc>
+                    <return desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="loadParameters">
+                    <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
+                    <return desc="Success to load parameters." multiplicity="1" name="success" type="bool"/>
+                </function>
+                <function name="getParameters">
+                    <trait>released</trait>
+                    <desc>Function to get all parameters of the client in JSON format.</desc>
+                    <param desc="Number of instance to get parameters from." multiplicity="1" name="instanceNo" type="int"/>
+                    <return desc="JSON string with all parameters." multiplicity="1" name="jsonParameters" type="string"/>
+                </function>
+                <function name="resetModule">
+                    <desc>Function to reset main configuration of module.</desc>
+                </function>
             </serves>
         </crown>
+        <crown name="MultiTCPIPServer_FC">
+            <trait>released</trait>
+            <desc>Crown to provide CSK_FlowConfig relevant features.</desc>
+            <serves/>
+            <crown name="Transmit">
+                <desc>Forward data via TCP/IP communication.</desc>
+                <serves>
+                    <function name="create">
+                        <desc>Internally used CSK_FlowConfig create function.</desc>
+                        <param desc="Numeric identifier of processing instance (must be &gt;=1)." multiplicity="1" name="Instance" type="int"/>
+                        <param desc="Optional client boradcast to use (will transmit data only to defined clients)." multiplicity="?" name="ClientBroadcast" type="string"/>
+                        <return desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
+                    </function>
+                    <function name="transmit">
+                        <include>data-flow</include>
+                        <desc>Set source of incoming data to forward via TCP/IP.</desc>
+                        <param desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
+                        <param desc="Source1 of data to forward via TCP/IP.&#10;&#10;Parameter:&#10;1: Data content (STRING)" multiplicity="?" name="source1" type="string"/>
+                        <param desc="Source2 of data to forward via TCP/IP.&#10;&#10;Parameter:&#10;1: Data content (STRING)" multiplicity="?" name="source2" type="string"/>
+                        <param desc="Source3 of data to forward via TCP/IP.&#10;&#10;Parameter:&#10;1: Data content (STRING)" multiplicity="?" name="source3" type="string"/>
+                        <param desc="Source4 of data to forward via TCP/IP.&#10;&#10;Parameter:&#10;1: Data content (STRING)" multiplicity="?" name="source4" type="string"/>
+                    </function>
+                </serves>
+            </crown>
+            <crown name="OnReceive">
+                <trait>released</trait>
+                <desc>Provide incoming TCP/IP data.</desc>
+                <serves>
+                    <event name="OnNewData">
+                        <include>data-flow</include>
+                        <desc>Provide incoming TCP/IP data.</desc>
+                        <param desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
+                        <param desc="'CSK_MultiTCPIPServer.OnReceived[InstanceNUM]' or 'CSK_MultiTCPIPServer.OnReceived[InstanceNUM][ClientWhitelistName]'&#10;&#10;Parameter:&#10;1: Data content (STRING)" multiplicity="1" name="OnNewData" ref="MultiColorSelection_FC.ResultType" type="string"/>
+                    </event>
+                    <function name="create">
+                        <trait>released</trait>
+                        <desc>Internally used CSK_FlowConfig create function.</desc>
+                        <param desc="Numeric identifier of processing instance (must be &gt;=1)." multiplicity="1" name="Instance" type="int"/>
+                        <param desc="Optionally client whitelist to use (will filter for messages of defined clients by defined IPs)." multiplicity="?" name="ClientWhitelist" type="string"/>
+                        <return desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
+                    </function>
+                    <function name="register">
+                        <trait>released</trait>
+                        <desc>Internally used CSK_FlowConfig register function.</desc>
+                        <param desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
+                        <param desc="Internal parameter (not used)." multiplicity="1" name="eventname" type="string"/>
+                        <param desc="Internally used callback function." multiplicity="1" name="callback" type="string"/>
+                        <return desc="Success of register process." multiplicity="1" name="success" type="bool"/>
+                    </function>
+                </serves>
+            </crown>
+        </crown>
         <meta key="author">SICK AG</meta>
-        <meta key="version">1.0.0</meta>
+        <meta key="version">2.0.0</meta>
         <meta key="priority">low</meta>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>

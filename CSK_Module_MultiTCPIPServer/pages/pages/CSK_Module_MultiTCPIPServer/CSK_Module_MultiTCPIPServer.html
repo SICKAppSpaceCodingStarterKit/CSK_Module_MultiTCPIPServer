@@ -1,904 +1,1258 @@
-<layout-row id="RowLayout1">
-	<layout-column id="ColumnLayout23"
-		class="myCustomFrame_CSK_Module_MultiTCPIPServer"
-		style="align-items: stretch">
-		<davinci-value-display id="VD_TCPIPServer" label="TCP/IP Server">
-		</davinci-value-display>
-		<layout-row id="RowLayout22"
-			style="align-items: center; justify-content: space-between">
-			<davinci-value-display id="VD_ListenStateString"
-				value="Activate TCP/IP Server">
-			</davinci-value-display>
-			<davinci-toggle-switch id="TS_Listen" title="Activate the server">
-				<crown-binding event="change"
-					name="CSK_MultiTCPIPServer/setListenState"
-					path="param/args/newState" auto-commit>
-				</crown-binding>
-				<crown-edpws-binding property="checked"
-					name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-				</crown-edpws-binding>
-			</davinci-toggle-switch>
-		</layout-row>
-		<layout-row id="RowLayout15" style="align-items: center">
-			<layout-column id="ColumnLayout29" style="align-items: stretch">
-				<davinci-text-field id="TF_IPAddressValue" type="text"
-					title="Current IP address of the server" disabled
-					label="IP of server -> Port">
-					<crown-edpws-binding property="value"
-						name="CSK_MultiTCPIPServer/OnNewServerIP" update-on-resume>
-					</crown-edpws-binding>
-				</davinci-text-field>
-			</layout-column>
-			<layout-column id="ColumnLayout30" style="align-items: stretch">
-				<davinci-numeric-field id="NF_TcpipServerPort"
-					class="myCustomMarginTop_CSK_Module_MultiTCPIPServer"
-					type="outline" min="1" max="99999" ticks="1" group-separator=","
-					decimal-separator="." format-pattern="0">
-					<crown-on property="disabled"
-						crown-event="CSK_MultiTCPIPServer/OnNewListenState">
-					</crown-on>
-					<crown-set event="change"
-						crown-function="CSK_MultiTCPIPServer/setPort"
-						protocol="crownMSGPACK" crown-path="newPort">
-					</crown-set>
-					<crown-on property="value"
-						crown-event="CSK_MultiTCPIPServer/OnNewPort">
-					</crown-on>
-				</davinci-numeric-field>
-			</layout-column>
-			<layout-column id="ColumnLayout31" style="align-items: stretch">
-				<davinci-drop-down id="DD_EthernetInterface" label="Interface"
-					title="Physical ethernet interface port used by the server">
-					<crown-edpws-binding property="value"
-						name="CSK_MultiTCPIPServer/OnNewInterface" update-on-resume
-						converter="function(value) {return value.toString();}">
-					</crown-edpws-binding>
-					<crown-binding event="change" name="CSK_MultiTCPIPServer/setInterface"
-						path="param/args/newInterface" auto-commit
-						converter="function(value) {return value;}">
-					</crown-binding>
-					<crown-edpws-binding property="data"
-						name="CSK_MultiTCPIPServer/OnNewInterfaceList" update-on-resume
-						converter="convertToList">
-					</crown-edpws-binding>
-					<crown-edpws-binding property="disabled"
-						name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-					</crown-edpws-binding>
-				</davinci-drop-down>
-			</layout-column>
-		</layout-row>
-		<layout-row id="RowLayout24">
-			<layout-column id="ColumnLayout1" style="align-items: stretch">
-				<layout-row id="RowLayout20">
-					<layout-column id="ColumnLayout32" style="align-items: stretch">
-						<davinci-drop-down id="DD_RxFraming" label="RxFraming"
-							title="Framing of incoming messages"
-							style="align-self: center; width: 95%">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxFraming"
-								path="param/args/newRxFraming" auto-commit
-								converter="function(value) {return value;}">
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewRxFraming" update-on-resume
-								converter="function(value) {return value.toString();}">
-							</crown-edpws-binding>
-							<crown-edpws-binding property="data"
-								name="CSK_MultiTCPIPServer/OnNewRxFramingList" update-on-resume
-								converter="convertToList">
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-drop-down>
-					</layout-column>
-					<layout-column id="ColumnLayout35" style="align-items: stretch">
-						<davinci-text-field id="TF_RxStart" type="text" label="RxStart"
-							title="Framing start">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxStart"
-								path="param/args/newRxStart" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewRxStart" update-on-resume>
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnRxFramingDisabled" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-text-field>
-					</layout-column>
-					<layout-column id="ColumnLayout34" style="align-items: stretch">
-						<davinci-text-field id="TF_RxStop" type="text" label="RxStop"
-							title="Framing stop">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxStop"
-								path="param/args/newRxStop" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewRxStop" update-on-resume>
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnRxFramingDisabled" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-text-field>
-					</layout-column>
-				</layout-row>
-				<layout-row id="RowLayout17">
-					<layout-column id="ColumnLayout36" style="align-items: stretch">
-						<davinci-drop-down id="DD_TxFraming" label="TxFraming"
-							title="Framing of outgoing messages"
-							style="align-self: center; width: 95%">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxFraming"
-								path="param/args/newTxFraming" auto-commit
-								converter="function(value) {return value;}">
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewTxFraming" update-on-resume
-								converter="function(value) {return value.toString();}">
-							</crown-edpws-binding>
-							<crown-edpws-binding property="data"
-								name="CSK_MultiTCPIPServer/OnNewTxFramingList" update-on-resume
-								converter="convertToList">
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-drop-down>
-					</layout-column>
-					<layout-column id="ColumnLayout38" style="align-items: stretch">
-						<davinci-text-field id="TF_TxStart" type="text" label="TxStart"
-							title="Framing start">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxStart"
-								path="param/args/newTxStart" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewTxStart" update-on-resume>
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnTxFramingDisabled" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-text-field>
-					</layout-column>
-					<layout-column id="ColumnLayout37" style="align-items: stretch">
-						<davinci-text-field id="TF_TxStop" type="text" label="TxStop"
-							title="Framing stop">
-							<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxStop"
-								path="param/args/newTxStop" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewTxStop" update-on-resume>
-							</crown-edpws-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnTxFramingDisabled" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-text-field>
-					</layout-column>
-				</layout-row>
-				<layout-row id="RowLayout25">
-					<layout-column id="ColumnLayout28"
-						style="align-items: stretch; flex-grow: 3">
-						<davinci-text-field id="TF_GenericTestSendingData" type="text"
-							placeholder="Content" label="Test data to send">
-							<crown-set event="change"
-								crown-function="CSK_MultiTCPIPServer/setTestDataToSend"
-								protocol="crownMSGPACK" crown-path="newTestDataToSend">
-							</crown-set>
-							<crown-on property="value"
-								crown-event="CSK_MultiTCPIPServer/OnNewTestDataToSend">
-							</crown-on>
-						</davinci-text-field>
-					</layout-column>
-					<layout-column id="ColumnLayout48" style="align-items: stretch">
-						<davinci-button id="B_GenericTestSendingData" type="primary"
-							icon-position="append">
-							<span>Send</span>
-							<crown-set event="submit"
-								crown-function="CSK_MultiTCPIPServer/sendTestData"
-								protocol="crownMSGPACK">
-							</crown-set>
-						</davinci-button>
-					</layout-column>
-				</layout-row>
-				<layout-column id="ColumnLayout47"
-					class="myCustomMinHeight200px_CSK_Module_MultiTCPIPServer"
-					style="align-items: stretch; align-self: stretch">
-					<layout-row id="RowLayout28"
-						style="align-self: stretch; align-items: stretch">
-						<davinci-text-area id="TA_MesssageLog" label="Message Log:"
-							style="width: 100%">
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewLog" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-text-area>
-					</layout-row>
-				</layout-column>
-				<davinci-collapse id="Collapse_AdvancedSetting"
-					collapsed-title="Show advanced settings"
-					expanded-title="Hide advanced settings"
-					title="Advanced settings of the server, reboot the server to apply">
-					<layout-column id="ColumnLayout12" style="align-items: stretch">
-						<layout-row id="RowLayout13">
-							<layout-column id="ColumnLayout39" style="align-items: stretch">
-								<davinci-number-input id="NI_MaximumConnections" step="1"
-									label="Maximum connections"
-									title="Max number of parallel active connections"
-									style="flex-grow: 1; width: 95%">
-									<crown-binding event="change"
-										name="CSK_MultiTCPIPServer/setMaxConnections"
-										path="param/args/newMaxConnections" auto-commit
-										converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewMaxConnections" update-on-resume
-										converter="num2str">
-									</crown-edpws-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-							<layout-column id="ColumnLayout41" style="align-items: stretch">
-								<davinci-number-input id="NI_TransmitionTimeout" step="1"
-									label="Transmition timeout, ms"
-									title="sets the timeout for transmits, in milliseconds"
-									style="flex-grow: 1; width: 95%">
-									<crown-binding event="change"
-										name="CSK_MultiTCPIPServer/setTransmitionTimeout"
-										path="param/args/newTransmitionTimeout" auto-commit
-										converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewTransmitTimeout" update-on-resume
-										converter="num2str">
-									</crown-edpws-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-							<layout-column id="ColumnLayout40" style="align-items: stretch">
-								<davinci-number-input id="NI_TransmitionACKtimeout" step="1"
-									label="ACK timeout, ms"
-									title="Timeout for acknowledgement, in milliseconds"
-									style="flex-grow: 1; width: 95%">
-									<crown-binding event="change"
-										name="CSK_MultiTCPIPServer/setACKTimeout"
-										path="param/args/newACKTimeout" auto-commit converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewACKTimeout" update-on-resume
-										converter="num2str">
-									</crown-edpws-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-						</layout-row>
-						<layout-row id="RowLayout14">
-							<layout-column id="ColumnLayout42" style="align-items: stretch">
-								<davinci-number-input id="NI_TransmitionBufferSize" step="1"
-									label="Transmition Buffer Size, bytes"
-									title="Sets the size of the socket’s send buffer, in bytes"
-									style="width: 95%">
-									<crown-binding event="change"
-										name="CSK_MultiTCPIPServer/setTransmitionBuffer"
-										path="param/args/newTransmitionBuffer" auto-commit
-										converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewTransmitBuffer" update-on-resume
-										converter="num2str">
-									</crown-edpws-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-							<layout-column id="ColumnLayout44" style="align-items: stretch">
-								<davinci-number-input id="NI_RxFramingBufferSize" step="1"
-									label="Rx Framing Buffer Size"
-									title="Framing buffer size for receiving, has no effect if no framing"
-									style="width: 95%">
-									<crown-binding event="change" name="CSK_MultiTCPIPServer/setRxBuffer"
-										path="param/args/newRxBuffer" auto-commit converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewRxFramingBufferSize"
-										update-on-resume converter="num2str">
-									</crown-edpws-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-							<layout-column id="ColumnLayout43" style="align-items: stretch">
-								<davinci-number-input id="NI_TxFramingBufferSize" step="1"
-									label="Tx Framing Buffer Size"
-									title="Framing buffer size for transmitting, has no effect if no framing"
-									style="width: 95%">
-									<crown-edpws-binding property="value"
-										name="CSK_MultiTCPIPServer/OnNewTxFramingBufferSize"
-										update-on-resume converter="num2str">
-									</crown-edpws-binding>
-									<crown-binding event="change" name="CSK_MultiTCPIPServer/setTxBuffer"
-										path="param/args/newTxBuffer" auto-commit converter="str2num">
-									</crown-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-									</crown-edpws-binding>
-								</davinci-number-input>
-							</layout-column>
-						</layout-row>
-						<davinci-value-display id="VD_GenericReceiveDataEventName"
-							label="Event name to receive any incoming data from any client:">
-							<crown-on property="value"
-								crown-event="CSK_MultiTCPIPServer/OnNewGenericReceivedDataEventName">
-							</crown-on>
-						</davinci-value-display>
-						<davinci-value-display id="VD_GenericSendDataFunctionName"
-							label="Function name to send data to all connected clients:">
-							<crown-on property="value"
-								crown-event="CSK_MultiTCPIPServer/OnNewGenericSendDataFunctionName">
-							</crown-on>
-						</davinci-value-display>
-					</layout-column>
-				</davinci-collapse>
-			</layout-column>
-		</layout-row>
-		<layout-row id="RowLayout9">
-			<layout-column id="Column_PersistentData"
-				class="myCustomFrame_CSK_Module_MultiTCPIPServer"
-				style="align-items: stretch">
-				<layout-row id="RowLayout4"
-					style="justify-content: space-between; align-items: center">
-					<layout-column id="ColumnLayout5" style="align-items: stretch">
-						<davinci-value-display id="VD_ParameterName" value="Parameter name:"
-							title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-						</davinci-value-display>
-					</layout-column>
-					<layout-column id="ColumnLayout6" style="align-items: stretch">
-						<davinci-text-field id="TF_ParameterName" type="text"
-							title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-							<crown-edpws-binding property="value"
-								name="CSK_MultiTCPIPServer/OnNewParameterName" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change"
-								name="CSK_MultiTCPIPServer/setParameterName"
-								path="param/args/name" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-								update-on-resume converter="function(value) {return !value;}">
-							</crown-edpws-binding>
-						</davinci-text-field>
-					</layout-column>
-				</layout-row>
-				<layout-row id="RowLayout2"
-					style="justify-content: space-between; align-items: center">
-					<davinci-value-display id="VD_LoadConfig"
-						value="Load config on app start:"
-						title="Load configured parameters from CSK_PersistentData on app start.">
-					</davinci-value-display>
-					<davinci-checkbox id="CB_LoadConfig"
-						title="Load configured parameters from CSK_PersistentData on app start.">
-						<span></span>
-						<crown-edpws-binding property="checked"
-							name="CSK_MultiTCPIPServer/OnNewStatusLoadParameterOnReboot"
-							update-on-resume>
-						</crown-edpws-binding>
-						<crown-edpws-binding property="disabled"
-							name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-							update-on-resume converter="function(value) {return !value;}">
-						</crown-edpws-binding>
-						<crown-binding event="change"
-							name="CSK_MultiTCPIPServer/setLoadOnReboot"
-							path="param/args/status" auto-commit>
-						</crown-binding>
-					</davinci-checkbox>
-				</layout-row>
-				<layout-row id="RowLayout3">
-					<layout-column id="ColumnLayout3" style="align-items: stretch">
-						<davinci-button id="B_LoadConfig" type="primary"
-							icon-position="append"
-							title="Load configured parameters from CSK_PersistentData module.">
-							<span>Load Config</span>
-							<crown-binding event="submit"
-								name="CSK_MultiTCPIPServer/loadParameters" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-								update-on-resume converter="function(value) {return !value;}">
-							</crown-edpws-binding>
-						</davinci-button>
-					</layout-column>
-					<layout-column id="ColumnLayout4" style="align-items: stretch">
-						<davinci-button id="B_SaveConfig" type="primary"
-							icon-position="append"
-							title="Save current configured parameters of this module within CSK_PersistentData module.">
-							<span>Save Config</span>
-							<crown-binding event="submit"
-								name="CSK_MultiTCPIPServer/sendParameters" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="disabled"
-								name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-								update-on-resume converter="function(value) {return !value;}">
-							</crown-edpws-binding>
-						</davinci-button>
-					</layout-column>
-				</layout-row>
-			</layout-column>
-		</layout-row>
-	</layout-column>
-	<layout-column id="ColumnLayout2" style="align-items: stretch">
-		<stacked-view id="SV_UserRole">
-			<stacked-pane id="SP_LoginOK" value="true">
-				<layout-row id="RowLayout5">
-					<layout-column id="ColumnLayout7" style="align-items: stretch">
-						<davinci-tabs id="Tabs_Setup" type="modern">
-							<davinci-tab id="Tab_Settings" label="Setup">
-								<layout-row id="RowLayout8">
-									<layout-column id="ColumnLayout9" style="align-items: stretch">
-										<layout-row id="RowLayout11"
-											style="justify-content: space-between; align-items: center">
-											<layout-column id="ColumnLayout33" style="align-items: stretch">
-												<davinci-value-display id="VD_SelectInstance"
-													value="Selected Instance">
-												</davinci-value-display>
-											</layout-column>
-											<layout-column id="ColumnLayout22" style="align-items: stretch">
-												<davinci-drop-down id="DD_SelectInstance">
-												<crown-binding event="change"
-													name="CSK_MultiTCPIPServer/setSelectedInstance"
-													path="param/args/instance" auto-commit
-													converter="function(value) {return Number(value);}">
-												</crown-binding>
-												<crown-edpws-binding property="value"
-													name="CSK_MultiTCPIPServer/OnNewSelectedInstance" update-on-resume
-													converter="function(value) {return value.toString();}">
-												</crown-edpws-binding>
-												<crown-edpws-binding property="data"
-													name="CSK_MultiTCPIPServer/OnNewInstanceList" update-on-resume
-													converter="convertToList">
-												</crown-edpws-binding>
-												</davinci-drop-down>
-											</layout-column>
-										</layout-row>
-										<layout-row id="RowLayout16" style="align-items: center">
-											<davinci-value-display id="VD_LabelNumberOfConnectedClients" value=""
-												title="Number of connected clients:"
-												label="Number of connected clients:">
-											</davinci-value-display>
-											<davinci-value-display id="VD_ValueNumberOfConnectedClients"
-												title="Number of currently connected clients">
-												<crown-edpws-binding property="value"
-													name="CSK_MultiTCPIPServer/OnNewConnectedClientsNumber"
-													update-on-resume>
-												</crown-edpws-binding>
-											</davinci-value-display>
-										</layout-row>
-										<curie-table id="DT_ConnectedClients" selectable
-											select-mode="highlight_row"
-											title="Table containing all currently connected clients">
-											<curie-table-column id="DTC_ConnectedClientIPAddress"
-												header="Connected client IP Address">
-											</curie-table-column>
-											<crown-edpws-binding property="data"
-												name="CSK_MultiTCPIPServer/OnNewConnectedClientsTable"
-												update-on-resume>
-											</crown-edpws-binding>
-											<crown-binding event="row-selected"
-												name="CSK_MultiTCPIPServer/selectConnectedClient"
-												path="param/args/selectedRow" auto-commit>
-											</crown-binding>
-										</curie-table>
-										<davinci-tabs id="Tabs_SubSetup"
-											class="myCustomFrame_CSK_Module_MultiTCPIPServer" type="classic">
-											<davinci-tab id="Tab_Event" label="ForwardEvents">
-												<layout-row id="RowLayout32">
-													<layout-column id="ColumnLayout14" style="align-items: stretch">
-														<layout-row id="RowLayout33"
-															style="align-items: center; justify-content: space-between">
-															<davinci-value-display id="VD_BroadcastConfig"
-																value="Config for Broadcast">
-															</davinci-value-display>
-																<davinci-checkbox id="CB_SelectBroadcast">
-																<span></span>
-																<crown-edpws-binding property="checked"
-																	name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
-																	update-on-resume>
-																</crown-edpws-binding>
-																<crown-binding event="change"
-																	name="CSK_MultiTCPIPServer/setForwardBroadcastEvent"
-																	path="param/args/status" auto-commit>
-																</crown-binding>
-															</davinci-checkbox>
-														</layout-row>
-														<stacked-view id="SV_BroadcastActive">
-															<stacked-pane id="SP_BroadcastActive" value="true">
-																<layout-row id="RowLayout34">
-																	<layout-column id="ColumnLayout25" style="align-items: stretch">
-																		<davinci-drop-down id="DD_ForwardEventBroadcast"
-																			label="Select client broadcast">
-																		<crown-on property="data"
-																			crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
-																			converter="convertToList">
-																		</crown-on>
-																		<crown-set event="change"
-																			crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
-																			protocol="crownMSGPACK" crown-path="clientBroadcastName">
-																		</crown-set>
-																		<crown-on property="value"
-																			crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
-																		</crown-on>
-																		</davinci-drop-down>
-																	</layout-column>
-																</layout-row>
-															</stacked-pane>
-															<stacked-pane id="SP_BroadcastNotActive" value="false">
-															</stacked-pane>
-															<crown-edpws-binding property="value"
-																name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
-																update-on-resume
-																converter="function(value) {return value.toString();}">
-															</crown-edpws-binding>
-														</stacked-view>
-														<curie-table id="DT_EventToForward" selectable
-															select-mode="highlight_row">
-															<curie-table-column id="EventToForward" header="EventToForward">
-															</curie-table-column>
-															<crown-edpws-binding property="data"
-																name="CSK_MultiTCPIPServer/OnNewEventToForwardList"
-																update-on-resume>
-															</crown-edpws-binding>
-															<crown-binding event="row-selected"
-																name="CSK_MultiTCPIPServer/selectEventToForwardViaUI"
-																path="param/args/selection" auto-commit>
-															</crown-binding>
-														</curie-table>
-														<layout-column id="ColumnLayout57" style="align-items: stretch">
-															<davinci-text-field id="TF_EventToForward" type="text"
-																label="Event to register:"
-																title="Register to this event to forward its content to TCP/IP server.">
-																<crown-binding event="change"
-																	name="CSK_MultiTCPIPServer/setEventToForward"
-																	path="param/args/value" auto-commit>
-																</crown-binding>
-															</davinci-text-field>
-															<layout-row id="RowLayou77"
-																class="myCustomFrame_CSK_Module_MultiTCPIPServer"
-																style="justify-content: space-between">
-																<davinci-button id="B_AddEventToForward" type="primary"
-																	icon-position="append" style="width: 100%">
-																	<span>ADD</span>
-																	<crown-binding event="submit"
-																		name="CSK_MultiTCPIPServer/addEventToForwardViaUI" auto-commit>
-																	</crown-binding>
-																</davinci-button>
-																<davinci-button id="B_DeleteEventToForward" type="primary"
-																	icon-position="append" style="width: 100%">
-																	<span>DELETE</span>
-																	<crown-binding event="submit"
-																		name="CSK_MultiTCPIPServer/deleteEventToForwardViaUI" auto-commit>
-																	</crown-binding>
-																</davinci-button>
-															</layout-row>
-														</layout-column>
-													</layout-column>
-												</layout-row>
-											</davinci-tab>
-											<davinci-tab id="Tab_ClientWhitelist" label="ClientWhitelist">
-												<layout-row id="RowLayout30">
-													<layout-column id="ColumnLayout10" style="align-items: stretch">
-														<layout-row id="RowLayout10">
-															<layout-column id="ColumnLayout17" style="align-items: stretch">
-																<davinci-text-field id="TF_ClientWhitelistName" type="text"
-																	label="ClientWhitelist name">
-																	<crown-set event="change"
-																		crown-function="CSK_MultiTCPIPServer/setClientWhitelistName"
-																		protocol="crownMSGPACK" crown-path="newName">
-																	</crown-set>
-																	<crown-edpws-binding property="value"
-																		name="CSK_MultiTCPIPServer/OnNewClientWhitelistName"
-																		update-on-resume>
-																	</crown-edpws-binding>
-																</davinci-text-field>
-															</layout-column>
-															<layout-column id="ColumnLayout18" style="align-items: stretch">
-																<davinci-button id="B_CreateClientWhitelist" type="primary"
-																	icon-position="append">
-																	<span>Create client whitelist</span>
-																	<crown-set event="submit"
-																		crown-function="CSK_MultiTCPIPServer/createClientWhitelist"
-																		protocol="crownMSGPACK">
-																	</crown-set>
-																</davinci-button>
-															</layout-column>
-														</layout-row>
-														<stacked-view id="SV_IsClientWhitelistSelected" value="false">
-															<stacked-pane id="SP_ClientWhitelistISSelected" value="true">
-																<layout-column id="ColumnLayout11" style="align-items: stretch">
-																	<layout-row id="RowLayout12">
-																		<layout-column id="ColumnLayout19" style="align-items: stretch">
-																			<davinci-drop-down id="DD_ClientWhitelist"
-																				label="Select client whitelist">
-																				<crown-on property="data"
-																					crown-event="CSK_MultiTCPIPServer/OnNewListClientWhitelist"
-																					converter="convertToList">
-																				</crown-on>
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setSelectedClientWhitelist"
-																					protocol="crownMSGPACK" crown-path="clientWhitelistName">
-																				</crown-set>
-																				<crown-on property="value"
-																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
-																				</crown-on>
-																			</davinci-drop-down>
-																		</layout-column>
-																		<layout-column id="ColumnLayout20" style="align-items: stretch">
-																			<davinci-button id="B_DeleteClientWhitelist" type="primary"
-																				icon-position="append">
-																				<span>Delete client whitelist</span>
-																				<crown-set event="submit"
-																					crown-function="CSK_MultiTCPIPServer/deleteClientWhitelist"
-																					protocol="crownMSGPACK">
-																				</crown-set>
-																			</davinci-button>
-																		</layout-column>
-																	</layout-row>
-																	<davinci-value-display id="VD_ClientWhitelistEventName"
-																		label="Event name to use externally:">
-																		<crown-on property="value"
-																			crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistEventName">
-																		</crown-on>
-																	</davinci-value-display>
-																	<layout-row id="RowLayout26" style="align-items: center">
-																		<layout-column id="ColumnLayout51" style="align-items: stretch">
-																			<davinci-text-field id="TF_IPAddressToAddToClientWhitelist"
-																				type="text" placeholder="..." label="Add IP address to filter">
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientWhitelist"
-																					protocol="crownMSGPACK" crown-path="ipAddress">
-																				</crown-set>
-																			</davinci-text-field>
-																		</layout-column>
-																		<layout-column id="ColumnLayout52"
-																			style="align-items: stretch; justify-content: center">
-																			<layout-row id="RowLayout31"
-																				style="align-items: center; justify-content: center">
-																				<davinci-value-display id="VD_AddViaIPListWhitelist"
-																					value="Add IP via client list">
-																				</davinci-value-display>
-																				<davinci-toggle-switch id="TS_AddIPViaListWhitelist">
-																					<crown-edpws-binding property="checked"
-																						name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-																						update-on-resume>
-																					</crown-edpws-binding>
-																					<crown-binding event="change"
-																						name="CSK_MultiTCPIPServer/setAddIPViaList"
-																						path="param/args/status" auto-commit>
-																					</crown-binding>
-																				</davinci-toggle-switch>
-																			</layout-row>
-																		</layout-column>
-																	</layout-row>
-																	<curie-table id="DT_ClientWhitelist">
-																		<curie-table-column id="DTC_ClientWhitelistIP"
-																			header="Receive data only from these clients">
-																		</curie-table-column>
-																		<crown-set event="row-selected"
-																			crown-function="CSK_MultiTCPIPServer/deleteClientWhitelistIPAddress"
-																			protocol="crownMSGPACK" crown-path="jsonRowToDelete">
-																		</crown-set>
-																		<crown-on property="data"
-																			crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistTableContent">
-																		</crown-on>
-																	</curie-table>
-																</layout-column>
-															</stacked-pane>
-															<crown-on property="value"
-																crown-event="CSK_MultiTCPIPServer/OnNewStatusClientWhitelistSelected"
-																converter="bool2str">
-															</crown-on>
-														</stacked-view>
-													</layout-column>
-												</layout-row>
-											</davinci-tab>
-											<davinci-tab id="Tab_ClientBroadcast" label="ClientBroadcast">
-												<layout-row id="RowLayout29">
-													<layout-column id="ColumnLayout21" style="align-items: stretch">
-														<layout-row id="RowLayout19">
-															<layout-column id="ColumnLayout15" style="align-items: stretch">
-																<davinci-text-field id="TF_ClientBroadcast" type="text"
-																	label="ClientBroadcast name">
-																	<crown-set event="change"
-																		crown-function="CSK_MultiTCPIPServer/setClientBroadcastName"
-																		protocol="crownMSGPACK" crown-path="newName">
-																	</crown-set>
-																	<crown-edpws-binding property="value"
-																		name="CSK_MultiTCPIPServer/OnNewClientBroadcastName"
-																		update-on-resume>
-																	</crown-edpws-binding>
-																</davinci-text-field>
-															</layout-column>
-															<layout-column id="ColumnLayout16" style="align-items: stretch">
-																<davinci-button id="Button_CreateBroadcast" type="primary"
-																	icon-position="append">
-																	<span>Create client broadcast</span>
-																	<crown-set event="submit"
-																		crown-function="CSK_MultiTCPIPServer/createClientBroadcast"
-																		protocol="crownMSGPACK">
-																	</crown-set>
-																</davinci-button>
-															</layout-column>
-														</layout-row>
-														<stacked-view id="SV_ClientBroadcastSelected" value="false">
-															<stacked-pane id="SP_ClientBroadcastSelected" value="true">
-																<layout-column id="ColumnLayout24" style="align-items: stretch">
-																	<layout-row id="RowLayout21">
-																		<layout-column id="ColumnLayout26" style="align-items: stretch">
-																			<davinci-drop-down id="DD_ClientBroadcast"
-																				label="Select client broadcast">
-																				<crown-on property="data"
-																					crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
-																					converter="convertToList">
-																				</crown-on>
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
-																					protocol="crownMSGPACK" crown-path="clientBroadcastName">
-																				</crown-set>
-																				<crown-on property="value"
-																					crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
-																				</crown-on>
-																			</davinci-drop-down>
-																		</layout-column>
-																		<layout-column id="ColumnLayout27" style="align-items: stretch">
-																			<davinci-button id="Button_DeleteBroadcast" type="primary"
-																				icon-position="append">
-																				<span>Delete client broadcast</span>
-																				<crown-set event="submit"
-																					crown-function="CSK_MultiTCPIPServer/deleteClientBroadcast"
-																					protocol="crownMSGPACK">
-																				</crown-set>
-																			</davinci-button>
-																		</layout-column>
-																	</layout-row>
-																	<davinci-value-display id="VD_ExternalFunctionName"
-																		label="Function name to use externally:">
-																		<crown-on property="value"
-																			crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastFunctionName">
-																		</crown-on>
-																	</davinci-value-display>
-																	<layout-row id="RowLayout18" style="align-items: center">
-																		<layout-column id="ColumnLayout49" style="align-items: stretch">
-																			<davinci-text-field id="TF_IPForBroadcastFilter" type="text"
-																				placeholder="..." label="Add IP address to filter">
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientBroadcast"
-																					protocol="crownMSGPACK" crown-path="ipAddress">
-																				</crown-set>
-																			</davinci-text-field>
-																		</layout-column>
-																		<layout-column id="ColumnLayout50"
-																			style="align-items: stretch; justify-content: center">
-																			<layout-row id="RowLayout23"
-																				style="align-items: center; justify-content: center">
-																				<davinci-value-display id="VD_AddViaIPListBroadcast"
-																					value="Add IP via client list">
-																				</davinci-value-display>
-																				<davinci-toggle-switch id="TS_AddIPViaList">
-																					<crown-edpws-binding property="checked"
-																						name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-																						update-on-resume>
-																					</crown-edpws-binding>
-																					<crown-binding event="change"
-																						name="CSK_MultiTCPIPServer/setAddIPViaList"
-																						path="param/args/status" auto-commit>
-																					</crown-binding>
-																				</davinci-toggle-switch>
-																			</layout-row>
-																		</layout-column>
-																	</layout-row>
-																	<curie-table id="DT_ClientBroadcastIPFilter">
-												<curie-table-column id="DTC_ClientBroadcastIP"
-													header="Send data only to these clients">
-												</curie-table-column>
-																		<crown-set event="row-selected"
-																			crown-function="CSK_MultiTCPIPServer/deleteClientBroadcastFilterIPAddress"
-																			protocol="crownMSGPACK" crown-path="jsonRowToDelete">
-																		</crown-set>
-																		<crown-on property="data"
-																			crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTableContent">
-																		</crown-on>
-																	</curie-table>
-																	<layout-row id="RowLayout27">
-																		<layout-column id="ColumnLayout45"
-																			style="align-items: stretch; flex-grow: 3">
-																			<davinci-text-field id="TF_BroadcastCommand" type="text"
-																				label="Content">
-																				<crown-set event="change"
-																					crown-function="CSK_MultiTCPIPServer/setClientBroadcastTestDataToSend"
-																					protocol="crownMSGPACK" crown-path="newTestDataToSend">
-																				</crown-set>
-																				<crown-on property="value"
-																					crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTestDataToSend">
-																				</crown-on>
-																			</davinci-text-field>
-																		</layout-column>
-																		<layout-column id="ColumnLayout46" style="align-items: stretch">
-																			<davinci-button id="Button_SendBroadcast" type="primary"
-																				icon-position="append">
-																				<span>Send</span>
-																				<crown-set event="submit"
-																					crown-function="CSK_MultiTCPIPServer/sendClientBroadcastTestData"
-																					protocol="crownMSGPACK">
-																				</crown-set>
-																			</davinci-button>
-																		</layout-column>
-																	</layout-row>
-																</layout-column>
-															</stacked-pane>
-															<crown-on property="value"
-																crown-event="CSK_MultiTCPIPServer/OnNewStatusClientBroadcastSelected"
-																converter="bool2str">
-															</crown-on>
-														</stacked-view>
-													</layout-column>
-												</layout-row>
-											</davinci-tab>
-											<crown-edpws-binding property="selected-index"
-												name="CSK_MultiTCPIPServer/OnNewSelectedTab" update-on-resume>
-											</crown-edpws-binding>
-											<crown-binding event="tab-change"
-												name="CSK_MultiTCPIPServer/setSelectedTab"
-												path="param/args/newSelectedTab" auto-commit>
-											</crown-binding>
-										</davinci-tabs>
-									</layout-column>
-								</layout-row>
-							</davinci-tab>
-							<davinci-tab id="Tab_Instances" label="Instances">
-								<layout-row id="RowLayout7">
-									<layout-column id="ColumnLayout8" style="align-items: stretch">
-										<davinci-button id="Button_AddInstance" type="primary"
-											icon-position="append">
-											<span>Add instance</span>
-											<crown-binding event="submit" name="CSK_MultiTCPIPServer/addInstance"
-												auto-commit>
-											</crown-binding>
-										</davinci-button>
-										<davinci-button id="Button_ResetInstances" type="primary"
-											icon-position="append"
-											title="Reset insances to single instance. Reload app after reseting.">
-											<span>Reset instances</span>
-											<crown-binding event="submit"
-												name="CSK_MultiTCPIPServer/resetInstances" auto-commit>
-											</crown-binding>
-										</davinci-button>
-									</layout-column>
-								</layout-row>
-							</davinci-tab>
-						</davinci-tabs>
-					</layout-column>
-				</layout-row>
-			</stacked-pane>
-			<stacked-pane id="SP_LoginNOK" value="false">
-				<layout-row id="RowLayout6">
-					<davinci-callout id="Callout1" type="info">
-						<span>Please log in via UserManagement module.</span>
-					</davinci-callout>
-				</layout-row>
-			</stacked-pane>
-			<crown-edpws-binding property="value"
-				name="CSK_MultiTCPIPServer/OnUserLevelOperatorActive"
-				update-on-resume
-				converter="function(value) {return value.toString();}">
-			</crown-edpws-binding>
-		</stacked-view>
-		<stacked-view id="SV_PageCalled">
-			<crown-binding property="value" name="CSK_MultiTCPIPServer/pageCalled"
-				path="result/data/empty" auto-update="0" update-on-resume>
-			</crown-binding>
-		</stacked-view>
-	</layout-column>
-	<layout-column id="ColumnLayout13" style="align-items: stretch">
-	</layout-column>
-  
+<layout-row id="RowLayout1" class="myCustomBackground_CSK_Module_MultiTCPIPServer">
+    <layout-column id="ColumnLayout53" class="myCustomFrameNoColor_CSK_Module_MultiTCPIPServer"
+        style="align-items: stretch">
+        <layout-row id="RowLayout40" class="myCustomSpacerVert20_CSK_Module_MultiTCPIPServer">
+        </layout-row>
+        <layout-row id="RowLayout39">
+            <layout-column id="ColumnLayout58" style="align-items: stretch">
+                <layout-row id="RowLayout01" style="align-items: baseline">
+                    <davinci-value-display id="VD_Title" class="myCustomLabel_CSK_Module_MultiTCPIPServer"
+                        value="TCP/IP Server">
+                    </davinci-value-display>
+                    <davinci-value-display id="VD_Version">
+                        <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusModuleVersion"
+                            update-on-resume>
+                        </crown-edpws-binding>
+                    </davinci-value-display>
+                </layout-row>
+            </layout-column>
+        </layout-row>
+        <stacked-view id="SV_FeatureSupport">
+            <stacked-pane id="SP_Supported" value="true">
+                <layout-row id="RowLayout35">
+                    <layout-column id="ColumnLayout59" class="myCustomMarginInline1Rem_CSK_Module_MultiTCPIPServer"
+                        style="align-items: stretch">
+                        <layout-row id="RowLayout41" class="myCustomMarginFirstRow_CSK_Module_MultiTCPIPServer">
+                            <layout-column id="ColumnLayout60"
+                                class="myCustomMarginInline1Rem_CSK_Module_MultiTCPIPServer"
+                                style="align-items: stretch">
+                                <layout-row id="RowLayout75">
+                                    <layout-column id="ColumnLayout75" style="align-items: stretch">
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout76" style="align-items: stretch">
+                                        <layout-row id="RowLayout112"
+                                            style="flex-grow: 0; flex-shrink: 0; align-items: center">
+                                            <layout-column id="ColumnLayout223" style="align-items: stretch">
+                                                <davinci-value-display id="VD_SelectedInstance" value="Instance">
+                                                </davinci-value-display>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout516" style="align-items: stretch">
+                                                <davinci-drop-down id="DD_SelectInstance">
+                                                    <crown-binding event="change"
+                                                        name="CSK_MultiTCPIPServer/setSelectedInstance"
+                                                        path="param/args/instance" auto-commit
+                                                        converter="function(value) {return Number(value);}">
+                                                    </crown-binding>
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiTCPIPServer/OnNewSelectedInstance"
+                                                        update-on-resume
+                                                        converter="function(value) {return value.toString();}">
+                                                    </crown-edpws-binding>
+                                                    <crown-edpws-binding property="data"
+                                                        name="CSK_MultiTCPIPServer/OnNewInstanceList" update-on-resume
+                                                        converter="convertToList">
+                                                    </crown-edpws-binding>
+                                                </davinci-drop-down>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout417" style="align-items: stretch">
+                                                <layout-row id="RowLayout65"
+                                                    class="myCustomMarginTop7PX_CSK_Module_MultiTCPIPServer"
+                                                    style="align-items: center; justify-content: center">
+                                                    <davinci-button id="Button_AddInstance"
+                                                        class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                        type="outline" icon-position="append" title="Add instance"
+                                                        icon="content/add">
+                                                        <span></span>
+                                                        <crown-binding event="submit"
+                                                            name="CSK_MultiTCPIPServer/addInstance" auto-commit>
+                                                        </crown-binding>
+                                                    </davinci-button>
+                                                    <davinci-button id="Button_ResetInstances"
+                                                        class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                        type="outline" icon-position="append"
+                                                        title="Reset insances to single instance. Reload app after reseting."
+                                                        icon="action/delete">
+                                                        <span></span>
+                                                        <crown-binding event="submit"
+                                                            name="CSK_MultiTCPIPServer/resetInstances" auto-commit>
+                                                        </crown-binding>
+                                                    </davinci-button>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                </layout-row>
+                            </layout-column>
+                            <layout-column id="ColumnLayout13" class="myCustomBorderLeft_CSK_Module_MultiTCPIPServer"
+                                style="align-items: stretch">
+                                <layout-row id="RowLayout46" style="align-items: baseline">
+                                    <layout-column id="ColumnLayout81" style="align-items: stretch">
+                                        <layout-row id="RowLayout245" style="align-items: center">
+                                            <layout-column id="ColumnLayout57" style="align-items: stretch">
+                                                <davinci-value-display id="VD_PersistentData" value="Persistent Data">
+                                                </davinci-value-display>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout73"
+                                                style="align-items: stretch; flex-grow: 2">
+                                                <davinci-text-field id="TF_ParameterName" type="text"
+                                                    title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiTCPIPServer/OnNewParameterName" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change"
+                                                        name="CSK_MultiTCPIPServer/setParameterName"
+                                                        path="param/args/name" auto-commit>
+                                                    </crown-binding>
+                                                    <crown-edpws-binding property="disabled"
+                                                        name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
+                                                        update-on-resume converter="function(value) {return !value;}">
+                                                    </crown-edpws-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                            <layout-column id="Column_PersistentData" style="align-items: stretch">
+                                                <layout-row id="RowLayout515">
+                                                    <layout-column id="ColumnLayout762" style="align-items: stretch">
+                                                        <layout-row id="RowLayout123"
+                                                            class="myCustomMarginTop7PX_CSK_Module_MultiTCPIPServer"
+                                                            style="justify-content: center; align-items: center">
+                                                            <davinci-button id="B_LoadConfig"
+                                                                class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                type="outline" icon-position="append"
+                                                                title="Load configured parameters from CSK_PersistentData module."
+                                                                icon="action/history">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_MultiTCPIPServer/loadParameters"
+                                                                    auto-commit>
+                                                                </crown-binding>
+                                                                <crown-edpws-binding property="disabled"
+                                                                    name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
+                                                                    update-on-resume
+                                                                    converter="function(value) {return !value;}">
+                                                                </crown-edpws-binding>
+                                                            </davinci-button>
+                                                            <davinci-button id="B_SaveConfig"
+                                                                class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                type="outline" icon-position="append"
+                                                                title="Save current configured parameters of this module within CSK_PersistentData module."
+                                                                icon="content/save">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_MultiTCPIPServer/sendParameters"
+                                                                    auto-commit>
+                                                                </crown-binding>
+                                                                <crown-edpws-binding property="disabled"
+                                                                    name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
+                                                                    update-on-resume
+                                                                    converter="function(value) {return !value;}">
+                                                                </crown-edpws-binding>
+                                                            </davinci-button>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                        <layout-row id="RowLayout57" style="align-items: center">
+                                            <layout-column id="ColumnLayout575" style="align-items: stretch">
+                                                <davinci-collapse id="Collapse_PersistentData"
+                                                    class="myCustomPersistentDataMargin_CSK_Module_MultiTCPIPServer"
+                                                    collapsed-title="..." expanded-title="...">
+                                                    <layout-row id="RowLayout45"
+                                                        class="myCustomPersistentDataMarginBack_CSK_Module_MultiTCPIPServer"
+                                                        style="align-items: center">
+                                                        <layout-column id="ColumnLayout6123"
+                                                            style="align-items: stretch">
+                                                        </layout-column>
+                                                        <layout-column id="ColumnLayout72"
+                                                            style="align-items: stretch; flex-grow: 2">
+                                                            <layout-row id="RowLayout4">
+                                                                <layout-column id="ColumnLayout4"
+                                                                    style="align-items: stretch">
+                                                                    <layout-row id="RowLayout2321"
+                                                                        style="align-items: center">
+                                                                        <davinci-value-display id="VD_LoadConfig"
+                                                                            value="Load on reboot:"
+                                                                            title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                        </davinci-value-display>
+                                                                        <davinci-checkbox id="CB_LoadConfig"
+                                                                            title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                            <span></span>
+                                                                            <crown-edpws-binding property="checked"
+                                                                                name="CSK_MultiTCPIPServer/OnNewStatusLoadParameterOnReboot"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
+                                                                                update-on-resume
+                                                                                converter="function(value) {return !value;}">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setLoadOnReboot"
+                                                                                path="param/args/status" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-checkbox>
+                                                                    </layout-row>
+                                                                </layout-column>
+                                                                <layout-column id="ColumnLayout77"
+                                                                    style="align-items: stretch">
+                                                                    <layout-row id="RowLayout5612"
+                                                                        style="align-items: center">
+                                                                        <davinci-value-display id="VD_FLowConfigPriox"
+                                                                            value="Flow config priority:"
+                                                                            title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                        </davinci-value-display>
+                                                                        <davinci-checkbox id="CB_FlowConfigPrio"
+                                                                            title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                            <span></span>
+                                                                            <crown-edpws-binding property="checked"
+                                                                                name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setFlowConfigPriority"
+                                                                                path="param/args/status" auto-commit>
+                                                                            </crown-binding>
+                                                                        </davinci-checkbox>
+                                                                    </layout-row>
+                                                                </layout-column>
+                                                            </layout-row>
+                                                        </layout-column>
+                                                        <layout-column id="ColumnLayout79" style="align-items: stretch">
+                                                        </layout-column>
+                                                    </layout-row>
+                                                </davinci-collapse>
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                </layout-row>
+                            </layout-column>
+                        </layout-row>
+                        <layout-row id="RowLayout60" class="myCustomSpacerVert10_CSK_Module_MultiTCPIPServer">
+                        </layout-row>
+                        <layout-row id="RowLayout47" class="myCustomBorderBottom_CSK_Module_MultiTCPIPServer"
+                            style="flex-grow: 0; flex-shrink: 0">
+                        </layout-row>
+                        <layout-row id="RowLayout61" class="myCustomSpacerVert10_CSK_Module_MultiTCPIPServer"
+                            style="flex-grow: 0; flex-shrink: 0">
+                        </layout-row>
+                        <layout-row id="RowLayout42">
+                            <layout-column id="ColumnLayout55"
+                                class="myCustomMarginInline1Rem_CSK_Module_MultiTCPIPServer"
+                                style="align-items: stretch">
+                                <layout-row id="RowLayout22" style="align-items: center; justify-content: flex-end">
+                                    <davinci-value-display id="VD_ListenStateString" value="Activate Server">
+                                    </davinci-value-display>
+                                    <davinci-toggle-switch id="TS_Listen" title="Activate the server">
+                                        <crown-binding event="change" name="CSK_MultiTCPIPServer/setListenState"
+                                            path="param/args/newState" auto-commit>
+                                        </crown-binding>
+                                        <crown-edpws-binding property="checked"
+                                            name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
+                                        </crown-edpws-binding>
+                                    </davinci-toggle-switch>
+                                </layout-row>
+                                <davinci-collapse id="Collapse_Clients" collapsed-title="Show Connected Clients"
+                                    expanded-title="Hide">
+                                    <layout-row id="RowLayout36">
+                                        <layout-column id="ColumnLayout54" style="align-items: stretch">
+                                            <layout-row id="RowLayout16" style="align-items: center">
+                                                <davinci-value-display id="VD_NumberOfConnectedClients" value=""
+                                                    title="Number of connected clients:"
+                                                    label="Number of connected clients:">
+                                                </davinci-value-display>
+                                                <davinci-value-display id="VD_ValueNumberOfConnectedClients"
+                                                    title="Number of currently connected clients">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_MultiTCPIPServer/OnNewConnectedClientsNumber"
+                                                        update-on-resume>
+                                                    </crown-edpws-binding>
+                                                </davinci-value-display>
+                                            </layout-row>
+                                            <curie-table id="DT_ConnectedClients" selectable select-mode="highlight_row"
+                                                title="Table containing all currently connected clients">
+                                                <curie-table-column id="DTC_ConnectedClientIPAddress"
+                                                    header="Connected client IP Address">
+                                                </curie-table-column>
+                                                <crown-edpws-binding property="data"
+                                                    name="CSK_MultiTCPIPServer/OnNewConnectedClientsTable"
+                                                    update-on-resume>
+                                                </crown-edpws-binding>
+                                                <crown-binding event="row-selected"
+                                                    name="CSK_MultiTCPIPServer/selectConnectedClient"
+                                                    path="param/args/selectedRow" auto-commit>
+                                                </crown-binding>
+                                            </curie-table>
+                                        </layout-column>
+                                    </layout-row>
+                                </davinci-collapse>
+                                <layout-row id="RowLayout25">
+                                    <layout-column id="ColumnLayout28" style="align-items: stretch; flex-grow: 9">
+                                        <davinci-text-field id="TF_GenericTestSendingData" type="text"
+                                            placeholder="Content" label="Test data to send">
+                                            <crown-set event="change"
+                                                crown-function="CSK_MultiTCPIPServer/setTestDataToSend"
+                                                protocol="crownMSGPACK" crown-path="newTestDataToSend">
+                                            </crown-set>
+                                            <crown-on property="value"
+                                                crown-event="CSK_MultiTCPIPServer/OnNewTestDataToSend">
+                                            </crown-on>
+                                        </davinci-text-field>
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout48" style="align-items: stretch">
+                                        <davinci-button id="B_GenericTestSendingData"
+                                            class="myCustomButton_CSK_Module_MultiTCPIPServer" type="outline"
+                                            icon-position="append" title="Send" icon="content/send">
+                                            <span></span>
+                                            <crown-set event="submit" crown-function="CSK_MultiTCPIPServer/sendTestData"
+                                                protocol="crownMSGPACK">
+                                            </crown-set>
+                                        </davinci-button>
+                                    </layout-column>
+                                </layout-row>
+                                <davinci-text-area id="TA_MesssageLog" label="Message Log:" style="height: 500px">
+                                    <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewLog"
+                                        update-on-resume>
+                                    </crown-edpws-binding>
+                                </davinci-text-area>
+                                <layout-row id="RowLayout2" class="myCustomSpacerVert10_CSK_Module_MultiTCPIPServer">
+                                </layout-row>
+                            </layout-column>
+                            <layout-column id="ColumnLayout2" class="myCustomBorderLeft_CSK_Module_MultiTCPIPServer"
+                                style="align-items: stretch">
+                                <stacked-view id="SV_UserRole">
+                                    <stacked-pane id="SP_LoginOK" value="true">
+                                        <layout-row id="RowLayout8">
+                                            <layout-column id="ColumnLayout9" style="align-items: stretch">
+                                                <davinci-tabs id="Tabs_SubSetup"
+                                                    class="myCustomMarginLeft15PX_CSK_Module_MultiTCPIPServer"
+                                                    type="modern">
+                                                    <davinci-tab id="Tab_Setup"
+                                                        class="myCustomMarginLeft7PX_CSK_Module_MultiTCPIPServer"
+                                                        icon="action/settings" title="Configuration">
+                                                        <layout-row id="RowLayout312">
+                                                            <layout-column id="ColumnLayout3"
+                                                                class="myCustomFrame_CSK_Module_MultiTCPIPServer"
+                                                                style="align-items: stretch">
+                                                                <davinci-value-display id="VD_Configuration"
+                                                                    class="myCustomFrameLabel_CSK_Module_MultiTCPIPServer"
+                                                                    label="Configuration"
+                                                                    style="align-self: flex-start">
+                                                                </davinci-value-display>
+                                                                <layout-row id="RowLayout15"
+                                                                    style="align-items: center">
+                                                                    <layout-column id="ColumnLayout29"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_IPAddressValue"
+                                                                            type="text"
+                                                                            title="Current IP address of the server"
+                                                                            disabled label="IP of server -> Port">
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewServerIP"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout30"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-numeric-field id="NF_TcpipServerPort"
+                                                                            class="myCustomMarginTop_CSK_Module_MultiTCPIPServer"
+                                                                            type="outline" min="1" max="99999" ticks="1"
+                                                                            group-separator="," decimal-separator="."
+                                                                            format-pattern="0">
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                            </crown-on>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setPort"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newPort">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewPort">
+                                                                            </crown-on>
+                                                                        </davinci-numeric-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout31"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-drop-down id="DD_EthernetInterface"
+                                                                            label="Interface"
+                                                                            title="Physical ethernet interface port used by the server">
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewInterface"
+                                                                                update-on-resume
+                                                                                converter="function(value) {return value.toString();}">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setInterface"
+                                                                                path="param/args/newInterface"
+                                                                                auto-commit
+                                                                                converter="function(value) {return value;}">
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="data"
+                                                                                name="CSK_MultiTCPIPServer/OnNewInterfaceList"
+                                                                                update-on-resume
+                                                                                converter="convertToList">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-drop-down>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <layout-row id="RowLayout20">
+                                                                    <layout-column id="ColumnLayout32"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-drop-down id="DD_RxFraming"
+                                                                            label="RxFraming"
+                                                                            title="Framing of incoming messages"
+                                                                            style="align-self: center; width: 95%">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setRxFraming"
+                                                                                path="param/args/newRxFraming"
+                                                                                auto-commit
+                                                                                converter="function(value) {return value;}">
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewRxFraming"
+                                                                                update-on-resume
+                                                                                converter="function(value) {return value.toString();}">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="data"
+                                                                                name="CSK_MultiTCPIPServer/OnNewRxFramingList"
+                                                                                update-on-resume
+                                                                                converter="convertToList">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-drop-down>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout35"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_RxStart" type="text"
+                                                                            label="RxStart" title="Framing start">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setRxStart"
+                                                                                path="param/args/newRxStart"
+                                                                                auto-commit>
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewRxStart"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnRxFramingDisabled"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout34"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_RxStop" type="text"
+                                                                            label="RxStop" title="Framing stop">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setRxStop"
+                                                                                path="param/args/newRxStop" auto-commit>
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewRxStop"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnRxFramingDisabled"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <layout-row id="RowLayout17">
+                                                                    <layout-column id="ColumnLayout36"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-drop-down id="DD_TxFraming"
+                                                                            label="TxFraming"
+                                                                            title="Framing of outgoing messages"
+                                                                            style="align-self: center; width: 95%">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setTxFraming"
+                                                                                path="param/args/newTxFraming"
+                                                                                auto-commit
+                                                                                converter="function(value) {return value;}">
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewTxFraming"
+                                                                                update-on-resume
+                                                                                converter="function(value) {return value.toString();}">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="data"
+                                                                                name="CSK_MultiTCPIPServer/OnNewTxFramingList"
+                                                                                update-on-resume
+                                                                                converter="convertToList">
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-drop-down>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout38"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_TxStart" type="text"
+                                                                            label="TxStart" title="Framing start">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setTxStart"
+                                                                                path="param/args/newTxStart"
+                                                                                auto-commit>
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewTxStart"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnTxFramingDisabled"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout37"
+                                                                        style="align-items: stretch">
+                                                                        <davinci-text-field id="TF_TxStop" type="text"
+                                                                            label="TxStop" title="Framing stop">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setTxStop"
+                                                                                path="param/args/newTxStop" auto-commit>
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewTxStop"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnTxFramingDisabled"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <davinci-collapse id="Collapse_AdvancedSetting"
+                                                                    collapsed-title="Show advanced settings"
+                                                                    expanded-title="Hide advanced settings"
+                                                                    title="Advanced settings of the server, reboot the server to apply">
+                                                                    <layout-column id="ColumnLayout12"
+                                                                        style="align-items: stretch">
+                                                                        <layout-row id="RowLayout13">
+                                                                            <layout-column id="ColumnLayout39"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_MaximumConnections" step="1"
+                                                                                    label="Maximum connections"
+                                                                                    title="Max number of parallel active connections"
+                                                                                    style="flex-grow: 1; width: 95%">
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setMaxConnections"
+                                                                                        path="param/args/newMaxConnections"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewMaxConnections"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout41"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_TransmitionTimeout" step="1"
+                                                                                    label="Transmition timeout, ms"
+                                                                                    title="sets the timeout for transmits, in milliseconds"
+                                                                                    style="flex-grow: 1; width: 95%">
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setTransmitionTimeout"
+                                                                                        path="param/args/newTransmitionTimeout"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewTransmitTimeout"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout40"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_TransmitionACKtimeout"
+                                                                                    step="1" label="ACK timeout, ms"
+                                                                                    title="Timeout for acknowledgement, in milliseconds"
+                                                                                    style="flex-grow: 1; width: 95%">
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setACKTimeout"
+                                                                                        path="param/args/newACKTimeout"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewACKTimeout"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                        </layout-row>
+                                                                        <layout-row id="RowLayout14">
+                                                                            <layout-column id="ColumnLayout42"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_TransmitionBufferSize"
+                                                                                    step="1"
+                                                                                    label="Transmition Buffer Size, bytes"
+                                                                                    title="Sets the size of the socket’s send buffer, in bytes"
+                                                                                    style="width: 95%">
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setTransmitionBuffer"
+                                                                                        path="param/args/newTransmitionBuffer"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewTransmitBuffer"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout44"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_RxFramingBufferSize" step="1"
+                                                                                    label="Rx Framing Buffer Size"
+                                                                                    title="Framing buffer size for receiving, has no effect if no framing"
+                                                                                    style="width: 95%">
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setRxBuffer"
+                                                                                        path="param/args/newRxBuffer"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewRxFramingBufferSize"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                            <layout-column id="ColumnLayout43"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-number-input
+                                                                                    id="NI_TxFramingBufferSize" step="1"
+                                                                                    label="Tx Framing Buffer Size"
+                                                                                    title="Framing buffer size for transmitting, has no effect if no framing"
+                                                                                    style="width: 95%">
+                                                                                    <crown-edpws-binding
+                                                                                        property="value"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewTxFramingBufferSize"
+                                                                                        update-on-resume
+                                                                                        converter="num2str">
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_MultiTCPIPServer/setTxBuffer"
+                                                                                        path="param/args/newTxBuffer"
+                                                                                        auto-commit converter="str2num">
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-number-input>
+                                                                            </layout-column>
+                                                                        </layout-row>
+                                                                        <davinci-value-display
+                                                                            id="VD_GenericReceiveDataEventName"
+                                                                            label="Event name to receive any incoming data from any client:">
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewGenericReceivedDataEventName">
+                                                                            </crown-on>
+                                                                        </davinci-value-display>
+                                                                        <davinci-value-display
+                                                                            id="VD_GenericSendDataFunctionName"
+                                                                            label="Function name to send data to all connected clients:">
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewGenericSendDataFunctionName">
+                                                                            </crown-on>
+                                                                        </davinci-value-display>
+                                                                    </layout-column>
+                                                                </davinci-collapse>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </davinci-tab>
+                                                    <davinci-tab id="Tab_Event"
+                                                        class="myCustomMarginLeft7PX_CSK_Module_MultiTCPIPServer"
+                                                        title="Forward Events" icon="content/forward">
+                                                        <layout-row id="RowLayout32">
+                                                            <layout-column id="ColumnLayout14"
+                                                                class="myCustomFrame_CSK_Module_MultiTCPIPServer"
+                                                                style="align-items: stretch">
+                                                                <davinci-value-display id="VD_Events"
+                                                                    class="myCustomFrameLabel_CSK_Module_MultiTCPIPServer"
+                                                                    label="Forward Events"
+                                                                    style="align-self: flex-start">
+                                                                </davinci-value-display>
+                                                                <curie-callout id="DC_FlowConfigInfo1" type="info"
+                                                                    value="FlowConfig priority active.">
+                                                                    <crown-edpws-binding property="hidden"
+                                                                        name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
+                                                                        update-on-resume
+                                                                        converter="function(value) {return !value;}">
+                                                                    </crown-edpws-binding>
+                                                                </curie-callout>
+                                                                <layout-row id="RowLayout33"
+                                                                    style="align-items: center; justify-content: space-between">
+                                                                    <davinci-value-display id="VD_BroadcastConfig"
+                                                                        value="Config for Broadcast">
+                                                                    </davinci-value-display>
+                                                                    <davinci-checkbox id="CB_SelectBroadcast">
+                                                                        <span></span>
+                                                                        <crown-edpws-binding property="checked"
+                                                                            name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
+                                                                            update-on-resume>
+                                                                        </crown-edpws-binding>
+                                                                        <crown-binding event="change"
+                                                                            name="CSK_MultiTCPIPServer/setForwardBroadcastEvent"
+                                                                            path="param/args/status" auto-commit>
+                                                                        </crown-binding>
+                                                                    </davinci-checkbox>
+                                                                </layout-row>
+                                                                <stacked-view id="SV_BroadcastActive">
+                                                                    <stacked-pane id="SP_BroadcastActive" value="true">
+                                                                        <layout-row id="RowLayout34">
+                                                                            <layout-column id="ColumnLayout25"
+                                                                                style="align-items: stretch">
+                                                                                <davinci-drop-down
+                                                                                    id="DD_ForwardEventBroadcast"
+                                                                                    label="Select client broadcast">
+                                                                                    <crown-on property="data"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
+                                                                                        converter="convertToList">
+                                                                                    </crown-on>
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        crown-path="clientBroadcastName">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
+                                                                                    </crown-on>
+                                                                                </davinci-drop-down>
+                                                                            </layout-column>
+                                                                        </layout-row>
+                                                                    </stacked-pane>
+                                                                    <stacked-pane id="SP_BroadcastNotActive"
+                                                                        value="false">
+                                                                    </stacked-pane>
+                                                                    <crown-edpws-binding property="value"
+                                                                        name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
+                                                                        update-on-resume
+                                                                        converter="function(value) {return value.toString();}">
+                                                                    </crown-edpws-binding>
+                                                                </stacked-view>
+                                                                <layout-row id="RowLayout3" style="align-items: center">
+                                                                    <layout-column id="ColumnLayout1"
+                                                                        style="align-items: stretch; flex-grow: 6">
+                                                                        <davinci-text-field id="TF_EventToForward"
+                                                                            type="text" label="Event to register:"
+                                                                            title="Register to this event to forward its content to TCP/IP server.">
+                                                                            <crown-binding event="change"
+                                                                                name="CSK_MultiTCPIPServer/setEventToForward"
+                                                                                path="param/args/value" auto-commit>
+                                                                            </crown-binding>
+                                                                            <crown-edpws-binding property="disabled"
+                                                                                name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout517"
+                                                                        style="align-items: stretch">
+                                                                        <layout-row id="RowLayou77"
+                                                                            style="justify-content: space-evenly; align-items: center">
+                                                                            <davinci-button id="B_AddEventToForward"
+                                                                                class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                                type="primary" icon-position="append"
+                                                                                title="Add" icon="content/add"
+                                                                                style="width: 100%">
+                                                                                <span></span>
+                                                                                <crown-binding event="submit"
+                                                                                    name="CSK_MultiTCPIPServer/addEventToForwardViaUI"
+                                                                                    auto-commit>
+                                                                                </crown-binding>
+                                                                                <crown-edpws-binding property="disabled"
+                                                                                    name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
+                                                                                    update-on-resume>
+                                                                                </crown-edpws-binding>
+                                                                            </davinci-button>
+                                                                            <davinci-button id="B_DeleteEventToForward"
+                                                                                class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                                type="outline" icon-position="append"
+                                                                                title="Delete" icon="action/delete"
+                                                                                style="width: 100%">
+                                                                                <span></span>
+                                                                                <crown-binding event="submit"
+                                                                                    name="CSK_MultiTCPIPServer/deleteEventToForwardViaUI"
+                                                                                    auto-commit>
+                                                                                </crown-binding>
+                                                                                <crown-edpws-binding property="disabled"
+                                                                                    name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
+                                                                                    update-on-resume>
+                                                                                </crown-edpws-binding>
+                                                                            </davinci-button>
+                                                                        </layout-row>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <curie-table id="DT_EventToForward" selectable
+                                                                    select-mode="highlight_row">
+                                                                    <curie-table-column id="EventToForward"
+                                                                        header="EventToForward">
+                                                                    </curie-table-column>
+                                                                    <crown-edpws-binding property="data"
+                                                                        name="CSK_MultiTCPIPServer/OnNewEventToForwardList"
+                                                                        update-on-resume>
+                                                                    </crown-edpws-binding>
+                                                                    <crown-binding event="row-selected"
+                                                                        name="CSK_MultiTCPIPServer/selectEventToForwardViaUI"
+                                                                        path="param/args/selection" auto-commit>
+                                                                    </crown-binding>
+                                                                </curie-table>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </davinci-tab>
+                                                    <davinci-tab id="Tab_ClientWhitelist"
+                                                        class="myCustomMarginLeft7PX_CSK_Module_MultiTCPIPServer"
+                                                        icon="av/playlist_add_check" title="Cient Whitelist">
+                                                        <layout-row id="RowLayout30">
+                                                            <layout-column id="ColumnLayout10"
+                                                                class="myCustomFrame_CSK_Module_MultiTCPIPServer"
+                                                                style="align-items: stretch">
+                                                                <davinci-value-display id="VD_Whitelist"
+                                                                    class="myCustomFrameLabel_CSK_Module_MultiTCPIPServer"
+                                                                    label="Client Whitelist"
+                                                                    style="align-self: flex-start">
+                                                                </davinci-value-display>
+                                                                <layout-row id="RowLayout10">
+                                                                    <layout-column id="ColumnLayout17"
+                                                                        style="align-items: stretch; flex-grow: 9">
+                                                                        <davinci-text-field id="TF_ClientWhitelistName"
+                                                                            type="text" label="ClientWhitelist name">
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setClientWhitelistName"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newName">
+                                                                            </crown-set>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewClientWhitelistName"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout18"
+                                                                        style="align-items: center">
+                                                                        <davinci-button id="B_CreateClientWhitelist"
+                                                                            class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                            type="outline" icon-position="append"
+                                                                            title="Create client whitelist"
+                                                                            icon="content/add">
+                                                                            <span></span>
+                                                                            <crown-set event="submit"
+                                                                                crown-function="CSK_MultiTCPIPServer/createClientWhitelist"
+                                                                                protocol="crownMSGPACK">
+                                                                            </crown-set>
+                                                                        </davinci-button>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <stacked-view id="SV_IsClientWhitelistSelected"
+                                                                    value="false">
+                                                                    <stacked-pane id="SP_ClientWhitelistISSelected"
+                                                                        value="true">
+                                                                        <layout-column id="ColumnLayout11"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout12">
+                                                                                <layout-column id="ColumnLayout19"
+                                                                                    style="align-items: stretch; flex-grow: 9; flex-shrink: 0">
+                                                                                    <davinci-drop-down
+                                                                                        id="DD_ClientWhitelist"
+                                                                                        label="Select client whitelist">
+                                                                                        <crown-on property="data"
+                                                                                            crown-event="CSK_MultiTCPIPServer/OnNewListClientWhitelist"
+                                                                                            converter="convertToList">
+                                                                                        </crown-on>
+                                                                                        <crown-set event="change"
+                                                                                            crown-function="CSK_MultiTCPIPServer/setSelectedClientWhitelist"
+                                                                                            protocol="crownMSGPACK"
+                                                                                            crown-path="clientWhitelistName">
+                                                                                        </crown-set>
+                                                                                        <crown-on property="value"
+                                                                                            crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientWhitelist">
+                                                                                        </crown-on>
+                                                                                    </davinci-drop-down>
+                                                                                </layout-column>
+                                                                                <layout-column id="ColumnLayout20"
+                                                                                    style="align-items: stretch">
+                                                                                    <davinci-button
+                                                                                        id="B_DeleteClientWhitelist"
+                                                                                        class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                                        type="outline"
+                                                                                        icon-position="append"
+                                                                                        icon="action/delete"
+                                                                                        title="Delete client whitelist">
+                                                                                        <span></span>
+                                                                                        <crown-set event="submit"
+                                                                                            crown-function="CSK_MultiTCPIPServer/deleteClientWhitelist"
+                                                                                            protocol="crownMSGPACK">
+                                                                                        </crown-set>
+                                                                                    </davinci-button>
+                                                                                </layout-column>
+                                                                            </layout-row>
+                                                                            <layout-row id="RowLayout26"
+                                                                                style="align-items: center">
+                                                                                <layout-column id="ColumnLayout51"
+                                                                                    style="align-items: stretch">
+                                                                                    <davinci-text-field
+                                                                                        id="TF_IPAddressToAddToClientWhitelist"
+                                                                                        type="text" placeholder="..."
+                                                                                        label="Add IP address to filter">
+                                                                                        <crown-set event="change"
+                                                                                            crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientWhitelist"
+                                                                                            protocol="crownMSGPACK"
+                                                                                            crown-path="ipAddress">
+                                                                                        </crown-set>
+                                                                                    </davinci-text-field>
+                                                                                </layout-column>
+                                                                                <layout-column id="ColumnLayout52"
+                                                                                    style="align-items: stretch; justify-content: center">
+                                                                                    <layout-row id="RowLayout31"
+                                                                                        style="align-items: center; justify-content: center">
+                                                                                        <davinci-value-display
+                                                                                            id="VD_AddViaIPListWhitelist"
+                                                                                            value="Add IP via client list">
+                                                                                        </davinci-value-display>
+                                                                                        <davinci-toggle-switch
+                                                                                            id="TS_AddIPViaListWhitelist">
+                                                                                            <crown-edpws-binding
+                                                                                                property="checked"
+                                                                                                name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
+                                                                                                update-on-resume>
+                                                                                            </crown-edpws-binding>
+                                                                                            <crown-binding
+                                                                                                event="change"
+                                                                                                name="CSK_MultiTCPIPServer/setAddIPViaList"
+                                                                                                path="param/args/status"
+                                                                                                auto-commit>
+                                                                                            </crown-binding>
+                                                                                        </davinci-toggle-switch>
+                                                                                    </layout-row>
+                                                                                </layout-column>
+                                                                            </layout-row>
+                                                                            <curie-table id="DT_ClientWhitelist">
+                                                                                <curie-table-column
+                                                                                    id="DTC_ClientWhitelistIP"
+                                                                                    header="Receive data only from these clients">
+                                                                                </curie-table-column>
+                                                                                <crown-set event="row-selected"
+                                                                                    crown-function="CSK_MultiTCPIPServer/deleteClientWhitelistIPAddress"
+                                                                                    protocol="crownMSGPACK"
+                                                                                    crown-path="jsonRowToDelete">
+                                                                                </crown-set>
+                                                                                <crown-on property="data"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistTableContent">
+                                                                                </crown-on>
+                                                                            </curie-table>
+                                                                            <davinci-value-display
+                                                                                id="VD_ClientWhitelistEventName"
+                                                                                label="Event name to use externally:">
+                                                                                <crown-on property="value"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistEventName">
+                                                                                </crown-on>
+                                                                            </davinci-value-display>
+                                                                        </layout-column>
+                                                                    </stacked-pane>
+                                                                    <crown-on property="value"
+                                                                        crown-event="CSK_MultiTCPIPServer/OnNewStatusClientWhitelistSelected"
+                                                                        converter="bool2str">
+                                                                    </crown-on>
+                                                                </stacked-view>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </davinci-tab>
+                                                    <davinci-tab id="Tab_ClientBroadcast"
+                                                        class="myCustomMarginLeft7PX_CSK_Module_MultiTCPIPServer"
+                                                        title="Client Broadcast" icon="av/playlist_play">
+                                                        <layout-row id="RowLayout29">
+                                                            <layout-column id="ColumnLayout21"
+                                                                class="myCustomFrame_CSK_Module_MultiTCPIPServer"
+                                                                style="align-items: stretch">
+                                                                <davinci-value-display id="VD_Broadcast"
+                                                                    class="myCustomFrameLabel_CSK_Module_MultiTCPIPServer"
+                                                                    label="Client Broadcast"
+                                                                    style="align-self: flex-start">
+                                                                </davinci-value-display>
+                                                                <layout-row id="RowLayout19">
+                                                                    <layout-column id="ColumnLayout15"
+                                                                        style="align-items: stretch; flex-grow: 9">
+                                                                        <davinci-text-field id="TF_ClientBroadcast"
+                                                                            type="text" label="ClientBroadcast name">
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setClientBroadcastName"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newName">
+                                                                            </crown-set>
+                                                                            <crown-edpws-binding property="value"
+                                                                                name="CSK_MultiTCPIPServer/OnNewClientBroadcastName"
+                                                                                update-on-resume>
+                                                                            </crown-edpws-binding>
+                                                                        </davinci-text-field>
+                                                                    </layout-column>
+                                                                    <layout-column id="ColumnLayout16"
+                                                                        style="align-items: center">
+                                                                        <davinci-button id="Button_CreateBroadcast"
+                                                                            class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                            type="outline" icon-position="append"
+                                                                            title="Create client broadcast"
+                                                                            icon="content/add">
+                                                                            <span></span>
+                                                                            <crown-set event="submit"
+                                                                                crown-function="CSK_MultiTCPIPServer/createClientBroadcast"
+                                                                                protocol="crownMSGPACK">
+                                                                            </crown-set>
+                                                                        </davinci-button>
+                                                                    </layout-column>
+                                                                </layout-row>
+                                                                <stacked-view id="SV_ClientBroadcastSelected"
+                                                                    value="false">
+                                                                    <stacked-pane id="SP_ClientBroadcastSelected"
+                                                                        value="true">
+                                                                        <layout-column id="ColumnLayout24"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout21">
+                                                                                <layout-column id="ColumnLayout26"
+                                                                                    style="align-items: stretch; flex-grow: 9">
+                                                                                    <davinci-drop-down
+                                                                                        id="DD_ClientBroadcast"
+                                                                                        label="Select client broadcast">
+                                                                                        <crown-on property="data"
+                                                                                            crown-event="CSK_MultiTCPIPServer/OnNewListClientBroadcast"
+                                                                                            converter="convertToList">
+                                                                                        </crown-on>
+                                                                                        <crown-set event="change"
+                                                                                            crown-function="CSK_MultiTCPIPServer/setSelectedClientBroadcast"
+                                                                                            protocol="crownMSGPACK"
+                                                                                            crown-path="clientBroadcastName">
+                                                                                        </crown-set>
+                                                                                        <crown-on property="value"
+                                                                                            crown-event="CSK_MultiTCPIPServer/OnNewSelectedClientBroadcast">
+                                                                                        </crown-on>
+                                                                                    </davinci-drop-down>
+                                                                                </layout-column>
+                                                                                <layout-column id="ColumnLayout27"
+                                                                                    style="align-items: center">
+                                                                                    <davinci-button
+                                                                                        id="Button_DeleteBroadcast"
+                                                                                        class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                                        type="outline"
+                                                                                        icon-position="append"
+                                                                                        title="Delete client broadcast"
+                                                                                        icon="action/delete">
+                                                                                        <span></span>
+                                                                                        <crown-set event="submit"
+                                                                                            crown-function="CSK_MultiTCPIPServer/deleteClientBroadcast"
+                                                                                            protocol="crownMSGPACK">
+                                                                                        </crown-set>
+                                                                                    </davinci-button>
+                                                                                </layout-column>
+                                                                            </layout-row>
+                                                                            <layout-row id="RowLayout18"
+                                                                                style="align-items: center">
+                                                                                <layout-column id="ColumnLayout49"
+                                                                                    style="align-items: stretch">
+                                                                                    <davinci-text-field
+                                                                                        id="TF_IPForBroadcastFilter"
+                                                                                        type="text" placeholder="..."
+                                                                                        label="Add IP address to filter">
+                                                                                        <crown-set event="change"
+                                                                                            crown-function="CSK_MultiTCPIPServer/setIPAddressToAddToClientBroadcast"
+                                                                                            protocol="crownMSGPACK"
+                                                                                            crown-path="ipAddress">
+                                                                                        </crown-set>
+                                                                                    </davinci-text-field>
+                                                                                </layout-column>
+                                                                                <layout-column id="ColumnLayout50"
+                                                                                    style="align-items: stretch; justify-content: center">
+                                                                                    <layout-row id="RowLayout23"
+                                                                                        style="align-items: center; justify-content: center">
+                                                                                        <davinci-value-display
+                                                                                            id="VD_AddViaIPListBroadcast"
+                                                                                            value="Add IP via client list">
+                                                                                        </davinci-value-display>
+                                                                                        <davinci-toggle-switch
+                                                                                            id="TS_AddIPViaList">
+                                                                                            <crown-edpws-binding
+                                                                                                property="checked"
+                                                                                                name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
+                                                                                                update-on-resume>
+                                                                                            </crown-edpws-binding>
+                                                                                            <crown-binding
+                                                                                                event="change"
+                                                                                                name="CSK_MultiTCPIPServer/setAddIPViaList"
+                                                                                                path="param/args/status"
+                                                                                                auto-commit>
+                                                                                            </crown-binding>
+                                                                                        </davinci-toggle-switch>
+                                                                                    </layout-row>
+                                                                                </layout-column>
+                                                                            </layout-row>
+                                                                            <curie-table
+                                                                                id="DT_ClientBroadcastIPFilter">
+                                                                                <curie-table-column
+                                                                                    id="DTC_ClientBroadcastIP"
+                                                                                    header="Send data only to these clients">
+                                                                                </curie-table-column>
+                                                                                <crown-set event="row-selected"
+                                                                                    crown-function="CSK_MultiTCPIPServer/deleteClientBroadcastFilterIPAddress"
+                                                                                    protocol="crownMSGPACK"
+                                                                                    crown-path="jsonRowToDelete">
+                                                                                </crown-set>
+                                                                                <crown-on property="data"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTableContent">
+                                                                                </crown-on>
+                                                                            </curie-table>
+                                                                            <layout-row id="RowLayout27">
+                                                                                <layout-column id="ColumnLayout45"
+                                                                                    style="align-items: stretch; flex-grow: 9">
+                                                                                    <davinci-text-field
+                                                                                        id="TF_BroadcastCommand"
+                                                                                        type="text" label="Content">
+                                                                                        <crown-set event="change"
+                                                                                            crown-function="CSK_MultiTCPIPServer/setClientBroadcastTestDataToSend"
+                                                                                            protocol="crownMSGPACK"
+                                                                                            crown-path="newTestDataToSend">
+                                                                                        </crown-set>
+                                                                                        <crown-on property="value"
+                                                                                            crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastTestDataToSend">
+                                                                                        </crown-on>
+                                                                                    </davinci-text-field>
+                                                                                </layout-column>
+                                                                                <layout-column id="ColumnLayout46"
+                                                                                    style="align-items: stretch">
+                                                                                    <davinci-button
+                                                                                        id="Button_SendBroadcast"
+                                                                                        class="myCustomButton_CSK_Module_MultiTCPIPServer"
+                                                                                        type="outline"
+                                                                                        icon-position="append"
+                                                                                        title="Send"
+                                                                                        icon="content/send">
+                                                                                        <span></span>
+                                                                                        <crown-set event="submit"
+                                                                                            crown-function="CSK_MultiTCPIPServer/sendClientBroadcastTestData"
+                                                                                            protocol="crownMSGPACK">
+                                                                                        </crown-set>
+                                                                                    </davinci-button>
+                                                                                </layout-column>
+                                                                            </layout-row>
+                                                                            <davinci-value-display
+                                                                                id="VD_ExternalFunctionName"
+                                                                                label="Function name to use externally:">
+                                                                                <crown-on property="value"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastFunctionName">
+                                                                                </crown-on>
+                                                                            </davinci-value-display>
+                                                                        </layout-column>
+                                                                    </stacked-pane>
+                                                                    <crown-on property="value"
+                                                                        crown-event="CSK_MultiTCPIPServer/OnNewStatusClientBroadcastSelected"
+                                                                        converter="bool2str">
+                                                                    </crown-on>
+                                                                </stacked-view>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </davinci-tab>
+                                                    <crown-edpws-binding property="selected-index"
+                                                        name="CSK_MultiTCPIPServer/OnNewSelectedTab" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="tab-change"
+                                                        name="CSK_MultiTCPIPServer/setSelectedTab"
+                                                        path="param/args/newSelectedTab" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-tabs>
+                                            </layout-column>
+                                        </layout-row>
+                                    </stacked-pane>
+                                    <stacked-pane id="SP_LoginNOK" value="false">
+                                        <layout-row id="RowLayout6">
+                                            <davinci-callout id="Callout1" type="info">
+                                                <span>Please log in via UserManagement module.</span>
+                                            </davinci-callout>
+                                        </layout-row>
+                                    </stacked-pane>
+                                    <crown-edpws-binding property="value"
+                                        name="CSK_MultiTCPIPServer/OnUserLevelOperatorActive" update-on-resume
+                                        converter="function(value) {return value.toString();}">
+                                    </crown-edpws-binding>
+                                </stacked-view>
+                            </layout-column>
+                        </layout-row>
+                    </layout-column>
+                </layout-row>
+            </stacked-pane>
+            <stacked-pane id="SP_NoSupport" value="false">
+                <layout-row id="RowLayout38">
+                    <layout-column id="ColumnLayout56">
+                        <davinci-callout id="Callout31" type="warning" style="width: 99%">
+                            <span>Module is not supported on this device...</span>
+                        </davinci-callout>
+                        <img id="UI_sample"
+							src="assets/CSK_Module_MultiTCPIPServer/UI_sample.png"
+							alt="UI sample">
+                    </layout-column>
+                </layout-row>
+            </stacked-pane>
+            <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusModuleIsActive" update-on-resume
+                converter="function(value) {return value.toString();}">
+            </crown-edpws-binding>
+        </stacked-view>
+        <stacked-view id="SV_PageCalled">
+            <crown-binding property="value" name="CSK_MultiTCPIPServer/pageCalled" path="result/data/empty"
+                auto-update="0" update-on-resume>
+            </crown-binding>
+            <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusCSKStyle" update-on-resume
+                converter="changeStyle">
+            </crown-edpws-binding>
+        </stacked-view>
+    </layout-column>
 </layout-row>
