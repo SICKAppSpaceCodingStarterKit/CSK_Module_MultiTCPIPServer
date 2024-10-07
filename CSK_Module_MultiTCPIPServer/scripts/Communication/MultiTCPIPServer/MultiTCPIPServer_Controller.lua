@@ -890,8 +890,11 @@ local function updateProcessingParameters()
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names))
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'onReceivedDataEventName', multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'sendDataFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
-
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'listenState', multiTCPIPServer_Instances[selectedInstance].parameters.listenState)
+  selectedTab = 0 
+  selectedClientWhitelist = ''
+  selectedClientBroadcast = ''
+  
 end
 
 local function getStatusModuleActive()
