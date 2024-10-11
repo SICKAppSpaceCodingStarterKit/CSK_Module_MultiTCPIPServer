@@ -74,7 +74,11 @@ local function create(instance, whitelist)
     local handle = Container.create()
     instanceTable[fullInstanceName] = fullInstanceName
     Container.add(handle, 'Instance', instance)
-    Container.add(handle, 'Whitelist', whitelist)
+    if whitelist then
+      Container.add(handle, 'Whitelist', whitelist)
+    else
+      Container.add(handle, 'Whitelist', '')
+    end
     Container.add(handle, "CB_Function", "")
     return handle
   end

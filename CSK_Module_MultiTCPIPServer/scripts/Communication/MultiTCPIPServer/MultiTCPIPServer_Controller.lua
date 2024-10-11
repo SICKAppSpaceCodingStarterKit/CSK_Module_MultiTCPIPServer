@@ -272,7 +272,7 @@ end
 --- Function to send all relevant values to UI on resume
 local function handleOnExpiredTmrMultiTCPIPServer()
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewStatusModuleVersion", multiTCPIPServer_Model.version)
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusModuleVersion", 'v' .. multiTCPIPServer_Model.version)
   Script.notifyEvent("MultiTCPIPServer_OnNewStatusCSKStyle", multiTCPIPServer_Model.styleForUI)
   Script.notifyEvent("MultiTCPIPServer_OnNewStatusModuleIsActive", _G.availableAPIs.default and _G.availableAPIs.specific)
 
@@ -842,7 +842,11 @@ end
 Script.serveFunction("CSK_MultiTCPIPServer.setSelectedInstance", setSelectedInstance)
 
 local function getInstancesAmount ()
-  return #multiTCPIPServer_Instances
+  if multiTCPIPServer_Instances then
+    return #multiTCPIPServer_Instances
+  else
+    return 0
+  end
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getInstancesAmount", getInstancesAmount)
 
@@ -890,11 +894,8 @@ local function updateProcessingParameters()
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clientBroadcasts', json.encode(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names))
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'onReceivedDataEventName', multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'sendDataFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
+
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'listenState', multiTCPIPServer_Instances[selectedInstance].parameters.listenState)
-  selectedTab = 0 
-  selectedClientWhitelist = ''
-  selectedClientBroadcast = ''
-  
 end
 
 local function getStatusModuleActive()

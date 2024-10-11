@@ -20,7 +20,10 @@ All notable changes to this project will be documented in this file.
 - Added UI icon
 
 ### Bugfix
+- Error if module is not active but 'getInstancesAmount' was called
 - Error if trying to deregister from broadcast
+- transmitDataNUM did not work after deregistering from event to forward data
+- No reset of selected whitelist / broadcast after loading new parameters
 
 ## Release 1.0.0
 - Initial commit

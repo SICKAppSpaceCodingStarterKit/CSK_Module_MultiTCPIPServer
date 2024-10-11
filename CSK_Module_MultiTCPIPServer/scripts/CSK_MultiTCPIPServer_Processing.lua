@@ -207,6 +207,18 @@ local function sendData(dataToSend, clientsIPs)
 end
 Script.serveFunction(processingParams.sendDataFunctionName, sendData, "string:1:,string:*:","bool:1:,string:?:")
 
+--- Function only used to forward the content from events to the served function.
+--- This is only needed, as deregistering from the event would internally release the served function and would make it uncallable from external.
+---@param dataToSend string Data to transmit
+---@param clientsIPs string? Optional list of IP addresses of the clients to send the data to. 
+local function tempSendData(dataToSend, clientsIPs)
+  if clientsIPs then
+    sendData(dataToSend, clientsIPs)
+  else
+    sendData(dataToSend)
+  end
+end
+
 --- Function called to set the messages to be written to any or some specific clients and serve the respected functions.
 local function setClientBroadcasts()
   for messageName, messageInfo in pairs(processingParams.clientBroadcasts) do
@@ -317,10 +329,10 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
         _G.logger:fine(nameOfModule .. ": Added event to forward content = " .. value .. " on instance No. " .. multiTCPIPServerInstanceNumberString .. ' to broadcast ' .. tostring(internalValue))
       else
         if processingParams.forwardEvents[value] then
-          Script.deregister(processingParams.forwardEvents[value], sendData)
+          Script.deregister(processingParams.forwardEvents[value], tempSendData)
         end
         processingParams.forwardEvents[value] = value
-        local suc = Script.register(value, sendData)
+        local suc = Script.register(value, tempSendData)
         _G.logger:fine(nameOfModule .. ": Added event to forward content = " .. value .. " on instance No. " .. multiTCPIPServerInstanceNumberString)
       end
     elseif parameter == 'removeEvent' then
@@ -330,7 +342,7 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
         _G.logger:fine(nameOfModule .. ": Deleted event = " .. tostring(value) .. " on instance No. " .. multiTCPIPServerInstanceNumberString .. ' of broadcast ' .. tostring(internalValue))
       else
         processingParams.forwardEvents[value] = nil
-        local suc = Script.deregister(value, sendData)
+        local suc = Script.deregister(value, tempSendData)
         _G.logger:fine(nameOfModule .. ": Deleted event = " .. tostring(value) .. " on instance No. " .. multiTCPIPServerInstanceNumberString)
       end
     elseif parameter == 'deregisterBroadcast' then
@@ -340,7 +352,7 @@ local function handleOnNewProcessingParameter(multiTCPIPServerNo, parameter, val
     elseif parameter == 'clearAll' then
       for forwardEvent in pairs(processingParams.forwardEvents) do
         processingParams.forwardEvents[forwardEvent] = nil
-        Script.deregister(forwardEvent, sendData)
+        Script.deregister(forwardEvent, tempSendData)
       end
       -- Clear all broadcast functions as well
       for broadcastName, _ in pairs(processingParams.clientBroadcasts) do

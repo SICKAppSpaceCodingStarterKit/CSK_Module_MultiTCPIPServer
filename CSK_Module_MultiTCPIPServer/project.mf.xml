@@ -601,7 +601,7 @@ Needs then to be called via "Script.callFunction".</desc>
                 <serves>
                     <function name="create">
                         <desc>Internally used CSK_FlowConfig create function.</desc>
-                        <param desc="Numeric identifier of processing instance (must be &gt;=1)." multiplicity="1" name="Instance" type="int"/>
+                        <param constraint="1-99" desc="Numeric identifier of processing instance." multiplicity="1" name="Instance" type="int"/>
                         <param desc="Optional client boradcast to use (will transmit data only to defined clients)." multiplicity="?" name="ClientBroadcast" type="string"/>
                         <return desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
                     </function>
@@ -629,7 +629,7 @@ Needs then to be called via "Script.callFunction".</desc>
                     <function name="create">
                         <trait>released</trait>
                         <desc>Internally used CSK_FlowConfig create function.</desc>
-                        <param desc="Numeric identifier of processing instance (must be &gt;=1)." multiplicity="1" name="Instance" type="int"/>
+                        <param constraint="1-99" desc="Numeric identifier of processing instance." multiplicity="1" name="Instance" type="int"/>
                         <param desc="Optionally client whitelist to use (will filter for messages of defined clients by defined IPs)." multiplicity="?" name="ClientWhitelist" type="string"/>
                         <return desc="Handle to internally used FlowConfig instance." multiplicity="1" name="handle" type="handle"/>
                     </function>
