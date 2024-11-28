@@ -1,14 +1,120 @@
-.myCustomFrame_CSK_Module_MultiTCPIPServer {
-  border-style: solid;
-  border-width: 1px;
-  border-color: grey;
-  margin: 6px;
-}
-
 .myCustomMarginTop_CSK_Module_MultiTCPIPServer {
   margin-top: 1.5rem
 }
 
 .myCustomMinHeight200px_CSK_Module_MultiTCPIPServer {
   min-height: 200px;
+}
+
+.myCustomSpacerVert10_CSK_Module_MultiTCPIPServer {
+  min-height: 10px;
+}
+
+.myCustomSpacerVert20_CSK_Module_MultiTCPIPServer {
+  min-height: 20px;
+}
+
+.myCustomMarginInline1Rem_CSK_Module_MultiTCPIPServer {
+  margin-inline: calc(0.5rem);
+}
+
+.myCustomFrameLabel_CSK_Module_MultiTCPIPServer {
+  background: white;
+  position:relative;
+  top: calc(-1.2rem);
+  left: calc(1rem);
+  font-size: medium;
+}
+
+.myCustomMargin99Percent_CSK_Module_MultiTCPIPServer {
+  margin: calc(1rem);
+  margin-top: 20px;
+}
+
+.myCustomMarginFirstRow_CSK_Module_MultiTCPIPServer {
+  margin-top: -49px;
+}
+
+.myCustomMarginLeft30PX_CSK_Module_MultiTCPIPServer {
+  margin-left:30px;
+}
+
+.myCustomMarginLeft-30PX_CSK_Module_MultiTCPIPServer {
+  margin-left:-30px;
+}
+
+.myCustomPersistentDataMargin_CSK_Module_MultiTCPIPServer {
+  margin-top: -53px;
+  margin-left: 130px;
+}
+
+.myCustomPersistentDataMarginBack_CSK_Module_MultiTCPIPServer {
+  margin-left: -127px;
+}
+
+.myCustomBorderBottom_CSK_Module_MultiTCPIPServer {
+  border-bottom: 1px solid lightgray;
+  margin-inline: calc(1rem);
+}
+
+.myCustomBorderLeft_CSK_Module_MultiTCPIPServer {
+  border-left: 1px solid lightgray;
+}
+
+.myCustomTabFrame_CSK_Module_MultiTCPIPServer {
+  width: 98%;
+  align-self: center;  
+}
+
+.myCustomLabel_CSK_Module_MultiTCPIPServer {
+  font-size:30px;
+  color: grey;
+  margin-top: 10px;
+}
+
+.myCustomFrameNoColor_CSK_Module_MultiTCPIPServer {
+  margin: 6px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 0px;
+  border-color: 007CC1;
+  background-color: #FFFFFF;
+}
+
+.myCustomFrame_CSK_Module_MultiTCPIPServer {
+  margin: 6px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #007CC1;
+  background-color: white;
+}
+
+.myCustomFrameNoColor_CSK_Module_MultiTCPIPServer {
+  margin: 6px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 0px;
+  border-color: 007CC1;
+  background-color: white;
+}
+
+.myCustomMarginLeft7PX_CSK_Module_MultiTCPIPServer {
+  margin-left: -7px;
+}
+
+.myCustomMarginLeft15PX_CSK_Module_MultiTCPIPServer {
+  margin-left: 15px;
+}
+
+.myCustomMarginTop7PX_CSK_Module_MultiTCPIPServer {
+  margin-top: 7px;
+}
+
+.myCustomBackground_CSK_Module_MultiTCPIPServer {
+}
+
+.myCustomButton_CSK_Module_MultiTCPIPServer {
+  border-radius: 30px;
+  padding-right: 0px;
 }

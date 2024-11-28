@@ -51,12 +51,13 @@ Script.serveEvent('CSK_MultiTCPIPServer.OnReceivedDataNUM_WHITELISTNAME', 'Multi
 
 -- Real events
 --------------------------------------------------
+
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusModuleVersion', 'MultiTCPIPServer_OnNewStatusModuleVersion')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusCSKStyle', 'MultiTCPIPServer_OnNewStatusCSKStyle')
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusModuleIsActive', 'MultiTCPIPServer_OnNewStatusModuleIsActive')
+
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewLog", "MultiTCPIPServer_OnNewLog")
-
-Script.serveEvent("CSK_MultiTCPIPServer.OnNewStatusLoadParameterOnReboot", "MultiTCPIPServer_OnNewStatusLoadParameterOnReboot")
-Script.serveEvent("CSK_MultiTCPIPServer.OnPersistentDataModuleAvailable", "MultiTCPIPServer_OnPersistentDataModuleAvailable")
-Script.serveEvent("CSK_MultiTCPIPServer.OnNewParameterName", "MultiTCPIPServer_OnNewParameterName")
-
+Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusFlowConfigPriority', 'MultiTCPIPServer_OnNewStatusFlowConfigPriority')
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewInstanceList", "MultiTCPIPServer_OnNewInstanceList")
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewProcessingParameter", "MultiTCPIPServer_OnNewProcessingParameter")
 Script.serveEvent("CSK_MultiTCPIPServer.OnNewSelectedInstance", "MultiTCPIPServer_OnNewSelectedInstance")
@@ -116,6 +117,10 @@ Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientBroadcastTableContent', 'Mult
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewStatusClientBroadcastSelected', 'MultiTCPIPServer_OnNewStatusClientBroadcastSelected')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewSelectedClientBroadcast', 'MultiTCPIPServer_OnNewSelectedClientBroadcast')
 Script.serveEvent('CSK_MultiTCPIPServer.OnNewClientBroadcastTestDataToSend', 'MultiTCPIPServer_OnNewClientBroadcastTestDataToSend')
+
+Script.serveEvent("CSK_MultiTCPIPServer.OnNewStatusLoadParameterOnReboot", "MultiTCPIPServer_OnNewStatusLoadParameterOnReboot")
+Script.serveEvent("CSK_MultiTCPIPServer.OnPersistentDataModuleAvailable", "MultiTCPIPServer_OnPersistentDataModuleAvailable")
+Script.serveEvent("CSK_MultiTCPIPServer.OnNewParameterName", "MultiTCPIPServer_OnNewParameterName")
 
 -- ************************ UI Events End **********************************
 
@@ -266,90 +271,101 @@ end
 
 --- Function to send all relevant values to UI on resume
 local function handleOnExpiredTmrMultiTCPIPServer()
-  updateUserLevel()
 
-  addIPViaList = false
-  Script.notifyEvent("MultiTCPIPServer_OnNewStatusAddIPViaList", false)
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusModuleVersion", 'v' .. multiTCPIPServer_Model.version)
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusCSKStyle", multiTCPIPServer_Model.styleForUI)
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusModuleIsActive", _G.availableAPIs.default and _G.availableAPIs.specific)
 
-  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedInstance', selectedInstance)
-  Script.notifyEvent("MultiTCPIPServer_OnNewInstanceList", helperFuncs.createStringListBySize(#multiTCPIPServer_Instances))
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewStatusLoadParameterOnReboot", multiTCPIPServer_Instances[selectedInstance].parameterLoadOnReboot)
-  Script.notifyEvent("MultiTCPIPServer_OnPersistentDataModuleAvailable", multiTCPIPServer_Instances[selectedInstance].persistentModuleAvailable)
-  Script.notifyEvent("MultiTCPIPServer_OnNewParameterName", multiTCPIPServer_Instances[selectedInstance].parametersName)
+    updateUserLevel()
 
-  local serverIsActive = multiTCPIPServer_Instances[selectedInstance].parameters.listenState
+    addIPViaList = false
+    Script.notifyEvent("MultiTCPIPServer_OnNewStatusAddIPViaList", false)
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewListenState", serverIsActive)
+    Script.notifyEvent('MultiTCPIPServer_OnNewSelectedInstance', selectedInstance)
+    Script.notifyEvent("MultiTCPIPServer_OnNewInstanceList", helperFuncs.createStringListBySize(#multiTCPIPServer_Instances))
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewInterface", multiTCPIPServer_Instances[selectedInstance].parameters.interface)
-  Script.notifyEvent("MultiTCPIPServer_OnNewInterfaceList", createInterfaceList())
-  Script.notifyEvent("MultiTCPIPServer_OnNewServerIP", getInterfaceIP())
-  Script.notifyEvent("MultiTCPIPServer_OnNewPort", multiTCPIPServer_Instances[selectedInstance].parameters.port)
+    Script.notifyEvent("MultiTCPIPServer_OnNewStatusLoadParameterOnReboot", multiTCPIPServer_Instances[selectedInstance].parameterLoadOnReboot)
+    Script.notifyEvent("MultiTCPIPServer_OnPersistentDataModuleAvailable", multiTCPIPServer_Instances[selectedInstance].persistentModuleAvailable)
+    Script.notifyEvent("MultiTCPIPServer_OnNewParameterName", multiTCPIPServer_Instances[selectedInstance].parametersName)
+    Script.notifyEvent("MultiTCPIPServer_OnNewStatusFlowConfigPriority", multiTCPIPServer_Instances[selectedInstance].parameters.flowConfigPriority)
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewSelectedTab", selectedTab)
+    local serverIsActive = multiTCPIPServer_Instances[selectedInstance].parameters.listenState
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewRxFramingList", json.encode(multiTCPIPServer_Instances[selectedInstance].RxFramingList))
-  Script.notifyEvent("MultiTCPIPServer_OnNewRxFraming", multiTCPIPServer_Instances[selectedInstance].parameters.RxFrameMode)
-  Script.notifyEvent("MultiTCPIPServer_OnRxFramingDisabled", serverIsActive or multiTCPIPServer_Instances[selectedInstance].parameters.RxFrameMode ~= 'Custom')
-  Script.notifyEvent("MultiTCPIPServer_OnNewTxFramingList", json.encode(multiTCPIPServer_Instances[selectedInstance].TxFramingList))
-  Script.notifyEvent("MultiTCPIPServer_OnNewTxFraming", multiTCPIPServer_Instances[selectedInstance].parameters.TxFrameMode)
-  Script.notifyEvent("MultiTCPIPServer_OnTxFramingDisabled", serverIsActive or multiTCPIPServer_Instances[selectedInstance].parameters.TxFrameMode ~= 'Custom')
-  Script.notifyEvent("MultiTCPIPServer_OnNewRxStart", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[1]))
-  Script.notifyEvent("MultiTCPIPServer_OnNewRxStop", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[2]))
-  Script.notifyEvent("MultiTCPIPServer_OnNewTxStart", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[3]))
-  Script.notifyEvent("MultiTCPIPServer_OnNewTxStop", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[4]))
+    Script.notifyEvent("MultiTCPIPServer_OnNewListenState", serverIsActive)
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewMaxConnections", multiTCPIPServer_Instances[selectedInstance].parameters.maxConnections)
-  Script.notifyEvent("MultiTCPIPServer_OnNewTransmitTimeout", multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout)
-  Script.notifyEvent("MultiTCPIPServer_OnNewACKTimeout", multiTCPIPServer_Instances[selectedInstance].parameters.transmitAckTimeout)
-  Script.notifyEvent("MultiTCPIPServer_OnNewTransmitBuffer", multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize)
-  Script.notifyEvent("MultiTCPIPServer_OnNewRxFramingBufferSize", multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[1])
-  Script.notifyEvent("MultiTCPIPServer_OnNewTxFramingBufferSize", multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[2])
+    Script.notifyEvent("MultiTCPIPServer_OnNewInterface", multiTCPIPServer_Instances[selectedInstance].parameters.interface)
+    Script.notifyEvent("MultiTCPIPServer_OnNewInterfaceList", createInterfaceList())
+    Script.notifyEvent("MultiTCPIPServer_OnNewServerIP", getInterfaceIP())
+    Script.notifyEvent("MultiTCPIPServer_OnNewPort", multiTCPIPServer_Instances[selectedInstance].parameters.port)
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewGenericReceivedDataEventName", multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
-  Script.notifyEvent("MultiTCPIPServer_OnNewGenericSendDataFunctionName", multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
+    Script.notifyEvent("MultiTCPIPServer_OnNewSelectedTab", selectedTab)
 
-  Script.notifyEvent("MultiTCPIPServer_OnNewStatusForwardEventForBroadcasts", configBroadcastEvent)
+    Script.notifyEvent("MultiTCPIPServer_OnNewRxFramingList", json.encode(multiTCPIPServer_Instances[selectedInstance].RxFramingList))
+    Script.notifyEvent("MultiTCPIPServer_OnNewRxFraming", multiTCPIPServer_Instances[selectedInstance].parameters.RxFrameMode)
+    Script.notifyEvent("MultiTCPIPServer_OnRxFramingDisabled", serverIsActive or multiTCPIPServer_Instances[selectedInstance].parameters.RxFrameMode ~= 'Custom')
+    Script.notifyEvent("MultiTCPIPServer_OnNewTxFramingList", json.encode(multiTCPIPServer_Instances[selectedInstance].TxFramingList))
+    Script.notifyEvent("MultiTCPIPServer_OnNewTxFraming", multiTCPIPServer_Instances[selectedInstance].parameters.TxFrameMode)
+    Script.notifyEvent("MultiTCPIPServer_OnTxFramingDisabled", serverIsActive or multiTCPIPServer_Instances[selectedInstance].parameters.TxFrameMode ~= 'Custom')
+    Script.notifyEvent("MultiTCPIPServer_OnNewRxStart", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[1]))
+    Script.notifyEvent("MultiTCPIPServer_OnNewRxStop", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[2]))
+    Script.notifyEvent("MultiTCPIPServer_OnNewTxStart", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[3]))
+    Script.notifyEvent("MultiTCPIPServer_OnNewTxStop", helperFuncs.convertHex2String(multiTCPIPServer_Instances[selectedInstance].parameters.framing[4]))
 
-  if configBroadcastEvent then
-    if multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast] then
-      Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents[selectedClientBroadcast]))
+    Script.notifyEvent("MultiTCPIPServer_OnNewMaxConnections", multiTCPIPServer_Instances[selectedInstance].parameters.maxConnections)
+    Script.notifyEvent("MultiTCPIPServer_OnNewTransmitTimeout", multiTCPIPServer_Instances[selectedInstance].parameters.transmitTimeout)
+    Script.notifyEvent("MultiTCPIPServer_OnNewACKTimeout", multiTCPIPServer_Instances[selectedInstance].parameters.transmitAckTimeout)
+    Script.notifyEvent("MultiTCPIPServer_OnNewTransmitBuffer", multiTCPIPServer_Instances[selectedInstance].parameters.transmitBufferSize)
+    Script.notifyEvent("MultiTCPIPServer_OnNewRxFramingBufferSize", multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[1])
+    Script.notifyEvent("MultiTCPIPServer_OnNewTxFramingBufferSize", multiTCPIPServer_Instances[selectedInstance].parameters.framingBufferSize[2])
+
+    Script.notifyEvent("MultiTCPIPServer_OnNewGenericReceivedDataEventName", multiTCPIPServer_Instances[selectedInstance].parameters.onReceivedDataEventName)
+    Script.notifyEvent("MultiTCPIPServer_OnNewGenericSendDataFunctionName", multiTCPIPServer_Instances[selectedInstance].parameters.sendDataFunctionName)
+
+    Script.notifyEvent("MultiTCPIPServer_OnNewStatusForwardEventForBroadcasts", configBroadcastEvent)
+
+    if configBroadcastEvent then
+      if multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast] then
+        Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents[selectedClientBroadcast]))
+      else
+        Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', nil))
+      end
     else
-      Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', nil))
+      Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents))
     end
-  else
-    Script.notifyEvent("MultiTCPIPServer_OnNewEventToForwardList", multiTCPIPServer_Instances[selectedInstance].helperFuncs.createSpecificJsonList('eventToForward', multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents))
+
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistName', whitelistName)
+    Script.notifyEvent('MultiTCPIPServer_OnNewListClientWhitelist', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
+    Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientWhitelist', selectedClientWhitelist)
+    Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientWhitelistSelected', selectedClientWhitelist ~= '')
+
+    if selectedClientWhitelist ~= '' then
+      Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistEventName', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].eventName)
+      Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistTableContent', makeDynamicTableOutOfList('DTC_ClientWhitelistIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs))
+    end
+
+    Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastName', broadcastName)
+    Script.notifyEvent('MultiTCPIPServer_OnNewListClientBroadcast', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names))
+    Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientBroadcast', selectedClientBroadcast)
+    Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientBroadcastSelected', selectedClientBroadcast ~= '')
+
+    if selectedClientBroadcast ~= '' then
+      Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast].functionName)
+      Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastTableContent', makeDynamicTableOutOfList('DTC_ClientBroadcastIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast].ipFilterInfo.filteredIPs))
+    end
+
+    Script.callFunction("CSK_MultiTCPIPServer.getConnectedClientsIPs" .. tostring(selectedInstance))
   end
-
-  Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistName', whitelistName)
-  Script.notifyEvent('MultiTCPIPServer_OnNewListClientWhitelist', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists))
-  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientWhitelist', selectedClientWhitelist)
-  Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientWhitelistSelected', selectedClientWhitelist ~= '')
-
-  if selectedClientWhitelist ~= '' then
-    Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistEventName', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].eventName)
-    Script.notifyEvent('MultiTCPIPServer_OnNewClientWhitelistTableContent', makeDynamicTableOutOfList('DTC_ClientWhitelistIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[selectedClientWhitelist].ipFilterInfo.filteredIPs))
-  end
-
-  Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastName', broadcastName)
-  Script.notifyEvent('MultiTCPIPServer_OnNewListClientBroadcast', getTableKeyList(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names))
-  Script.notifyEvent('MultiTCPIPServer_OnNewSelectedClientBroadcast', selectedClientBroadcast)
-  Script.notifyEvent('MultiTCPIPServer_OnNewStatusClientBroadcastSelected', selectedClientBroadcast ~= '')
-
-  if selectedClientBroadcast ~= '' then
-    Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastFunctionName', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast].functionName)
-    Script.notifyEvent('MultiTCPIPServer_OnNewClientBroadcastTableContent', makeDynamicTableOutOfList('DTC_ClientBroadcastIP', multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[selectedClientBroadcast].ipFilterInfo.filteredIPs))
-  end
-
-  Script.callFunction("CSK_MultiTCPIPServer.getConnectedClientsIPs" .. tostring(selectedInstance))
 end
 Timer.register(tmrMultiTCPIPServer, "OnExpired", handleOnExpiredTmrMultiTCPIPServer)
 
 -- ********************* UI Setting / Submit Functions Start ********************
 
 local function pageCalled()
-  updateUserLevel() -- try to hide user specific content asap
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    updateUserLevel() -- try to hide user specific content asap
+  end
   tmrMultiTCPIPServer:start()
   return ''
 end
@@ -607,10 +623,11 @@ Script.serveFunction('CSK_MultiTCPIPServer.sendTestData', sendTestData)
 local function setSelectedClientWhitelist(clientWhitelistName)
   if not multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists[clientWhitelistName] then
     handleOnExpiredTmrMultiTCPIPServer()
-    return
+    return false
   end
   selectedClientWhitelist = clientWhitelistName
   handleOnExpiredTmrMultiTCPIPServer()
+  return true
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setSelectedClientWhitelist', setSelectedClientWhitelist)
 
@@ -685,10 +702,11 @@ Script.serveFunction('CSK_MultiTCPIPServer.deleteClientWhitelistIPAddress', dele
 local function setSelectedClientBroadcast(clientBroadcastName)
   if not multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names[clientBroadcastName] then
     handleOnExpiredTmrMultiTCPIPServer()
-    return
+    return false
   end
   selectedClientBroadcast = clientBroadcastName
   handleOnExpiredTmrMultiTCPIPServer()
+  return true
 end
 Script.serveFunction('CSK_MultiTCPIPServer.setSelectedClientBroadcast', setSelectedClientBroadcast)
 
@@ -777,10 +795,10 @@ Script.serveFunction('CSK_MultiTCPIPServer.sendClientBroadcastTestData', sendCli
 local function selectConnectedClient(selectedRow)
   if addIPViaList == true then
     addIPViaList = false
-    if selectedTab == 1 and selectedClientWhitelist ~= '' then
+    if selectedTab == 2 and selectedClientWhitelist ~= '' then
       local rowContent = json.decode(selectedRow)
       setIPAddressToAddToClientWhitelist(rowContent.DTC_ConnectedClientIPAddress)
-    elseif selectedTab == 2 and selectedClientBroadcast ~= '' then
+    elseif selectedTab == 3 and selectedClientBroadcast ~= '' then
       local rowContent = json.decode(selectedRow)
       setIPAddressToAddToClientBroadcast(rowContent.DTC_ConnectedClientIPAddress)
     end
@@ -802,6 +820,16 @@ local function setSelectedInstance(instance)
     selectedInstance = instance
     selectedClientBroadcast = ''
     selectedClientWhitelist = ''
+    for key in pairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientWhitelists) do
+      selectedClientWhitelist = key
+      break
+    end
+
+    for key in pairs(multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.names) do
+      selectedClientBroadcast = key
+      break
+    end
+
     _G.logger:fine(nameOfModule .. ": New selected instance = " .. tostring(selectedInstance))
     multiTCPIPServer_Instances[selectedInstance].activeInUI = true
     Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'activeInUI', true)
@@ -814,7 +842,11 @@ end
 Script.serveFunction("CSK_MultiTCPIPServer.setSelectedInstance", setSelectedInstance)
 
 local function getInstancesAmount ()
-  return #multiTCPIPServer_Instances
+  if multiTCPIPServer_Instances then
+    return #multiTCPIPServer_Instances
+  else
+    return 0
+  end
 end
 Script.serveFunction("CSK_MultiTCPIPServer.getInstancesAmount", getInstancesAmount)
 
@@ -866,6 +898,29 @@ local function updateProcessingParameters()
   Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'listenState', multiTCPIPServer_Instances[selectedInstance].parameters.listenState)
 end
 
+local function getStatusModuleActive()
+  return _G.availableAPIs.default and _G.availableAPIs.specific
+end
+Script.serveFunction('CSK_MultiTCPIPServer.getStatusModuleActive', getStatusModuleActive)
+
+local function clearFlowConfigRelevantConfiguration()
+  for i = 1, #multiTCPIPServer_Instances do
+    Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clearAll')
+    multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents = {}
+    multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents = {}
+  end
+end
+Script.serveFunction('CSK_MultiTCPIPServer.clearFlowConfigRelevantConfiguration', clearFlowConfigRelevantConfiguration)
+
+local function getParameters(instanceNo)
+  if instanceNo <= #multiTCPIPServer_Instances then
+    return helperFuncs.json.encode(multiTCPIPServer_Instances[instanceNo].parameters)
+  else
+    return ''
+  end
+end
+Script.serveFunction('CSK_MultiTCPIPServer.getParameters', getParameters)
+
 -- *****************************************************************
 -- Following function can be adapted for CSK_PersistentData module usage
 -- *****************************************************************
@@ -876,7 +931,7 @@ local function setParameterName(name)
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setParameterName", setParameterName)
 
-local function sendParameters()
+local function sendParameters(noDataSave)
   if multiTCPIPServer_Instances[selectedInstance].persistentModuleAvailable then
     CSK_PersistentData.addParameter(helperFuncs.convertTable2Container(multiTCPIPServer_Instances[selectedInstance].parameters), multiTCPIPServer_Instances[selectedInstance].parametersName)
 
@@ -887,7 +942,9 @@ local function sendParameters()
       CSK_PersistentData.setModuleParameterName(nameOfModule, multiTCPIPServer_Instances[selectedInstance].parametersName, multiTCPIPServer_Instances[selectedInstance].parameterLoadOnReboot, tostring(selectedInstance))
     end
     _G.logger:fine(nameOfModule .. ": Send MultiTCPIPServer parameters with name '" .. multiTCPIPServer_Instances[selectedInstance].parametersName .. "' to CSK_PersistentData module.")
-    CSK_PersistentData.saveData()
+    if not noDataSave then
+      CSK_PersistentData.saveData()
+    end
   else
     _G.logger:warning(nameOfModule .. ": CSK_PersistentData module not available.")
   end
@@ -916,7 +973,7 @@ local function loadParameters()
   if multiTCPIPServer_Instances[selectedInstance].persistentModuleAvailable then
     local data = CSK_PersistentData.getParameter(multiTCPIPServer_Instances[selectedInstance].parametersName)
     if data then
-      _G.logger:fine(nameOfModule .. ": Loaded parameters for multiTCPIPServerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
+      _G.logger:info(nameOfModule .. ": Loaded parameters for multiTCPIPServerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
       multiTCPIPServer_Instances[selectedInstance].parameters = helperFuncs.convertContainer2Table(data)
 
       -- If something needs to be configured/activated with new loaded data
@@ -934,65 +991,98 @@ local function loadParameters()
 
       registerToEvents()
 
-      CSK_MultiTCPIPServer.pageCalled()
+      tmrMultiTCPIPServer:start()
+      return true
     else
       _G.logger:warning(nameOfModule .. ": Loading parameters from CSK_PersistentData module did not work.")
+      tmrMultiTCPIPServer:start()
+      return false
     end
   else
     _G.logger:warning(nameOfModule .. ": CSK_PersistentData module not available.")
+    tmrMultiTCPIPServer:start()
+    return false
   end
-  tmrMultiTCPIPServer:start()
 end
 Script.serveFunction("CSK_MultiTCPIPServer.loadParameters", loadParameters)
 
 local function setLoadOnReboot(status)
   multiTCPIPServer_Instances[selectedInstance].parameterLoadOnReboot = status
   _G.logger:fine(nameOfModule .. ": Set new status to load setting on reboot: " .. tostring(status))
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusLoadParameterOnReboot", status)
 end
 Script.serveFunction("CSK_MultiTCPIPServer.setLoadOnReboot", setLoadOnReboot)
 
+local function setFlowConfigPriority(status)
+  multiTCPIPServer_Instances[selectedInstance].parameters.flowConfigPriority = status
+  _G.logger:fine(nameOfModule .. ": Set new status of FlowConfig priority: " .. tostring(status))
+  Script.notifyEvent("MultiTCPIPServer_OnNewStatusFlowConfigPriority", multiTCPIPServer_Instances[selectedInstance].parameters.flowConfigPriority)
+end
+Script.serveFunction('CSK_MultiTCPIPServer.setFlowConfigPriority', setFlowConfigPriority)
+
 --- Function to react on initial load of persistent parameters
 local function handleOnInitialDataLoaded()
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    _G.logger:fine(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
+    if string.sub(CSK_PersistentData.getVersion(), 1, 1) == '1' then
 
-  _G.logger:fine(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
-  if string.sub(CSK_PersistentData.getVersion(), 1, 1) == '1' then
+      _G.logger:warning(nameOfModule .. ': CSK_PersistentData module is too old and will not work. Please update CSK_PersistentData module.')
 
-    _G.logger:warning(nameOfModule .. ': CSK_PersistentData module is too old and will not work. Please update CSK_PersistentData module.')
-
-    for j = 1, #multiTCPIPServer_Instances do
-      multiTCPIPServer_Instances[j].persistentModuleAvailable = false
-    end
-  else
-    -- Check if CSK_PersistentData version is >= 3.0.0
-    if tonumber(string.sub(CSK_PersistentData.getVersion(), 1, 1)) >= 3 then
-      local parameterName, loadOnReboot, totalInstances = CSK_PersistentData.getModuleParameterName(nameOfModule, '1')
-      -- Check for amount if instances to create
-      if totalInstances then
-        local c = 2
-        while c <= totalInstances do
-          addInstance()
-          c = c+1
+      for j = 1, #multiTCPIPServer_Instances do
+        multiTCPIPServer_Instances[j].persistentModuleAvailable = false
+      end
+    else
+      -- Check if CSK_PersistentData version is >= 3.0.0
+      if tonumber(string.sub(CSK_PersistentData.getVersion(), 1, 1)) >= 3 then
+        local parameterName, loadOnReboot, totalInstances = CSK_PersistentData.getModuleParameterName(nameOfModule, '1')
+        -- Check for amount if instances to create
+        if totalInstances then
+          local c = 2
+          while c <= totalInstances do
+            addInstance()
+            c = c+1
+          end
         end
       end
-    end
 
-    for i = 1, #multiTCPIPServer_Instances do
-      local parameterName, loadOnReboot = CSK_PersistentData.getModuleParameterName(nameOfModule, tostring(i))
-
-      if parameterName then
-        multiTCPIPServer_Instances[i].parametersName = parameterName
-        multiTCPIPServer_Instances[i].parameterLoadOnReboot = loadOnReboot
+      if not multiTCPIPServer_Instances then
+        return
       end
 
-      if multiTCPIPServer_Instances[i].parameterLoadOnReboot then
-        setSelectedInstance(i)
-        loadParameters()
+      for i = 1, #multiTCPIPServer_Instances do
+        local parameterName, loadOnReboot = CSK_PersistentData.getModuleParameterName(nameOfModule, tostring(i))
+
+        if parameterName then
+          multiTCPIPServer_Instances[i].parametersName = parameterName
+          multiTCPIPServer_Instances[i].parameterLoadOnReboot = loadOnReboot
+        end
+
+        if multiTCPIPServer_Instances[i].parameterLoadOnReboot then
+          setSelectedInstance(i)
+          loadParameters()
+        end
       end
+      Script.notifyEvent('MultiTCPIPServer_OnDataLoadedOnReboot')
     end
-    Script.notifyEvent('MultiTCPIPServer_OnDataLoadedOnReboot')
   end
 end
 Script.register("CSK_PersistentData.OnInitialDataLoaded", handleOnInitialDataLoaded)
+
+local function resetModule()
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    clearFlowConfigRelevantConfiguration()
+    for i = 1, #multiTCPIPServer_Instances do
+      setListenState(false)
+    end
+    pageCalled()
+  end
+end
+Script.serveFunction('CSK_MultiTCPIPServer.resetModule', resetModule)
+Script.register("CSK_PersistentData.OnResetAllModules", resetModule)
+
+-- *************************************************
+-- END of functions for CSK_PersistentData module usage
+-- *************************************************
 
 return funcs
 

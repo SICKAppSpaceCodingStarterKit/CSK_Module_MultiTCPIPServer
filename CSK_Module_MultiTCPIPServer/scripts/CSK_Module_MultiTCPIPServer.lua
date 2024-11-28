@@ -22,16 +22,14 @@
 
 ---@diagnostic disable: undefined-global, redundant-parameter, missing-parameter
 
--- 
--- CreationTemplateVersion: 3.6.0
 --**************************************************************************
 --**********************Start Global Scope *********************************
 --**************************************************************************
 
 -- If app property "LuaLoadAllEngineAPI" is FALSE, use this to load and check for required APIs
 -- This can improve performance of garbage collection
-
 _G.availableAPIs = require('Communication/MultiTCPIPServer/helper/checkAPIs') -- can be used to adjust function scope of the module related on available APIs of the device
+
 -----------------------------------------------------------
 -- Logger
 _G.logger = Log.SharedLogger.create('ModuleLogger')
@@ -47,12 +45,19 @@ _G.logHandle:applyConfig()
 local multiTCPIPServer_Model = require('Communication/MultiTCPIPServer/MultiTCPIPServer_Model')
 
 local multiTCPIPServer_Instances = {} -- Handle all instances
-table.insert(multiTCPIPServer_Instances, multiTCPIPServer_Model.create(1)) -- Create at least 1 instance
 
 -- Load script to communicate with the MultiTCPIPServer_Model UI
 -- Check / edit this script to see/edit functions which communicate with the UI
 local multiTCPIPServerController = require('Communication/MultiTCPIPServer/MultiTCPIPServer_Controller')
-multiTCPIPServerController.setMultiTCPIPServer_Instances_Handle(multiTCPIPServer_Instances) -- share handle of instances
+
+if _G.availableAPIs.default and _G.availableAPIs.specific then
+  local setInstanceHandle = require('Communication/MultiTCPIPServer/FlowConfig/MultiTCPIPServer_FlowConfig')
+  table.insert(multiTCPIPServer_Instances, multiTCPIPServer_Model.create(1)) -- Create at least 1 instance
+  multiTCPIPServerController.setMultiTCPIPServer_Instances_Handle(multiTCPIPServer_Instances) -- share handle of instances
+  setInstanceHandle(multiTCPIPServer_Instances)
+else
+  _G.logger:warning("CSK_MultiTCPIPServer: Relevant CROWN(s) not available on device. Module is not supported...")
+end
 
 --**************************************************************************
 --**********************End Global Scope ***********************************
@@ -74,8 +79,10 @@ local function main()
   -- Can be used e.g. like this
   ----------------------------------------------------------------------------------------
 
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    CSK_MultiTCPIPServer.setSelectedInstance(1)
+  end
   CSK_MultiTCPIPServer.pageCalled() -- Update UI
-
 end
 Script.register("Engine.OnStarted", main)
 

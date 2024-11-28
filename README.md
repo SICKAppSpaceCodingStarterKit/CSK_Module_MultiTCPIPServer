@@ -52,12 +52,14 @@ Broadcasts can be used to send data only to specific clients. It is possible to 
 
 ## Information
 
-### Tested on
+Tested on  
 
 |Device|Firmware version|Module version|
 |--|--|--|
-|SIM1012|V2.3.0|v1.0.0|
+|SIM1012|V2.4.2|v2.0.0|
 |SIM1012|V2.4.1|v1.0.0|
+|SIM1012|V2.3.0|v1.0.0|
+|SICK AppEngine|V1.7.0|v2.0.0|
 |SICK AppEngine|V1.5.0|v1.0.0|
 
 This module is part of the SICK AppSpace Coding Starter Kit developing approach.  
