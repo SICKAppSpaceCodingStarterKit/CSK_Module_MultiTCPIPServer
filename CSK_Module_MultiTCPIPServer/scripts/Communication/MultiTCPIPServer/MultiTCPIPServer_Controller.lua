@@ -905,9 +905,11 @@ Script.serveFunction('CSK_MultiTCPIPServer.getStatusModuleActive', getStatusModu
 
 local function clearFlowConfigRelevantConfiguration()
   for i = 1, #multiTCPIPServer_Instances do
-    Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clearAll')
-    multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents = {}
-    multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents = {}
+    if multiTCPIPServer_Instances[i].parameters.flowConfigPriority then
+      Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clearAll')
+      multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents = {}
+      multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents = {}
+    end
   end
 end
 Script.serveFunction('CSK_MultiTCPIPServer.clearFlowConfigRelevantConfiguration', clearFlowConfigRelevantConfiguration)
@@ -975,6 +977,8 @@ local function loadParameters()
     if data then
       _G.logger:info(nameOfModule .. ": Loaded parameters for multiTCPIPServerObject " .. tostring(selectedInstance) .. " from CSK_PersistentData module.")
       multiTCPIPServer_Instances[selectedInstance].parameters = helperFuncs.convertContainer2Table(data)
+
+      multiTCPIPServer_Instances[selectedInstance].parameters = helperFuncs.checkParameters(multiTCPIPServer_Instances[selectedInstance].parameters, helperFuncs.defaultParameters.getParameters())
 
       -- If something needs to be configured/activated with new loaded data
       updateProcessingParameters()
@@ -1070,8 +1074,10 @@ Script.register("CSK_PersistentData.OnInitialDataLoaded", handleOnInitialDataLoa
 
 local function resetModule()
   if _G.availableAPIs.default and _G.availableAPIs.specific then
-    clearFlowConfigRelevantConfiguration()
     for i = 1, #multiTCPIPServer_Instances do
+      Script.notifyEvent('MultiTCPIPServer_OnNewProcessingParameter', selectedInstance, 'clearAll')
+      multiTCPIPServer_Instances[selectedInstance].parameters.clientBroadcasts.forwardEvents = {}
+      multiTCPIPServer_Instances[selectedInstance].parameters.forwardEvents = {}
       setListenState(false)
     end
     pageCalled()
