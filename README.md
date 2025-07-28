@@ -56,6 +56,7 @@ Tested on
 
 |Device|Firmware version|Module version|
 |--|--|--|
+|SICK AppEngine|V1.7.0|v2.1.0|
 |SIM1012|V2.4.2|v2.0.0|
 |SIM1012|V2.4.1|v1.0.0|
 |SIM1012|V2.3.0|v1.0.0|

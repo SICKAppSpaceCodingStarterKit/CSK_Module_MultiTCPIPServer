@@ -6,13 +6,12 @@
         <layout-row id="RowLayout39">
             <layout-column id="ColumnLayout58" style="align-items: stretch">
                 <layout-row id="RowLayout01" style="align-items: baseline">
-                    <davinci-value-display id="VD_Title" class="myCustomLabel_CSK_Module_MultiTCPIPServer"
-                        value="TCP/IP Server">
-                    </davinci-value-display>
+                    <h1 id="Heading_Title" class="myCustomLabel_CSK_Module_MultiTCPIPServer">
+                        TCP/IP Server
+                    </h1>
                     <davinci-value-display id="VD_Version">
-                        <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusModuleVersion"
-                            update-on-resume>
-                        </crown-edpws-binding>
+                        <crown-on property="value" crown-event="CSK_MultiTCPIPServer/OnNewStatusModuleVersion">
+                        </crown-on>
                     </davinci-value-display>
                 </layout-row>
             </layout-column>
@@ -60,8 +59,8 @@
                                                     style="align-items: center; justify-content: center">
                                                     <davinci-button id="Button_AddInstance"
                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                        type="outline" icon-position="append" title="Add instance"
-                                                        icon="content/add">
+                                                        type="outline" title="Add instance">
+                                                        <davinci-icon icon="content/add"></davinci-icon>
                                                         <span></span>
                                                         <crown-binding event="submit"
                                                             name="CSK_MultiTCPIPServer/addInstance" auto-commit>
@@ -69,9 +68,9 @@
                                                     </davinci-button>
                                                     <davinci-button id="Button_ResetInstances"
                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                        type="outline" icon-position="append"
-                                                        title="Reset insances to single instance. Reload app after reseting."
-                                                        icon="action/delete">
+                                                        type="outline"
+                                                        title="Reset insances to single instance. Reload app after reseting.">
+                                                        <davinci-icon icon="action/delete"></davinci-icon>
                                                         <span></span>
                                                         <crown-binding event="submit"
                                                             name="CSK_MultiTCPIPServer/resetInstances" auto-commit>
@@ -117,9 +116,9 @@
                                                             style="justify-content: center; align-items: center">
                                                             <davinci-button id="B_LoadConfig"
                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                type="outline" icon-position="append"
-                                                                title="Load configured parameters from CSK_PersistentData module."
-                                                                icon="action/history">
+                                                                type="outline"
+                                                                title="Load configured parameters from CSK_PersistentData module.">
+                                                                <davinci-icon icon="action/history"></davinci-icon>
                                                                 <span></span>
                                                                 <crown-binding event="submit"
                                                                     name="CSK_MultiTCPIPServer/loadParameters"
@@ -133,9 +132,9 @@
                                                             </davinci-button>
                                                             <davinci-button id="B_SaveConfig"
                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                type="outline" icon-position="append"
-                                                                title="Save current configured parameters of this module within CSK_PersistentData module."
-                                                                icon="content/save">
+                                                                type="outline"
+                                                                title="Save current configured parameters of this module within CSK_PersistentData module.">
+                                                                <davinci-icon icon="content/save"></davinci-icon>
                                                                 <span></span>
                                                                 <crown-binding event="submit"
                                                                     name="CSK_MultiTCPIPServer/sendParameters"
@@ -262,10 +261,9 @@
                                                 </davinci-value-display>
                                                 <davinci-value-display id="VD_ValueNumberOfConnectedClients"
                                                     title="Number of currently connected clients">
-                                                    <crown-edpws-binding property="value"
-                                                        name="CSK_MultiTCPIPServer/OnNewConnectedClientsNumber"
-                                                        update-on-resume>
-                                                    </crown-edpws-binding>
+                                                    <crown-on property="value"
+                                                        crown-event="CSK_MultiTCPIPServer/OnNewConnectedClientsNumber">
+                                                    </crown-on>
                                                 </davinci-value-display>
                                             </layout-row>
                                             <curie-table id="DT_ConnectedClients" selectable select-mode="highlight_row"
@@ -301,7 +299,8 @@
                                     <layout-column id="ColumnLayout48" style="align-items: stretch">
                                         <davinci-button id="B_GenericTestSendingData"
                                             class="myCustomButton_CSK_Module_MultiTCPIPServer" type="outline"
-                                            icon-position="append" title="Send" icon="content/send">
+                                            title="Send">
+                                            <davinci-icon icon="content/send"></davinci-icon>
                                             <span></span>
                                             <crown-set event="submit" crown-function="CSK_MultiTCPIPServer/sendTestData"
                                                 protocol="crownMSGPACK">
@@ -806,9 +805,10 @@
                                                                             style="justify-content: space-evenly; align-items: center">
                                                                             <davinci-button id="B_AddEventToForward"
                                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                                type="primary" icon-position="append"
-                                                                                title="Add" icon="content/add"
+                                                                                type="primary" title="Add"
                                                                                 style="width: 100%">
+                                                                                <davinci-icon icon="content/add">
+                                                                                </davinci-icon>
                                                                                 <span></span>
                                                                                 <crown-binding event="submit"
                                                                                     name="CSK_MultiTCPIPServer/addEventToForwardViaUI"
@@ -821,9 +821,10 @@
                                                                             </davinci-button>
                                                                             <davinci-button id="B_DeleteEventToForward"
                                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                                type="outline" icon-position="append"
-                                                                                title="Delete" icon="action/delete"
+                                                                                type="outline" title="Delete"
                                                                                 style="width: 100%">
+                                                                                <davinci-icon icon="action/delete">
+                                                                                </davinci-icon>
                                                                                 <span></span>
                                                                                 <crown-binding event="submit"
                                                                                     name="CSK_MultiTCPIPServer/deleteEventToForwardViaUI"
@@ -886,9 +887,10 @@
                                                                         style="align-items: center">
                                                                         <davinci-button id="B_CreateClientWhitelist"
                                                                             class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                            type="outline" icon-position="append"
-                                                                            title="Create client whitelist"
-                                                                            icon="content/add">
+                                                                            type="outline"
+                                                                            title="Create client whitelist">
+                                                                            <davinci-icon icon="content/add">
+                                                                            </davinci-icon>
                                                                             <span></span>
                                                                             <crown-set event="submit"
                                                                                 crown-function="CSK_MultiTCPIPServer/createClientWhitelist"
@@ -929,9 +931,10 @@
                                                                                         id="B_DeleteClientWhitelist"
                                                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
                                                                                         type="outline"
-                                                                                        icon-position="append"
-                                                                                        icon="action/delete"
                                                                                         title="Delete client whitelist">
+                                                                                        <davinci-icon
+                                                                                            icon="action/delete">
+                                                                                        </davinci-icon>
                                                                                         <span></span>
                                                                                         <crown-set event="submit"
                                                                                             crown-function="CSK_MultiTCPIPServer/deleteClientWhitelist"
@@ -1043,9 +1046,10 @@
                                                                         style="align-items: center">
                                                                         <davinci-button id="Button_CreateBroadcast"
                                                                             class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                            type="outline" icon-position="append"
-                                                                            title="Create client broadcast"
-                                                                            icon="content/add">
+                                                                            type="outline"
+                                                                            title="Create client broadcast">
+                                                                            <davinci-icon icon="content/add">
+                                                                            </davinci-icon>
                                                                             <span></span>
                                                                             <crown-set event="submit"
                                                                                 crown-function="CSK_MultiTCPIPServer/createClientBroadcast"
@@ -1086,9 +1090,10 @@
                                                                                         id="Button_DeleteBroadcast"
                                                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
                                                                                         type="outline"
-                                                                                        icon-position="append"
-                                                                                        title="Delete client broadcast"
-                                                                                        icon="action/delete">
+                                                                                        title="Delete client broadcast">
+                                                                                        <davinci-icon
+                                                                                            icon="action/delete">
+                                                                                        </davinci-icon>
                                                                                         <span></span>
                                                                                         <crown-set event="submit"
                                                                                             crown-function="CSK_MultiTCPIPServer/deleteClientBroadcast"
@@ -1173,10 +1178,10 @@
                                                                                     <davinci-button
                                                                                         id="Button_SendBroadcast"
                                                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
-                                                                                        type="outline"
-                                                                                        icon-position="append"
-                                                                                        title="Send"
-                                                                                        icon="content/send">
+                                                                                        type="outline" title="Send">
+                                                                                        <davinci-icon
+                                                                                            icon="content/send">
+                                                                                        </davinci-icon>
                                                                                         <span></span>
                                                                                         <crown-set event="submit"
                                                                                             crown-function="CSK_MultiTCPIPServer/sendClientBroadcastTestData"

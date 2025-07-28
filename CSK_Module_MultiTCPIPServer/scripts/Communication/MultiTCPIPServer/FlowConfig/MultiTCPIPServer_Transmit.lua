@@ -65,7 +65,7 @@ local function create(instance, broadcast)
     local handle = Container.create()
     instanceTable[fullInstanceName] = fullInstanceName
     Container.add(handle, 'Instance', instance)
-    Container.add(handle, 'Broadcast', broadcast)
+    Container.add(handle, 'Broadcast', broadcast or '')
     return handle
   end
 end

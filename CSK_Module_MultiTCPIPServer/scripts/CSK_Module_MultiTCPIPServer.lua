@@ -51,10 +51,9 @@ local multiTCPIPServer_Instances = {} -- Handle all instances
 local multiTCPIPServerController = require('Communication/MultiTCPIPServer/MultiTCPIPServer_Controller')
 
 if _G.availableAPIs.default and _G.availableAPIs.specific then
-  local setInstanceHandle = require('Communication/MultiTCPIPServer/FlowConfig/MultiTCPIPServer_FlowConfig')
+  require('Communication/MultiTCPIPServer/FlowConfig/MultiTCPIPServer_FlowConfig')
   table.insert(multiTCPIPServer_Instances, multiTCPIPServer_Model.create(1)) -- Create at least 1 instance
   multiTCPIPServerController.setMultiTCPIPServer_Instances_Handle(multiTCPIPServer_Instances) -- share handle of instances
-  setInstanceHandle(multiTCPIPServer_Instances)
 else
   _G.logger:warning("CSK_MultiTCPIPServer: Relevant CROWN(s) not available on device. Module is not supported...")
 end

@@ -62,9 +62,9 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
 
   -- Parameters to be saved permanently if wanted
   self.parameters = {}
-  self.parameters.flowConfigPriority = CSK_FlowConfig ~= nil or false -- Status if FlowConfig should have priority for FlowConfig relevant configurations
-  self.parameters.listenState = false -- Status if server should be active to listen for clients
-  self.parameters.processingFile = 'CSK_MultiTCPIPServer_Processing' -- which file to use for processing (will be started in own thread)
+  self.parameters = self.helperFuncs.defaultParameters.getParameters() -- Load default parameters
+
+  -- Instance specific parameters
   self.currentDevice = Engine.getTypeName() -- device type running the app
   if self.currentDevice == 'Webdisplay' then
     self.parameters.interface = 'ETH1' -- ethernet interface to listen to
@@ -74,22 +74,8 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
     local interfaceList = Ethernet.Interface.getInterfaces()
     self.parameters.interface = interfaceList[1]
   end
-  self.parameters.port = 1234 -- port number to listen to
-  self.parameters.RxFrameMode = 'Empty' -- type of framing for received data
-  self.parameters.TxFrameMode = 'Empty' -- type of framing for transmitted data
-  self.parameters.framing = {'','','',''} -- array with start/end framing of received and transmitted data
-  self.parameters.framingBufferSize = {10240, 10240} -- array with size of the internal framing parser buffer for received and transmitted data in bytes
-  self.parameters.maxConnections = 10 -- limit of connections
-  self.parameters.transmitAckTimeout = 15000 -- data transmittion acknowledgement timeout in millliseconds
-  self.parameters.transmitBufferSize = 0 --  size of the socket’s send buffer
-  self.parameters.transmitTimeout = 15000 -- timeout for transmits, in milliseconds
-  self.parameters.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server
-  self.parameters.clientWhitelists = {} -- info about configured client whitelists
-  self.parameters.clientBroadcasts = {} -- info about configured client broadcasts
-  self.parameters.clientBroadcasts.names = {} -- Names of configured client broadcasts
-  self.parameters.clientBroadcasts.forwardEvents = {} -- List of events to register to and forward content to TCP/IP server limited to client broadcast
-  self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString -- event name to register to get any received data
-  self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString -- function name to call to send data to all clients
+  self.parameters.onReceivedDataEventName = 'CSK_MultiTCPIPServer.OnReceivedData' .. self.multiTCPIPServerInstanceNoString
+  self.parameters.sendDataFunctionName = 'CSK_MultiTCPIPServer.sendData' .. self.multiTCPIPServerInstanceNoString
 
   -- Parameters to give to the processing script
   self.multiTCPIPServerProcessingParams = Container.create()
