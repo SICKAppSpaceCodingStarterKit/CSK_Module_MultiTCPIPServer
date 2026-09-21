@@ -128,7 +128,7 @@ Script.serveEvent("CSK_MultiTCPIPServer.OnNewParameterName", "MultiTCPIPServer_O
 ---@return string interfaces String list of interfaces.
 local function createInterfaceList()
   local interfaceList = {}
-  if multiTCPIPServer_Instances[1].currentDevice == 'Webdisplay' then
+  if multiTCPIPServer_Instances[1].currentDevice == 'Webdisplay' or multiTCPIPServer_Instances[1].currentDevice == 'TDC-X' then
     table.insert(interfaceList, 'ETH1')
   elseif multiTCPIPServer_Instances[1].currentDevice == 'SICK AppEngine' then
     table.insert(interfaceList, "")
@@ -139,7 +139,7 @@ local function createInterfaceList()
 end
 
 local function getInterfaceIP()
-  if multiTCPIPServer_Instances[1].currentDevice == 'SICK AppEngine' or multiTCPIPServer_Instances[1].currentDevice == 'Webdisplay' then return '' end
+  if multiTCPIPServer_Instances[1].currentDevice == 'SICK AppEngine' or multiTCPIPServer_Instances[1].currentDevice == 'Webdisplay' or multiTCPIPServer_Instances[1].currentDevice == 'TDC-X' then return '' end
   local _, ipAddress = Ethernet.Interface.getAddressConfig(multiTCPIPServer_Instances[selectedInstance].parameters.interface)
   return ipAddress
 end

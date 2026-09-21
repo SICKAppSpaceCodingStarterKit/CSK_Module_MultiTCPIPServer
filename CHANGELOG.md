@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## Release 2.1.1
+
+### Bugfix
+- Updated legacy UI bindings
+- Fix TDC-X issue
+
 ## Release 2.1.0
 
 ### New features
