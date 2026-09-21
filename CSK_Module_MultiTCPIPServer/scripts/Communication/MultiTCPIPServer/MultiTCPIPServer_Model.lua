@@ -66,7 +66,7 @@ function multiTCPIPServer.create(multiTCPIPServerInstanceNo)
 
   -- Instance specific parameters
   self.currentDevice = Engine.getTypeName() -- device type running the app
-  if self.currentDevice == 'Webdisplay' then
+  if self.currentDevice == 'Webdisplay' or self.currentDevice == 'TDC-X' then
     self.parameters.interface = 'ETH1' -- ethernet interface to listen to
   elseif self.currentDevice == 'SICK AppEngine' then
     self.parameters.interface = ""

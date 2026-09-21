@@ -37,20 +37,20 @@
                                             </layout-column>
                                             <layout-column id="ColumnLayout516" style="align-items: stretch">
                                                 <davinci-drop-down id="DD_SelectInstance">
-                                                    <crown-binding event="change"
-                                                        name="CSK_MultiTCPIPServer/setSelectedInstance"
-                                                        path="param/args/instance" auto-commit
-                                                        converter="function(value) {return Number(value);}">
-                                                    </crown-binding>
-                                                    <crown-edpws-binding property="value"
-                                                        name="CSK_MultiTCPIPServer/OnNewSelectedInstance"
-                                                        update-on-resume
+                                                    <crown-set event="change"
+                                                        crown-function="CSK_MultiTCPIPServer/setSelectedInstance"
+                                                        protocol="crownMSGPACK"
+                                                        converter="function(value) {return Number(value);}"
+                                                        crown-path="instance">
+                                                    </crown-set>
+                                                    <crown-on property="value"
+                                                        crown-event="CSK_MultiTCPIPServer/OnNewSelectedInstance"
                                                         converter="function(value) {return value.toString();}">
-                                                    </crown-edpws-binding>
-                                                    <crown-edpws-binding property="data"
-                                                        name="CSK_MultiTCPIPServer/OnNewInstanceList" update-on-resume
+                                                    </crown-on>
+                                                    <crown-on property="data"
+                                                        crown-event="CSK_MultiTCPIPServer/OnNewInstanceList"
                                                         converter="convertToList">
-                                                    </crown-edpws-binding>
+                                                    </crown-on>
                                                 </davinci-drop-down>
                                             </layout-column>
                                             <layout-column id="ColumnLayout417" style="align-items: stretch">
@@ -62,9 +62,10 @@
                                                         type="outline" title="Add instance">
                                                         <davinci-icon icon="content/add"></davinci-icon>
                                                         <span></span>
-                                                        <crown-binding event="submit"
-                                                            name="CSK_MultiTCPIPServer/addInstance" auto-commit>
-                                                        </crown-binding>
+                                                        <crown-set event="submit"
+                                                            crown-function="CSK_MultiTCPIPServer/addInstance"
+                                                            protocol="crownMSGPACK">
+                                                        </crown-set>
                                                     </davinci-button>
                                                     <davinci-button id="Button_ResetInstances"
                                                         class="myCustomButton_CSK_Module_MultiTCPIPServer"
@@ -72,9 +73,10 @@
                                                         title="Reset insances to single instance. Reload app after reseting.">
                                                         <davinci-icon icon="action/delete"></davinci-icon>
                                                         <span></span>
-                                                        <crown-binding event="submit"
-                                                            name="CSK_MultiTCPIPServer/resetInstances" auto-commit>
-                                                        </crown-binding>
+                                                        <crown-set event="submit"
+                                                            crown-function="CSK_MultiTCPIPServer/resetInstances"
+                                                            protocol="crownMSGPACK">
+                                                        </crown-set>
                                                     </davinci-button>
                                                 </layout-row>
                                             </layout-column>
@@ -95,17 +97,17 @@
                                                 style="align-items: stretch; flex-grow: 2">
                                                 <davinci-text-field id="TF_ParameterName" type="text"
                                                     title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-                                                    <crown-edpws-binding property="value"
-                                                        name="CSK_MultiTCPIPServer/OnNewParameterName" update-on-resume>
-                                                    </crown-edpws-binding>
-                                                    <crown-binding event="change"
-                                                        name="CSK_MultiTCPIPServer/setParameterName"
-                                                        path="param/args/name" auto-commit>
-                                                    </crown-binding>
-                                                    <crown-edpws-binding property="disabled"
-                                                        name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-                                                        update-on-resume converter="function(value) {return !value;}">
-                                                    </crown-edpws-binding>
+                                                    <crown-on property="value"
+                                                        crown-event="CSK_MultiTCPIPServer/OnNewParameterName">
+                                                    </crown-on>
+                                                    <crown-set event="change"
+                                                        crown-function="CSK_MultiTCPIPServer/setParameterName"
+                                                        protocol="crownMSGPACK" crown-path="name">
+                                                    </crown-set>
+                                                    <crown-on property="disabled"
+                                                        crown-event="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
+                                                        converter="function(value) {return !value;}">
+                                                    </crown-on>
                                                 </davinci-text-field>
                                             </layout-column>
                                             <layout-column id="Column_PersistentData" style="align-items: stretch">
@@ -120,15 +122,14 @@
                                                                 title="Load configured parameters from CSK_PersistentData module.">
                                                                 <davinci-icon icon="action/history"></davinci-icon>
                                                                 <span></span>
-                                                                <crown-binding event="submit"
-                                                                    name="CSK_MultiTCPIPServer/loadParameters"
-                                                                    auto-commit>
-                                                                </crown-binding>
-                                                                <crown-edpws-binding property="disabled"
-                                                                    name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-                                                                    update-on-resume
+                                                                <crown-set event="submit"
+                                                                    crown-function="CSK_MultiTCPIPServer/loadParameters"
+                                                                    protocol="crownMSGPACK">
+                                                                </crown-set>
+                                                                <crown-on property="disabled"
+                                                                    crown-event="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
                                                                     converter="function(value) {return !value;}">
-                                                                </crown-edpws-binding>
+                                                                </crown-on>
                                                             </davinci-button>
                                                             <davinci-button id="B_SaveConfig"
                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
@@ -136,15 +137,14 @@
                                                                 title="Save current configured parameters of this module within CSK_PersistentData module.">
                                                                 <davinci-icon icon="content/save"></davinci-icon>
                                                                 <span></span>
-                                                                <crown-binding event="submit"
-                                                                    name="CSK_MultiTCPIPServer/sendParameters"
-                                                                    auto-commit>
-                                                                </crown-binding>
-                                                                <crown-edpws-binding property="disabled"
-                                                                    name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-                                                                    update-on-resume
+                                                                <crown-set event="submit"
+                                                                    crown-function="CSK_MultiTCPIPServer/sendParameters"
+                                                                    protocol="crownMSGPACK">
+                                                                </crown-set>
+                                                                <crown-on property="disabled"
+                                                                    crown-event="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
                                                                     converter="function(value) {return !value;}">
-                                                                </crown-edpws-binding>
+                                                                </crown-on>
                                                             </davinci-button>
                                                         </layout-row>
                                                     </layout-column>
@@ -176,19 +176,18 @@
                                                                         <davinci-checkbox id="CB_LoadConfig"
                                                                             title="Load configured parameters from CSK_PersistentData on app start.">
                                                                             <span></span>
-                                                                            <crown-edpws-binding property="checked"
-                                                                                name="CSK_MultiTCPIPServer/OnNewStatusLoadParameterOnReboot"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
-                                                                                update-on-resume
+                                                                            <crown-on property="checked"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewStatusLoadParameterOnReboot">
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnPersistentDataModuleAvailable"
                                                                                 converter="function(value) {return !value;}">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setLoadOnReboot"
-                                                                                path="param/args/status" auto-commit>
-                                                                            </crown-binding>
+                                                                            </crown-on>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setLoadOnReboot"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="status">
+                                                                            </crown-set>
                                                                         </davinci-checkbox>
                                                                     </layout-row>
                                                                 </layout-column>
@@ -203,14 +202,14 @@
                                                                         <davinci-checkbox id="CB_FlowConfigPrio"
                                                                             title="FlowConfig priority for FlowConfig relevant configurations.">
                                                                             <span></span>
-                                                                            <crown-edpws-binding property="checked"
-                                                                                name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setFlowConfigPriority"
-                                                                                path="param/args/status" auto-commit>
-                                                                            </crown-binding>
+                                                                            <crown-on property="checked"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority">
+                                                                            </crown-on>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setFlowConfigPriority"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="status">
+                                                                            </crown-set>
                                                                         </davinci-checkbox>
                                                                     </layout-row>
                                                                 </layout-column>
@@ -242,12 +241,12 @@
                                     <davinci-value-display id="VD_ListenStateString" value="Activate Server">
                                     </davinci-value-display>
                                     <davinci-toggle-switch id="TS_Listen" title="Activate the server">
-                                        <crown-binding event="change" name="CSK_MultiTCPIPServer/setListenState"
-                                            path="param/args/newState" auto-commit>
-                                        </crown-binding>
-                                        <crown-edpws-binding property="checked"
-                                            name="CSK_MultiTCPIPServer/OnNewListenState" update-on-resume>
-                                        </crown-edpws-binding>
+                                        <crown-set event="change" crown-function="CSK_MultiTCPIPServer/setListenState"
+                                            protocol="crownMSGPACK" crown-path="newState">
+                                        </crown-set>
+                                        <crown-on property="checked"
+                                            crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                        </crown-on>
                                     </davinci-toggle-switch>
                                 </layout-row>
                                 <davinci-collapse id="Collapse_Clients" collapsed-title="Show Connected Clients"
@@ -271,14 +270,13 @@
                                                 <curie-table-column id="DTC_ConnectedClientIPAddress"
                                                     header="Connected client IP Address">
                                                 </curie-table-column>
-                                                <crown-edpws-binding property="data"
-                                                    name="CSK_MultiTCPIPServer/OnNewConnectedClientsTable"
-                                                    update-on-resume>
-                                                </crown-edpws-binding>
-                                                <crown-binding event="row-selected"
-                                                    name="CSK_MultiTCPIPServer/selectConnectedClient"
-                                                    path="param/args/selectedRow" auto-commit>
-                                                </crown-binding>
+                                                <crown-on property="data"
+                                                    crown-event="CSK_MultiTCPIPServer/OnNewConnectedClientsTable">
+                                                </crown-on>
+                                                <crown-set event="row-selected"
+                                                    crown-function="CSK_MultiTCPIPServer/selectConnectedClient"
+                                                    protocol="crownMSGPACK" crown-path="selectedRow">
+                                                </crown-set>
                                             </curie-table>
                                         </layout-column>
                                     </layout-row>
@@ -309,9 +307,8 @@
                                     </layout-column>
                                 </layout-row>
                                 <davinci-text-area id="TA_MesssageLog" label="Message Log:" style="height: 500px">
-                                    <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewLog"
-                                        update-on-resume>
-                                    </crown-edpws-binding>
+                                    <crown-on property="value" crown-event="CSK_MultiTCPIPServer/OnNewLog">
+                                    </crown-on>
                                 </davinci-text-area>
                                 <layout-row id="RowLayout2" class="myCustomSpacerVert10_CSK_Module_MultiTCPIPServer">
                                 </layout-row>
@@ -345,10 +342,9 @@
                                                                             type="text"
                                                                             title="Current IP address of the server"
                                                                             disabled label="IP of server -> Port">
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewServerIP"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewServerIP">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout30"
@@ -376,26 +372,23 @@
                                                                         <davinci-drop-down id="DD_EthernetInterface"
                                                                             label="Interface"
                                                                             title="Physical ethernet interface port used by the server">
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewInterface"
-                                                                                update-on-resume
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewInterface"
                                                                                 converter="function(value) {return value.toString();}">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setInterface"
-                                                                                path="param/args/newInterface"
-                                                                                auto-commit
-                                                                                converter="function(value) {return value;}">
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="data"
-                                                                                name="CSK_MultiTCPIPServer/OnNewInterfaceList"
-                                                                                update-on-resume
+                                                                            </crown-on>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setInterface"
+                                                                                protocol="crownMSGPACK"
+                                                                                converter="function(value) {return value;}"
+                                                                                crown-path="newInterface">
+                                                                            </crown-set>
+                                                                            <crown-on property="data"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewInterfaceList"
                                                                                 converter="convertToList">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                            </crown-on>
                                                                         </davinci-drop-down>
                                                                     </layout-column>
                                                                 </layout-row>
@@ -406,63 +399,57 @@
                                                                             label="RxFraming"
                                                                             title="Framing of incoming messages"
                                                                             style="align-self: center; width: 95%">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setRxFraming"
-                                                                                path="param/args/newRxFraming"
-                                                                                auto-commit
-                                                                                converter="function(value) {return value;}">
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewRxFraming"
-                                                                                update-on-resume
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setRxFraming"
+                                                                                protocol="crownMSGPACK"
+                                                                                converter="function(value) {return value;}"
+                                                                                crown-path="newRxFraming">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewRxFraming"
                                                                                 converter="function(value) {return value.toString();}">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="data"
-                                                                                name="CSK_MultiTCPIPServer/OnNewRxFramingList"
-                                                                                update-on-resume
+                                                                            </crown-on>
+                                                                            <crown-on property="data"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewRxFramingList"
                                                                                 converter="convertToList">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                            </crown-on>
                                                                         </davinci-drop-down>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout35"
                                                                         style="align-items: stretch">
                                                                         <davinci-text-field id="TF_RxStart" type="text"
                                                                             label="RxStart" title="Framing start">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setRxStart"
-                                                                                path="param/args/newRxStart"
-                                                                                auto-commit>
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewRxStart"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnRxFramingDisabled"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setRxStart"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newRxStart">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewRxStart">
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnRxFramingDisabled">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout34"
                                                                         style="align-items: stretch">
                                                                         <davinci-text-field id="TF_RxStop" type="text"
                                                                             label="RxStop" title="Framing stop">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setRxStop"
-                                                                                path="param/args/newRxStop" auto-commit>
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewRxStop"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnRxFramingDisabled"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setRxStop"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newRxStop">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewRxStop">
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnRxFramingDisabled">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                 </layout-row>
@@ -473,63 +460,57 @@
                                                                             label="TxFraming"
                                                                             title="Framing of outgoing messages"
                                                                             style="align-self: center; width: 95%">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setTxFraming"
-                                                                                path="param/args/newTxFraming"
-                                                                                auto-commit
-                                                                                converter="function(value) {return value;}">
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewTxFraming"
-                                                                                update-on-resume
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setTxFraming"
+                                                                                protocol="crownMSGPACK"
+                                                                                converter="function(value) {return value;}"
+                                                                                crown-path="newTxFraming">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewTxFraming"
                                                                                 converter="function(value) {return value.toString();}">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="data"
-                                                                                name="CSK_MultiTCPIPServer/OnNewTxFramingList"
-                                                                                update-on-resume
+                                                                            </crown-on>
+                                                                            <crown-on property="data"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewTxFramingList"
                                                                                 converter="convertToList">
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                            </crown-on>
                                                                         </davinci-drop-down>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout38"
                                                                         style="align-items: stretch">
                                                                         <davinci-text-field id="TF_TxStart" type="text"
                                                                             label="TxStart" title="Framing start">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setTxStart"
-                                                                                path="param/args/newTxStart"
-                                                                                auto-commit>
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewTxStart"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnTxFramingDisabled"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setTxStart"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newTxStart">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewTxStart">
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnTxFramingDisabled">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout37"
                                                                         style="align-items: stretch">
                                                                         <davinci-text-field id="TF_TxStop" type="text"
                                                                             label="TxStop" title="Framing stop">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setTxStop"
-                                                                                path="param/args/newTxStop" auto-commit>
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewTxStop"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnTxFramingDisabled"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setTxStop"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="newTxStop">
+                                                                            </crown-set>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewTxStop">
+                                                                            </crown-on>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnTxFramingDisabled">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                 </layout-row>
@@ -547,22 +528,19 @@
                                                                                     label="Maximum connections"
                                                                                     title="Max number of parallel active connections"
                                                                                     style="flex-grow: 1; width: 95%">
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setMaxConnections"
-                                                                                        path="param/args/newMaxConnections"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewMaxConnections"
-                                                                                        update-on-resume
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setMaxConnections"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newMaxConnections">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewMaxConnections"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                             <layout-column id="ColumnLayout41"
@@ -572,22 +550,19 @@
                                                                                     label="Transmition timeout, ms"
                                                                                     title="sets the timeout for transmits, in milliseconds"
                                                                                     style="flex-grow: 1; width: 95%">
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setTransmitionTimeout"
-                                                                                        path="param/args/newTransmitionTimeout"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewTransmitTimeout"
-                                                                                        update-on-resume
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setTransmitionTimeout"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newTransmitionTimeout">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewTransmitTimeout"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                             <layout-column id="ColumnLayout40"
@@ -597,22 +572,19 @@
                                                                                     step="1" label="ACK timeout, ms"
                                                                                     title="Timeout for acknowledgement, in milliseconds"
                                                                                     style="flex-grow: 1; width: 95%">
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setACKTimeout"
-                                                                                        path="param/args/newACKTimeout"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewACKTimeout"
-                                                                                        update-on-resume
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setACKTimeout"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newACKTimeout">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewACKTimeout"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                         </layout-row>
@@ -625,22 +597,19 @@
                                                                                     label="Transmition Buffer Size, bytes"
                                                                                     title="Sets the size of the socket’s send buffer, in bytes"
                                                                                     style="width: 95%">
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setTransmitionBuffer"
-                                                                                        path="param/args/newTransmitionBuffer"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewTransmitBuffer"
-                                                                                        update-on-resume
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setTransmitionBuffer"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newTransmitionBuffer">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewTransmitBuffer"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                             <layout-column id="ColumnLayout44"
@@ -650,22 +619,19 @@
                                                                                     label="Rx Framing Buffer Size"
                                                                                     title="Framing buffer size for receiving, has no effect if no framing"
                                                                                     style="width: 95%">
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setRxBuffer"
-                                                                                        path="param/args/newRxBuffer"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewRxFramingBufferSize"
-                                                                                        update-on-resume
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setRxBuffer"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newRxBuffer">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewRxFramingBufferSize"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                             <layout-column id="ColumnLayout43"
@@ -675,22 +641,19 @@
                                                                                     label="Tx Framing Buffer Size"
                                                                                     title="Framing buffer size for transmitting, has no effect if no framing"
                                                                                     style="width: 95%">
-                                                                                    <crown-edpws-binding
-                                                                                        property="value"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewTxFramingBufferSize"
-                                                                                        update-on-resume
+                                                                                    <crown-on property="value"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewTxFramingBufferSize"
                                                                                         converter="num2str">
-                                                                                    </crown-edpws-binding>
-                                                                                    <crown-binding event="change"
-                                                                                        name="CSK_MultiTCPIPServer/setTxBuffer"
-                                                                                        path="param/args/newTxBuffer"
-                                                                                        auto-commit converter="str2num">
-                                                                                    </crown-binding>
-                                                                                    <crown-edpws-binding
-                                                                                        property="disabled"
-                                                                                        name="CSK_MultiTCPIPServer/OnNewListenState"
-                                                                                        update-on-resume>
-                                                                                    </crown-edpws-binding>
+                                                                                    </crown-on>
+                                                                                    <crown-set event="change"
+                                                                                        crown-function="CSK_MultiTCPIPServer/setTxBuffer"
+                                                                                        protocol="crownMSGPACK"
+                                                                                        converter="str2num"
+                                                                                        crown-path="newTxBuffer">
+                                                                                    </crown-set>
+                                                                                    <crown-on property="disabled"
+                                                                                        crown-event="CSK_MultiTCPIPServer/OnNewListenState">
+                                                                                    </crown-on>
                                                                                 </davinci-number-input>
                                                                             </layout-column>
                                                                         </layout-row>
@@ -727,11 +690,10 @@
                                                                 </davinci-value-display>
                                                                 <curie-callout id="DC_FlowConfigInfo1" type="info"
                                                                     value="FlowConfig priority active.">
-                                                                    <crown-edpws-binding property="hidden"
-                                                                        name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
-                                                                        update-on-resume
+                                                                    <crown-on property="hidden"
+                                                                        crown-event="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
                                                                         converter="function(value) {return !value;}">
-                                                                    </crown-edpws-binding>
+                                                                    </crown-on>
                                                                 </curie-callout>
                                                                 <layout-row id="RowLayout33"
                                                                     style="align-items: center; justify-content: space-between">
@@ -740,14 +702,13 @@
                                                                     </davinci-value-display>
                                                                     <davinci-checkbox id="CB_SelectBroadcast">
                                                                         <span></span>
-                                                                        <crown-edpws-binding property="checked"
-                                                                            name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
-                                                                            update-on-resume>
-                                                                        </crown-edpws-binding>
-                                                                        <crown-binding event="change"
-                                                                            name="CSK_MultiTCPIPServer/setForwardBroadcastEvent"
-                                                                            path="param/args/status" auto-commit>
-                                                                        </crown-binding>
+                                                                        <crown-on property="checked"
+                                                                            crown-event="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts">
+                                                                        </crown-on>
+                                                                        <crown-set event="change"
+                                                                            crown-function="CSK_MultiTCPIPServer/setForwardBroadcastEvent"
+                                                                            protocol="crownMSGPACK" crown-path="status">
+                                                                        </crown-set>
                                                                     </davinci-checkbox>
                                                                 </layout-row>
                                                                 <stacked-view id="SV_BroadcastActive">
@@ -777,11 +738,10 @@
                                                                     <stacked-pane id="SP_BroadcastNotActive"
                                                                         value="false">
                                                                     </stacked-pane>
-                                                                    <crown-edpws-binding property="value"
-                                                                        name="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
-                                                                        update-on-resume
+                                                                    <crown-on property="value"
+                                                                        crown-event="CSK_MultiTCPIPServer/OnNewStatusForwardEventForBroadcasts"
                                                                         converter="function(value) {return value.toString();}">
-                                                                    </crown-edpws-binding>
+                                                                    </crown-on>
                                                                 </stacked-view>
                                                                 <layout-row id="RowLayout3" style="align-items: center">
                                                                     <layout-column id="ColumnLayout1"
@@ -789,14 +749,14 @@
                                                                         <davinci-text-field id="TF_EventToForward"
                                                                             type="text" label="Event to register:"
                                                                             title="Register to this event to forward its content to TCP/IP server.">
-                                                                            <crown-binding event="change"
-                                                                                name="CSK_MultiTCPIPServer/setEventToForward"
-                                                                                path="param/args/value" auto-commit>
-                                                                            </crown-binding>
-                                                                            <crown-edpws-binding property="disabled"
-                                                                                name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-set event="change"
+                                                                                crown-function="CSK_MultiTCPIPServer/setEventToForward"
+                                                                                protocol="crownMSGPACK"
+                                                                                crown-path="value">
+                                                                            </crown-set>
+                                                                            <crown-on property="disabled"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout517"
@@ -810,14 +770,13 @@
                                                                                 <davinci-icon icon="content/add">
                                                                                 </davinci-icon>
                                                                                 <span></span>
-                                                                                <crown-binding event="submit"
-                                                                                    name="CSK_MultiTCPIPServer/addEventToForwardViaUI"
-                                                                                    auto-commit>
-                                                                                </crown-binding>
-                                                                                <crown-edpws-binding property="disabled"
-                                                                                    name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
-                                                                                    update-on-resume>
-                                                                                </crown-edpws-binding>
+                                                                                <crown-set event="submit"
+                                                                                    crown-function="CSK_MultiTCPIPServer/addEventToForwardViaUI"
+                                                                                    protocol="crownMSGPACK">
+                                                                                </crown-set>
+                                                                                <crown-on property="disabled"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority">
+                                                                                </crown-on>
                                                                             </davinci-button>
                                                                             <davinci-button id="B_DeleteEventToForward"
                                                                                 class="myCustomButton_CSK_Module_MultiTCPIPServer"
@@ -826,14 +785,13 @@
                                                                                 <davinci-icon icon="action/delete">
                                                                                 </davinci-icon>
                                                                                 <span></span>
-                                                                                <crown-binding event="submit"
-                                                                                    name="CSK_MultiTCPIPServer/deleteEventToForwardViaUI"
-                                                                                    auto-commit>
-                                                                                </crown-binding>
-                                                                                <crown-edpws-binding property="disabled"
-                                                                                    name="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority"
-                                                                                    update-on-resume>
-                                                                                </crown-edpws-binding>
+                                                                                <crown-set event="submit"
+                                                                                    crown-function="CSK_MultiTCPIPServer/deleteEventToForwardViaUI"
+                                                                                    protocol="crownMSGPACK">
+                                                                                </crown-set>
+                                                                                <crown-on property="disabled"
+                                                                                    crown-event="CSK_MultiTCPIPServer/OnNewStatusFlowConfigPriority">
+                                                                                </crown-on>
                                                                             </davinci-button>
                                                                         </layout-row>
                                                                     </layout-column>
@@ -843,14 +801,13 @@
                                                                     <curie-table-column id="EventToForward"
                                                                         header="EventToForward">
                                                                     </curie-table-column>
-                                                                    <crown-edpws-binding property="data"
-                                                                        name="CSK_MultiTCPIPServer/OnNewEventToForwardList"
-                                                                        update-on-resume>
-                                                                    </crown-edpws-binding>
-                                                                    <crown-binding event="row-selected"
-                                                                        name="CSK_MultiTCPIPServer/selectEventToForwardViaUI"
-                                                                        path="param/args/selection" auto-commit>
-                                                                    </crown-binding>
+                                                                    <crown-on property="data"
+                                                                        crown-event="CSK_MultiTCPIPServer/OnNewEventToForwardList">
+                                                                    </crown-on>
+                                                                    <crown-set event="row-selected"
+                                                                        crown-function="CSK_MultiTCPIPServer/selectEventToForwardViaUI"
+                                                                        protocol="crownMSGPACK" crown-path="selection">
+                                                                    </crown-set>
                                                                 </curie-table>
                                                             </layout-column>
                                                         </layout-row>
@@ -877,10 +834,9 @@
                                                                                 protocol="crownMSGPACK"
                                                                                 crown-path="newName">
                                                                             </crown-set>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewClientWhitelistName"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewClientWhitelistName">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout18"
@@ -968,17 +924,14 @@
                                                                                         </davinci-value-display>
                                                                                         <davinci-toggle-switch
                                                                                             id="TS_AddIPViaListWhitelist">
-                                                                                            <crown-edpws-binding
-                                                                                                property="checked"
-                                                                                                name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-                                                                                                update-on-resume>
-                                                                                            </crown-edpws-binding>
-                                                                                            <crown-binding
-                                                                                                event="change"
-                                                                                                name="CSK_MultiTCPIPServer/setAddIPViaList"
-                                                                                                path="param/args/status"
-                                                                                                auto-commit>
-                                                                                            </crown-binding>
+                                                                                            <crown-on property="checked"
+                                                                                                crown-event="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList">
+                                                                                            </crown-on>
+                                                                                            <crown-set event="change"
+                                                                                                crown-function="CSK_MultiTCPIPServer/setAddIPViaList"
+                                                                                                protocol="crownMSGPACK"
+                                                                                                crown-path="status">
+                                                                                            </crown-set>
                                                                                         </davinci-toggle-switch>
                                                                                     </layout-row>
                                                                                 </layout-column>
@@ -1036,10 +989,9 @@
                                                                                 protocol="crownMSGPACK"
                                                                                 crown-path="newName">
                                                                             </crown-set>
-                                                                            <crown-edpws-binding property="value"
-                                                                                name="CSK_MultiTCPIPServer/OnNewClientBroadcastName"
-                                                                                update-on-resume>
-                                                                            </crown-edpws-binding>
+                                                                            <crown-on property="value"
+                                                                                crown-event="CSK_MultiTCPIPServer/OnNewClientBroadcastName">
+                                                                            </crown-on>
                                                                         </davinci-text-field>
                                                                     </layout-column>
                                                                     <layout-column id="ColumnLayout16"
@@ -1127,17 +1079,14 @@
                                                                                         </davinci-value-display>
                                                                                         <davinci-toggle-switch
                                                                                             id="TS_AddIPViaList">
-                                                                                            <crown-edpws-binding
-                                                                                                property="checked"
-                                                                                                name="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList"
-                                                                                                update-on-resume>
-                                                                                            </crown-edpws-binding>
-                                                                                            <crown-binding
-                                                                                                event="change"
-                                                                                                name="CSK_MultiTCPIPServer/setAddIPViaList"
-                                                                                                path="param/args/status"
-                                                                                                auto-commit>
-                                                                                            </crown-binding>
+                                                                                            <crown-on property="checked"
+                                                                                                crown-event="CSK_MultiTCPIPServer/OnNewStatusAddIPViaList">
+                                                                                            </crown-on>
+                                                                                            <crown-set event="change"
+                                                                                                crown-function="CSK_MultiTCPIPServer/setAddIPViaList"
+                                                                                                protocol="crownMSGPACK"
+                                                                                                crown-path="status">
+                                                                                            </crown-set>
                                                                                         </davinci-toggle-switch>
                                                                                     </layout-row>
                                                                                 </layout-column>
@@ -1207,13 +1156,13 @@
                                                             </layout-column>
                                                         </layout-row>
                                                     </davinci-tab>
-                                                    <crown-edpws-binding property="selected-index"
-                                                        name="CSK_MultiTCPIPServer/OnNewSelectedTab" update-on-resume>
-                                                    </crown-edpws-binding>
-                                                    <crown-binding event="tab-change"
-                                                        name="CSK_MultiTCPIPServer/setSelectedTab"
-                                                        path="param/args/newSelectedTab" auto-commit>
-                                                    </crown-binding>
+                                                    <crown-on property="selected-index"
+                                                        crown-event="CSK_MultiTCPIPServer/OnNewSelectedTab">
+                                                    </crown-on>
+                                                    <crown-set event="tab-change"
+                                                        crown-function="CSK_MultiTCPIPServer/setSelectedTab"
+                                                        protocol="crownMSGPACK" crown-path="newSelectedTab">
+                                                    </crown-set>
                                                 </davinci-tabs>
                                             </layout-column>
                                         </layout-row>
@@ -1225,10 +1174,10 @@
                                             </davinci-callout>
                                         </layout-row>
                                     </stacked-pane>
-                                    <crown-edpws-binding property="value"
-                                        name="CSK_MultiTCPIPServer/OnUserLevelOperatorActive" update-on-resume
+                                    <crown-on property="value"
+                                        crown-event="CSK_MultiTCPIPServer/OnUserLevelOperatorActive"
                                         converter="function(value) {return value.toString();}">
-                                    </crown-edpws-binding>
+                                    </crown-on>
                                 </stacked-view>
                             </layout-column>
                         </layout-row>
@@ -1247,17 +1196,16 @@
                     </layout-column>
                 </layout-row>
             </stacked-pane>
-            <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusModuleIsActive" update-on-resume
+            <crown-on property="value" crown-event="CSK_MultiTCPIPServer/OnNewStatusModuleIsActive"
                 converter="function(value) {return value.toString();}">
-            </crown-edpws-binding>
+            </crown-on>
         </stacked-view>
         <stacked-view id="SV_PageCalled">
-            <crown-binding property="value" name="CSK_MultiTCPIPServer/pageCalled" path="result/data/empty"
-                auto-update="0" update-on-resume>
-            </crown-binding>
-            <crown-edpws-binding property="value" name="CSK_MultiTCPIPServer/OnNewStatusCSKStyle" update-on-resume
-                converter="changeStyle">
-            </crown-edpws-binding>
+            <crown-get property="value" crown-function="CSK_MultiTCPIPServer/pageCalled" protocol="crownMSGPACK"
+                crown-path="empty" auto-update-ms="0">
+            </crown-get>
+            <crown-on property="value" crown-event="CSK_MultiTCPIPServer/OnNewStatusCSKStyle" converter="changeStyle">
+            </crown-on>
         </stacked-view>
     </layout-column>
 </layout-row>
